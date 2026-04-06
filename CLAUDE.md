@@ -22,7 +22,7 @@
 
 ## 범위 잠금
 
-- **과목:** 수학만
+- **과목:** 전과목 범용 (데모는 수학 중심)
 - **페이지:** 5개 (랜딩, 교사 업로드, 학생 질문, 교사 대시보드, 결과 요약)
 - **AI 역할:** 4개 (의도 분류, 자료 기반 응답, Grill-Me 질문 사다리, 교사용 요약)
 - **AI 모드:** 3개 (Grill-Me 기본 / Guide-Me 3회 오답 / Quick-Me 긴급)
@@ -96,7 +96,7 @@ src/
 |------|-------------------|
 | `src/lib/` | "서버 전용. 클라이언트에서 직접 import 금지. AI 키 접근 가능" |
 | `src/components/` | "순수 UI만. 비즈니스 로직/DB 접근 금지. shadcn/ui 우선 사용" |
-| `src/types/` | "DB 컬럼명과 1:1 매핑. any 금지. Subject = 'math' 리터럴" |
+| `src/types/` | "DB 컬럼명과 1:1 매핑. any 금지. Subject = string (범용)" |
 | `src/app/api/` | "응답 포맷 { success, data/error, code } 통일. 에러 코드 필수" |
 
 ### 파일 상단 주석 (강제)
@@ -171,7 +171,7 @@ src/types/
 └── index.ts             # barrel export
 ```
 
-- `Subject = 'math'` (리터럴 타입으로 과목 잠금)
+- `Subject = string` (전과목 범용, 기본값 'math')
 - `IntentType = 'concept' | 'hint' | 'review' | 'similar'`
 - DB 컬럼명 = 타입 속성명 정확히 일치
 

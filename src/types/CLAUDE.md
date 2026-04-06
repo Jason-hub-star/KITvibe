@@ -5,7 +5,7 @@
 ## 규칙
 
 - `any` 사용 금지 → `unknown` + 타입 가드
-- `Subject = 'math'` 리터럴 타입으로 과목 잠금
+- `Subject = string` 전과목 범용 (기본값 'math')
 - `IntentType = 'concept' | 'hint' | 'review' | 'similar'`
 - DB 컬럼명 = 타입 속성명 정확히 일치 (snake_case)
 - API 응답: `ApiResponse<T>` 제네릭 타입 통일

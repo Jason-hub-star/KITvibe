@@ -11,7 +11,7 @@ metadata:
 ## 고정 enum 값
 
 ```typescript
-type Subject = 'math';  // 수학만
+type Subject = string;  // 전과목 범용 (기본값 'math')
 type IntentType = 'concept' | 'hint' | 'review' | 'similar';  // 4개만
 type ResponseType = 'hint' | 'explanation' | 'feedback' | 'similar' | 'quiz' | 'summary';  // 6개만
 type UserRole = 'teacher' | 'student';

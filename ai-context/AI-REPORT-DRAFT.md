@@ -108,7 +108,7 @@ MathTutor AI — 수업 후 보충 AI 코치
 | **SSOT 구조** | `overview.md`를 단일 진실 소스로, `@extract-to` 태그로 14개 섹션을 개별 문서로 자동 분리 |
 | **Loading Order** | CLAUDE.md → PROJECT-STATUS → PRD → 필요 시 ARCHITECTURE/SCHEMA/PROMPT-DESIGN |
 | **하네스 시스템** | `~/jasonob/harnesses/`에서 검증된 패턴(project-setup, design-to-code, socratic-review) 적용 |
-| **범위 잠금** | CLAUDE.md에 Hard Rules 명시 — 과목(수학만), 페이지(5개), 금지 사항(게임화, 정답 직출) |
+| **범위 잠금** | CLAUDE.md에 Hard Rules 명시 — 과목(전과목 범용, 데모 수학), 페이지(5개), 금지 사항(게임화, 정답 직출) |
 | **문서 동기화** | change-class-doc-sync 하네스로 코드 변경 시 관련 문서 자동 업데이트 |
 
 **2. GPT-4o-mini / Gemma 4 — 튜터링 AI 전략**
