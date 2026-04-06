@@ -1,4 +1,4 @@
-# UI/UX 시안 스펙 — MathTutor AI
+# UI/UX 시안 스펙 — 풀다 AI
 
 > design-to-code 하네스 STEP 2~3
 > Stitch HTML에서 추출한 디자인 토큰 + shadcn 컴포넌트 매핑 + 레이아웃 스펙
@@ -41,7 +41,7 @@
     --success: 142 76% 36%;
     --warning: 38 92% 50%;
 
-    /* 힌트 사다리 — 단계별 색상은 secondary 톤 유지 */
+    /* Grill-Me 질문 사다리 — 단계별 색상은 secondary 톤 유지 */
     --step-active: 0 0% 0%;          /* 현재 단계 */
     --step-done: 0 0% 47%;           /* 완료 단계 */
     --step-pending: 0 0% 78%;        /* 대기 단계 */
@@ -96,7 +96,7 @@ surface-container-highest: #e4e2df    ← 강조 배경
 │         ┌─────────────────────┐             │
 │         │    📐 로고/아이콘     │             │
 │         │                     │             │
-│         │   MathTutor AI      │  text-4xl   │
+│         │   풀다 AI      │  text-4xl   │
 │         │   수업 후 막힘 해소   │  text-lg    │
 │         │   AI 코치            │  muted      │
 │         └─────────────────────┘             │
@@ -453,7 +453,7 @@ AI 질문 메시지:
 
 ```
 ┌─────────────────────────────────────────────┐
-│ [← 돌아가기]  MathTutor AI  [교사 👩‍🏫 | 학생 👨‍🎓] │
+│ [← 돌아가기]  풀다 AI  [교사 👩‍🏫 | 학생 👨‍🎓] │
 │  Button ghost   text-sm      Badge role     │
 └─────────────────────────────────────────────┘
 ```

@@ -1,4 +1,4 @@
-# MathTutor AI
+# 풀다 AI
 
 > 수업 후 학생의 막힘 지점을 Grill-Me 질문법으로 해결하고, 교사에게는 오개념 heatmap을 제공하는 수학 학습 보조 MVP
 

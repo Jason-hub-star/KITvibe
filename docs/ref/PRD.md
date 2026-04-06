@@ -1,4 +1,4 @@
-# PRD — MathTutor AI
+# PRD — 풀다 AI
 
 > 원본: overview.md §B, §C
 

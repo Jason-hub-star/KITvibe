@@ -15,7 +15,7 @@ const PAGES = [
   {
     name: "P-001-landing",
     prompt: `Dark mode educational SaaS landing page.
-    - Header: "MathTutor AI" logo, subtitle "수업 후 막힘 해소 AI 코치"
+    - Header: "풀다 AI" logo, subtitle "수업 후 막힘 해소 AI 코치"
     - Two large selection cards side by side:
       Left card: Teacher icon, "교사로 시작하기", subtitle "수업 자료 등록하고 학생 분석"
       Right card: Student icon, "학생으로 시작하기", subtitle "질문하고 힌트 받기"
@@ -89,9 +89,9 @@ const PAGES = [
 ];
 
 async function main() {
-  console.log("🎨 MathTutor AI UI 시안 생성 시작...\n");
+  console.log("🎨 풀다 AI UI 시안 생성 시작...\n");
 
-  const project = await stitch.createProject("MathTutor AI");
+  const project = await stitch.createProject("풀다 AI");
   console.log(`📁 프로젝트 생성: ${project.projectId}\n`);
 
   for (const page of PAGES) {

@@ -1,4 +1,4 @@
-# Route Map — MathTutor AI
+# Route Map — 풀다 AI
 
 > 원본: overview.md §G
 

@@ -9,7 +9,7 @@
 
 import { stitch } from "@google/stitch-sdk";
 
-const BASE_PROMPT = `Dark mode educational SaaS landing page for "MathTutor AI".
+const BASE_PROMPT = `Dark mode educational SaaS landing page for "풀다 AI".
 Two role selection cards: Teacher (교사로 시작하기) and Student (학생으로 시작하기).
 Tagline: "정답을 주지 않습니다. 스스로 찾도록 질문합니다."
 Three feature badges at bottom.
@@ -60,7 +60,7 @@ const VARIANTS = [
 async function main() {
   console.log("🎨 랜딩 페이지 5가지 버전 생성 시작...\n");
 
-  const project = await stitch.createProject("MathTutor AI - Landing Variants");
+  const project = await stitch.createProject("풀다 AI - Landing Variants");
   console.log(`📁 프로젝트: ${project.projectId}\n`);
 
   for (const variant of VARIANTS) {

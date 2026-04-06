@@ -1,4 +1,4 @@
-# Schema — MathTutor AI
+# Schema — 풀다 AI
 
 > 원본: overview.md §E
 

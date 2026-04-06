@@ -1,4 +1,4 @@
-# Harness Plan — MathTutor AI
+# Harness Plan — 풀다 AI
 
 > 원본: ~/jason/jasonob/harnesses/
 

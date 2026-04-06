@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+
+<html lang="ko"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;400;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                "inverse-surface": "#2f3130",
+                "background": "#faf9f7",
+                "tertiary-container": "#737573",
+                "tertiary-fixed-dim": "#454746",
+                "secondary-container": "#d6d4d4",
+                "surface-container": "#efeeec",
+                "tertiary-fixed": "#5d5f5d",
+                "secondary": "#5e5e5e",
+                "on-surface": "#1a1c1b",
+                "on-tertiary": "#e2e3e0",
+                "surface-tint": "#5e5e5e",
+                "on-error": "#ffffff",
+                "surface-container-low": "#f4f3f1",
+                "outline-variant": "#c6c6c6",
+                "primary-container": "#3b3b3b",
+                "surface-container-high": "#e9e8e6",
+                "on-primary-fixed-variant": "#e2e2e2",
+                "surface-bright": "#faf9f7",
+                "on-tertiary-container": "#ffffff",
+                "on-secondary": "#ffffff",
+                "surface-variant": "#e3e2e0",
+                "inverse-on-surface": "#f1f1ef",
+                "on-surface-variant": "#474747",
+                "error-container": "#ffdad6",
+                "surface": "#faf9f7",
+                "on-primary-container": "#ffffff",
+                "outline": "#777777",
+                "surface-container-highest": "#e3e2e0",
+                "error": "#ba1a1a",
+                "secondary-fixed-dim": "#acabab",
+                "on-primary": "#e2e2e2",
+                "surface-dim": "#dadad8",
+                "primary-fixed": "#5e5e5e",
+                "primary-fixed-dim": "#474747",
+                "on-primary-fixed": "#ffffff",
+                "secondary-fixed": "#c8c6c6",
+                "on-tertiary-fixed": "#ffffff",
+                "on-secondary-fixed": "#1b1c1c",
+                "primary": "#000000",
+                "tertiary": "#3a3c3b",
+                "on-secondary-container": "#1b1c1c",
+                "on-background": "#1a1c1b",
+                "on-secondary-fixed-variant": "#3b3b3b",
+                "inverse-primary": "#c6c6c6",
+                "on-tertiary-fixed-variant": "#e2e3e0",
+                "surface-container-lowest": "#ffffff",
+                "on-error-container": "#410002"
+            },
+            "borderRadius": {
+                "DEFAULT": "0px",
+                "lg": "0px",
+                "xl": "0px",
+                "full": "9999px"
+            },
+            "fontFamily": {
+                "headline": ["Manrope"],
+                "body": ["Manrope"],
+                "label": ["Manrope"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        body {
+            background-color: #faf9f7;
+            font-family: 'Manrope', sans-serif;
+            color: #1a1c1b;
+        }
+        .math-text {
+            font-family: 'Times New Roman', serif;
+            font-style: italic;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background min-h-screen flex flex-col items-center">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full bg-[#faf9f7] dark:bg-stone-950 border-b-[1px] border-stone-300 dark:border-stone-800 z-50">
+<div class="flex justify-between items-center w-full px-4 h-16 max-w-4xl mx-auto">
+<div class="flex items-center gap-4">
+<button class="transition-opacity duration-200 active:opacity-70 p-2 hover:bg-stone-100 dark:hover:bg-stone-900">
+<span class="material-symbols-outlined text-black dark:text-white" data-icon="arrow_back">arrow_back</span>
+</button>
+<h1 class="font-manrope text-base font-bold tracking-tight text-black dark:text-white">이차방정식</h1>
+</div>
+<div class="flex items-center">
+<span class="font-manrope text-base font-bold tracking-tight text-stone-500 dark:text-stone-400">질문 2/4</span>
+</div>
+</div>
+<!-- Progress Bar -->
+<div class="w-full bg-surface-container-high h-[2px]">
+<div class="bg-primary h-full w-2/4"></div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-1 w-full max-w-4xl px-4 pt-24 pb-48 flex flex-col gap-12">
+<!-- AI Message Component -->
+<section class="flex flex-col items-start max-w-2xl gap-2">
+<label class="font-manrope text-[10px] font-bold uppercase tracking-widest text-outline">풀다 AI</label>
+<div class="bg-surface-container-lowest border border-outline-variant p-8 w-full transition-colors duration-200">
+<p class="text-on-surface-variant text-lg leading-relaxed mb-6">
+                    이 식을 어떤 방법으로 풀 수 있을까?
+                </p>
+<div class="bg-surface-container-low border border-outline-variant p-6 flex justify-center items-center mb-6">
+<span class="math-text text-3xl font-light tracking-widest text-primary">x² + 5x + 6 = 0</span>
+</div>
+<!-- Collapsible Suggestion -->
+<button class="flex items-center gap-2 group transition-opacity duration-200 active:opacity-70">
+<span class="font-manrope text-[10px] font-bold uppercase tracking-widest text-primary group-hover:underline">추천 보기</span>
+<span class="material-symbols-outlined text-[14px] text-primary" data-icon="expand_more">expand_more</span>
+</button>
+</div>
+</section>
+<!-- Student Message Component -->
+<section class="flex flex-col items-end self-end max-w-2xl gap-2 w-full">
+<label class="font-manrope text-[10px] font-bold uppercase tracking-widest text-outline">Student</label>
+<div class="bg-primary text-white p-8 w-full text-right">
+<p class="text-lg leading-relaxed font-medium">인수분해를 써볼게요.</p>
+</div>
+</section>
+<!-- Stats Bento Grid -->
+<section class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<!-- Learning Concept Card -->
+<div class="bg-surface-container-low border border-outline-variant p-8 flex flex-col justify-between">
+<div>
+<label class="font-manrope text-[10px] font-bold uppercase tracking-widest text-outline">학습 개념</label>
+<h3 class="text-2xl font-bold mt-2 text-on-surface">인수분해를 이용한 이차방정식의 해법</h3>
+</div>
+<div class="mt-8">
+<span class="material-symbols-outlined text-4xl text-primary" data-icon="school">school</span>
+</div>
+</div>
+<!-- Efficiency Card -->
+<div class="bg-surface-container-low border border-outline-variant p-8 flex flex-col justify-between">
+<div>
+<label class="font-manrope text-[10px] font-bold uppercase tracking-widest text-outline">학습 효율</label>
+<div class="flex items-baseline gap-1 mt-2">
+<span class="text-6xl font-extrabold tracking-tighter text-primary">84</span>
+<span class="text-2xl font-bold text-primary">%</span>
+</div>
+</div>
+<div class="mt-8 flex justify-end">
+<span class="material-symbols-outlined text-4xl text-primary" data-icon="trending_up">trending_up</span>
+</div>
+</div>
+</section>
+<!-- Additional Editorial Decoration/Context -->
+<section class="border-t border-outline-variant pt-8">
+<div class="flex flex-col gap-4">
+<label class="font-manrope text-[10px] font-bold uppercase tracking-widest text-outline">Session Details</label>
+<div class="flex flex-wrap gap-8">
+<div class="flex flex-col">
+<span class="text-xs text-outline mb-1">Time Elapsed</span>
+<span class="text-sm font-bold">12:45</span>
+</div>
+<div class="flex flex-col">
+<span class="text-xs text-outline mb-1">Complexity</span>
+<span class="text-sm font-bold">Level 3</span>
+</div>
+<div class="flex flex-col">
+<span class="text-xs text-outline mb-1">Mastery Gain</span>
+<span class="text-sm font-bold">+12 points</span>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Bottom Bar / Input -->
+<nav class="fixed bottom-0 w-full bg-[#faf9f7] border-t border-stone-300 z-50">
+<div class="max-w-4xl mx-auto p-4 md:p-6 flex flex-col gap-4">
+<!-- Mode Toggle -->
+<div class="flex gap-6 items-center border-b border-stone-200 pb-4">
+<button class="font-manrope text-[10px] font-bold uppercase tracking-widest text-primary border-b-2 border-primary pb-1">Grill-Me</button>
+<button class="font-manrope text-[10px] font-bold uppercase tracking-widest text-outline hover:text-on-surface transition-colors">Guide-Me</button>
+<button class="font-manrope text-[10px] font-bold uppercase tracking-widest text-outline hover:text-on-surface transition-colors">Quick-Me</button>
+</div>
+<!-- Input Area -->
+<div class="flex gap-4 items-end">
+<div class="flex-1 relative">
+<textarea class="w-full bg-white border border-outline-variant p-4 text-on-surface focus:ring-0 focus:border-primary resize-none min-h-[56px] placeholder:text-outline font-body text-base" placeholder="이곳에 답변을 입력하세요..." rows="1"></textarea>
+</div>
+<button class="bg-primary text-white h-14 w-14 flex items-center justify-center transition-all active:scale-95">
+<span class="material-symbols-outlined" data-icon="send" style="font-variation-settings: 'FILL' 1;">send</span>
+</button>
+</div>
+</div>
+</nav>
+<!-- Footer (Embedded in body scroll or hidden) -->
+<footer class="w-full flex flex-col items-center py-12 px-8 gap-4 bg-[#efeeec] dark:bg-stone-900 border-t border-stone-300 dark:border-stone-800">
+<div class="flex gap-6">
+<a class="font-manrope text-[10px] font-bold uppercase tracking-widest text-stone-500 dark:text-stone-400 hover:text-black dark:hover:text-white underline transition-colors duration-200" href="#">Curriculum</a>
+<a class="font-manrope text-[10px] font-bold uppercase tracking-widest text-stone-500 dark:text-stone-400 hover:text-black dark:hover:text-white underline transition-colors duration-200" href="#">Methodology</a>
+<a class="font-manrope text-[10px] font-bold uppercase tracking-widest text-stone-500 dark:text-stone-400 hover:text-black dark:hover:text-white underline transition-colors duration-200" href="#">Archive</a>
+<a class="font-manrope text-[10px] font-bold uppercase tracking-widest text-stone-500 dark:text-stone-400 hover:text-black dark:hover:text-white underline transition-colors duration-200" href="#">Contact</a>
+</div>
+<p class="font-manrope text-[10px] font-bold uppercase tracking-widest text-stone-500 dark:text-stone-400">© 2026 풀다 AI</p>
+</footer>
+</body></html>

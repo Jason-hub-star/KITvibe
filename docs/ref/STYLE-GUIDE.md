@@ -1,4 +1,4 @@
-# Style Guide — MathTutor AI
+# Style Guide — 풀다 AI
 
 > Stitch 시안에서 확정된 디자인 방향. 상세 토큰은 `docs/design/DESIGN-TOKENS.md` 참조.
 

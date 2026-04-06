@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+
+<html class="light" lang="ko"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "error-container": "#ffdad6",
+                        "on-primary-fixed": "#ffffff",
+                        "on-tertiary-fixed": "#ffffff",
+                        "on-surface": "#1a1c1b",
+                        "background": "#faf9f7",
+                        "on-error": "#ffffff",
+                        "surface-container-highest": "#e3e2e0",
+                        "secondary-container": "#d6d4d4",
+                        "on-tertiary": "#e3e2e2",
+                        "surface-container-high": "#e9e8e6",
+                        "surface-container-lowest": "#ffffff",
+                        "outline-variant": "#c6c6c6",
+                        "inverse-surface": "#2f3130",
+                        "surface-bright": "#faf9f7",
+                        "on-surface-variant": "#474747",
+                        "surface-variant": "#e3e2e0",
+                        "outline": "#777777",
+                        "primary-container": "#3b3b3b",
+                        "primary": "#000000",
+                        "surface-container": "#efeeec",
+                        "surface-container-low": "#f4f3f1",
+                        "error": "#ba1a1a",
+                        "surface": "#faf9f7",
+                        "on-primary": "#e2e2e2",
+                        "on-background": "#1a1c1b"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0px",
+                        "lg": "0px",
+                        "xl": "0px",
+                        "full": "0px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Manrope", "sans-serif"],
+                        "body": ["Manrope", "sans-serif"],
+                        "label": ["Manrope", "sans-serif"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: #faf9f7;
+            font-family: 'Manrope', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 200, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="text-on-surface">
+<!-- TopAppBar Component -->
+<header class="bg-[#faf9f7] dark:bg-stone-950 flex justify-between items-center w-full px-8 py-6 max-w-full docked full-width top-0 border-b-0 sticky z-50">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-[#000000] dark:text-white" data-icon="menu_book">menu_book</span>
+<span class="text-lg font-bold tracking-[0.2em] text-[#1a1c1b] dark:text-stone-100 uppercase">풀다 AI</span>
+</div>
+<nav class="hidden md:flex gap-8 items-center">
+<a class="text-[#000000] dark:text-white font-bold border-b-2 border-[#000000] tracking-widest text-[10px] uppercase py-1" href="#">Home</a>
+<a class="text-[#777777] dark:text-stone-500 uppercase tracking-widest text-[10px] hover:bg-[#ffffff] dark:hover:bg-stone-800 transition-colors duration-300" href="#">Curriculum</a>
+<a class="text-[#777777] dark:text-stone-500 uppercase tracking-widest text-[10px] hover:bg-[#ffffff] dark:hover:bg-stone-800 transition-colors duration-300" href="#">Methodology</a>
+</nav>
+</header>
+<main class="min-h-screen">
+<!-- Hero Section -->
+<section class="px-8 md:px-24 py-32 md:py-48 flex flex-col items-start max-w-7xl mx-auto">
+<div class="mb-6">
+<span class="text-[10px] font-bold tracking-[0.2em] text-outline uppercase">Introduction / 개요</span>
+</div>
+<h1 class="text-5xl md:text-7xl font-extrabold text-on-surface tracking-tight leading-[1.1] mb-8">
+                막힘을 질문으로 풀다.
+            </h1>
+<p class="text-lg md:text-xl font-medium text-on-surface-variant max-w-2xl leading-relaxed">
+                정답을 주지 않습니다. 스스로 찾도록 질문합니다. <br/>
+                수학적 사고의 본질은 답을 맞히는 것이 아니라, <br class="hidden md:block"/>
+                논리적인 질문을 던지는 과정에 있습니다.
+            </p>
+<div class="mt-16 flex flex-wrap gap-4">
+<div class="px-4 py-2 border border-outline-variant bg-surface-container-low flex items-center gap-2">
+<span class="text-[10px] font-bold tracking-[0.2em] text-on-surface uppercase">데이터 로컬 처리</span>
+</div>
+<div class="px-4 py-2 border border-outline-variant bg-surface-container-low flex items-center gap-2">
+<span class="text-[10px] font-bold tracking-[0.2em] text-on-surface uppercase">Grill-Me 질문법</span>
+</div>
+<div class="px-4 py-2 border border-outline-variant bg-surface-container-low flex items-center gap-2">
+<span class="text-[10px] font-bold tracking-[0.2em] text-on-surface uppercase">오개념 대시보드</span>
+</div>
+</div>
+</section>
+<!-- Cards Section -->
+<section class="bg-surface-container py-32 px-8 md:px-24">
+<div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-px bg-outline-variant border border-outline-variant">
+<!-- Teacher Card -->
+<div class="bg-surface p-12 md:p-20 hover:bg-surface-container-lowest transition-colors group cursor-pointer">
+<div class="mb-12">
+<span class="text-[10px] font-bold tracking-[0.2em] text-outline uppercase">For Educators / 교수자용</span>
+</div>
+<h2 class="text-3xl font-bold mb-6">교사로 시작 →</h2>
+<p class="text-on-surface-variant leading-relaxed mb-12">
+                        실시간 오개념 분석 대시보드를 통해 <br/>
+                        학생들의 사고 과정을 정밀하게 추적하고 <br/>
+                        개별화된 피드백을 제공하세요.
+                    </p>
+<div class="h-1 bg-surface-container-high w-full relative">
+<div class="absolute left-0 top-0 h-full bg-primary w-1/3 group-hover:w-1/2 transition-all duration-500"></div>
+</div>
+</div>
+<!-- Student Card -->
+<div class="bg-surface p-12 md:p-20 hover:bg-surface-container-lowest transition-colors group cursor-pointer border-t md:border-t-0 md:border-l border-outline-variant">
+<div class="mb-12">
+<span class="text-[10px] font-bold tracking-[0.2em] text-outline uppercase">For Students / 학습자용</span>
+</div>
+<h2 class="text-3xl font-bold mb-6">학생으로 시작 →</h2>
+<p class="text-on-surface-variant leading-relaxed mb-12">
+                        AI 튜터와의 대화를 통해 <br/>
+                        단순 암기가 아닌 원리를 탐구하고 <br/>
+                        스스로 문제를 해결하는 힘을 기르세요.
+                    </p>
+<div class="h-1 bg-surface-container-high w-full relative">
+<div class="absolute left-0 top-0 h-full bg-primary w-1/4 group-hover:w-2/3 transition-all duration-500"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Stats / Bento Section -->
+<section class="px-8 md:px-24 py-32 max-w-7xl mx-auto">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-16">
+<div class="flex flex-col">
+<span class="text-[10px] font-bold tracking-[0.2em] text-outline uppercase mb-8">Concept Mastery / 개념 완성도</span>
+<span class="text-7xl font-extrabold text-primary mb-4 tracking-tighter">94%</span>
+<p class="text-on-surface-variant text-sm">기존 방식 대비 개념 오답률 감소 수치</p>
+</div>
+<div class="flex flex-col">
+<span class="text-[10px] font-bold tracking-[0.2em] text-outline uppercase mb-8">Active Thinking / 능동 사고 시간</span>
+<span class="text-7xl font-extrabold text-primary mb-4 tracking-tighter">+24m</span>
+<p class="text-on-surface-variant text-sm">학습 세션당 평균 몰입 시간 증가</p>
+</div>
+<div class="flex flex-col">
+<span class="text-[10px] font-bold tracking-[0.2em] text-outline uppercase mb-8">Data Privacy / 데이터 보안</span>
+<span class="text-7xl font-extrabold text-primary mb-4 tracking-tighter">AES</span>
+<p class="text-on-surface-variant text-sm">로컬 엔진 기반 철저한 개인정보 보호</p>
+</div>
+</div>
+</section>
+<!-- Methodology Visual Section -->
+<section class="px-8 md:px-24 py-32 border-t border-outline-variant">
+<div class="max-w-7xl mx-auto flex flex-col md:flex-row gap-24 items-start">
+<div class="w-full md:w-1/2">
+<span class="text-[10px] font-bold tracking-[0.2em] text-outline uppercase mb-12 block">Visual Archive / 이미지 아카이브</span>
+<div class="aspect-square bg-surface-container-high border border-outline-variant overflow-hidden">
+<img alt="Mathematical visualization" class="w-full h-full object-cover grayscale opacity-80" data-alt="abstract mathematical visualization with complex white geometric lines on a dark moody background representing precision and logic" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB4CMoVhjjv70IzbsgZ1r1Vw8UvUDsPNXKbd9DUF-mKz4O0KwqoOyp16Onc3qp5fe2m1r9vjmsKHTU0AvDlnmNZC0g5nDlT-p3thQak1MOBcUzS7XWp7zgTzy8-_Q5pOKpIypc16BdHb02LiJtypfNPYrPbgZ_5VMjKgwdA6oN8rkJdUCieaO-InwzyXsx4GE9EWAPWXqHe2BpL2N1r-8xJWNvjCUpWQGQNN7WvqD6t-y5LXfHhB2E-yiczrKecdZ1FCQSAajwkVxmg"/>
+</div>
+</div>
+<div class="w-full md:w-1/2 flex flex-col justify-center h-full pt-12 md:pt-32">
+<h3 class="text-4xl font-bold mb-8 leading-tight">편집적 정확성, <br/>수학적 미학.</h3>
+<p class="text-on-surface-variant leading-loose mb-12">
+                        우리는 단순한 학습 도구를 넘어, 하나의 지적 도서관을 지향합니다. 풀다 AI의 인터페이스는 모든 선과 면이 수학적인 질서 위에 세워져 있으며, 사용자가 오직 사고의 흐름에만 집중할 수 있도록 불필요한 장식을 배제했습니다.
+                    </p>
+<button class="self-start px-12 py-4 bg-primary text-white font-bold hover:bg-white hover:text-primary border border-primary transition-all duration-300">
+                        METHODOLOGY DETAIL
+                    </button>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer Component -->
+<footer class="bg-[#faf9f7] dark:bg-stone-950 flex flex-col md:flex-row justify-between items-center w-full px-12 py-12 gap-8 docked full-width bottom-0 border-t border-[#c6c6c6] dark:border-stone-800">
+<div class="flex flex-col gap-2">
+<span class="text-xs font-black tracking-widest text-[#000000] dark:text-white uppercase">풀다 AI</span>
+<span class="font-['Manrope'] text-[10px] tracking-[0.15em] font-bold uppercase text-[#777777] dark:text-stone-500">© 2026 풀다 AI</span>
+</div>
+<div class="flex gap-8">
+<a class="font-['Manrope'] text-[10px] tracking-[0.15em] font-bold uppercase text-[#777777] dark:text-stone-500 hover:text-[#000000] dark:hover:text-white underline underline-offset-4 transition-all duration-200" href="#">CURRICULUM</a>
+<a class="font-['Manrope'] text-[10px] tracking-[0.15em] font-bold uppercase text-[#777777] dark:text-stone-500 hover:text-[#000000] dark:hover:text-white underline underline-offset-4 transition-all duration-200" href="#">METHODOLOGY</a>
+<a class="font-['Manrope'] text-[10px] tracking-[0.15em] font-bold uppercase text-[#777777] dark:text-stone-500 hover:text-[#000000] dark:hover:text-white underline underline-offset-4 transition-all duration-200" href="#">ARCHIVE</a>
+<a class="font-['Manrope'] text-[10px] tracking-[0.15em] font-bold uppercase text-[#777777] dark:text-stone-500 hover:text-[#000000] dark:hover:text-white underline underline-offset-4 transition-all duration-200" href="#">CONTACT</a>
+</div>
+</footer>
+</body></html>

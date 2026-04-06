@@ -1,4 +1,4 @@
-# Demo Scenario — MathTutor AI
+# Demo Scenario — 풀다 AI
 
 > 원본: overview.md §K
 

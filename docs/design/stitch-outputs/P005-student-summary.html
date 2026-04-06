@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+
+<html class="light" lang="ko"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>오늘의 학습 요약 - 풀다 AI</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "outline": "#777777",
+                        "tertiary-container": "#747474",
+                        "primary-container": "#3b3b3b",
+                        "tertiary": "#3b3b3c",
+                        "background": "#faf9f7",
+                        "on-primary": "#e2e2e2",
+                        "on-surface-variant": "#474747",
+                        "inverse-on-surface": "#f1f1ef",
+                        "surface-tint": "#5e5e5e",
+                        "tertiary-fixed": "#5e5e5e",
+                        "on-error-container": "#410002",
+                        "surface-container-low": "#f4f3f1",
+                        "on-secondary-container": "#1a1c1b",
+                        "on-primary-fixed": "#ffffff",
+                        "secondary-container": "#d4d4d2",
+                        "tertiary-fixed-dim": "#464747",
+                        "secondary-fixed-dim": "#ababaa",
+                        "outline-variant": "#c6c6c6",
+                        "secondary": "#5d5f5d",
+                        "primary-fixed": "#5e5e5e",
+                        "on-secondary-fixed": "#1a1c1b",
+                        "on-background": "#1a1c1b",
+                        "secondary-fixed": "#c6c7c5",
+                        "error": "#ba1a1a",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-variant": "#e3e2e0",
+                        "on-surface": "#1a1c1b",
+                        "on-tertiary-container": "#ffffff",
+                        "surface-container": "#efeeec",
+                        "primary": "#000000",
+                        "primary-fixed-dim": "#474747",
+                        "on-primary-container": "#ffffff",
+                        "on-tertiary-fixed": "#ffffff",
+                        "inverse-primary": "#c6c6c6",
+                        "surface-container-high": "#e9e8e6",
+                        "error-container": "#ffdad6",
+                        "surface-container-highest": "#e3e2e0",
+                        "surface-dim": "#dadad8",
+                        "surface-bright": "#faf9f7",
+                        "on-secondary-fixed-variant": "#3a3c3b",
+                        "on-primary-fixed-variant": "#e2e2e2",
+                        "on-tertiary-fixed-variant": "#e3e2e2",
+                        "inverse-surface": "#2f3130",
+                        "on-error": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "surface": "#faf9f7",
+                        "on-tertiary": "#e3e2e2"
+                    },
+                    "borderRadius": {
+                        "none": "0px",
+                        "DEFAULT": "0px",
+                        "lg": "0px",
+                        "xl": "0px",
+                        "full": "0px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Manrope", "sans-serif"],
+                        "body": ["Manrope", "sans-serif"],
+                        "label": ["Manrope", "sans-serif"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Manrope', sans-serif; background-color: #faf9f7; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .dashed-border { background-image: linear-gradient(to right, #c6c6c6 50%, rgba(255,255,255,0) 0%); background-position: bottom; background-size: 8px 1px; background-repeat: repeat-x; }
+        .dashed-border-v { background-image: linear-gradient(to bottom, #c6c6c6 50%, rgba(255,255,255,0) 0%); background-position: right; background-size: 1px 8px; background-repeat: repeat-y; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="flex flex-col items-center min-h-screen">
+<div class="w-full max-w-[600px] bg-background min-h-screen flex flex-col outline-1 outline outline-outline-variant">
+<!-- TopAppBar (Shared Component) -->
+<header class="flex items-center w-full px-6 py-4 bg-[#faf9f7] border-b border-[#c6c6c6]">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-black">menu_book</span>
+<span class="text-lg font-extrabold tracking-widest text-black uppercase font-['Manrope']">풀다 AI</span>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-grow">
+<!-- Header Section -->
+<section class="px-8 pt-12 pb-8 bg-surface">
+<p class="text-[10px] font-bold uppercase tracking-[0.15em] text-outline mb-2">이차방정식 | 2026-04-06</p>
+<h1 class="text-5xl font-extrabold tracking-tighter text-on-surface leading-tight">오늘의<br/>학습 요약</h1>
+</section>
+<!-- Learning Visual (Asset) -->
+<section class="px-8 mb-8">
+<div class="w-full h-48 bg-surface-container overflow-hidden border border-outline-variant">
+<img alt="학습 시각화" class="w-full h-full object-cover grayscale opacity-80" data-alt="abstract mathematical equations and geometric shapes drawn with white chalk on a clean dark blackboard background scholarly style" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAPi0DHHqP99rgtAFEUvlhcmTrrAFzfLMhHySXlanaqoxe8eKs8obSoRo-70M7HCipUNxF8MSaA1vyh3vdm0a5L-sFDU1Ew_HETUOwqGhKNZGA9kyfpKgshY9P_a7WEeixHkyfRLTCcJrS0DpqCozdFn05wK-edFYDrhEJV_wWdHs7fGR0hIgbKgO68UOBpme4EbqTVzbyAYoplhLviUacLs6mOY6DUoa5axUjHWEF9-NTkuxDFyNOnn8Cn8OIUNwtVnYgeqXWjF5cv"/>
+</div>
+</section>
+<!-- Stats Section (Ledger/Receipt Style) -->
+<section class="px-8 mb-12">
+<div class="border border-outline-variant bg-surface-container-lowest p-6 flex flex-col gap-8">
+<div class="grid grid-cols-3 gap-0">
+<div class="flex flex-col dashed-border-v pr-4">
+<span class="text-[10px] font-bold uppercase tracking-[0.15em] text-outline mb-2">해결한 막힘</span>
+<span class="text-5xl font-extrabold text-primary">2</span>
+</div>
+<div class="flex flex-col dashed-border-v px-4">
+<span class="text-[10px] font-bold uppercase tracking-[0.15em] text-outline mb-2">질문 횟수</span>
+<span class="text-5xl font-extrabold text-primary">5</span>
+</div>
+<div class="flex flex-col pl-4">
+<span class="text-[10px] font-bold uppercase tracking-[0.15em] text-outline mb-2">받은 질문</span>
+<span class="text-5xl font-extrabold text-primary">8</span>
+</div>
+</div>
+<div class="dashed-border w-full h-[1px]"></div>
+<div class="flex justify-between items-center">
+<span class="text-[10px] font-bold uppercase tracking-[0.15em] text-outline">학습 달성도</span>
+<span class="text-lg font-bold text-primary">84.5%</span>
+</div>
+</div>
+</section>
+<!-- Concept List -->
+<section class="px-8 mb-12">
+<div class="flex flex-col border border-outline-variant">
+<div class="bg-surface-container-high px-6 py-3 border-b border-outline-variant">
+<h3 class="text-[10px] font-bold uppercase tracking-[0.15em] text-on-surface">학습한 개념 리스트</h3>
+</div>
+<!-- Item 1 -->
+<div class="flex items-center px-6 py-5 border-b border-outline-variant bg-surface-container-lowest">
+<span class="material-symbols-outlined text-primary text-sm mr-4" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="font-bold text-on-surface">인수분해 기초</span>
+</div>
+<!-- Item 2 -->
+<div class="flex items-center px-6 py-5 border-b border-outline-variant bg-surface-container-low">
+<span class="material-symbols-outlined text-outline text-sm mr-4">arrow_forward</span>
+<div class="flex flex-col">
+<span class="font-bold text-on-surface">근의 공식</span>
+<span class="text-[10px] font-bold uppercase tracking-wider text-outline">(추가 연습)</span>
+</div>
+</div>
+<!-- Item 3 -->
+<div class="flex items-center px-6 py-5 border-b border-outline-variant bg-surface-container-lowest">
+<span class="material-symbols-outlined text-primary text-sm mr-4" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="font-bold text-on-surface">완전제곱식</span>
+</div>
+<!-- Item 4 -->
+<div class="flex items-center px-6 py-5 bg-surface-container-low">
+<span class="material-symbols-outlined text-outline text-sm mr-4">arrow_forward</span>
+<div class="flex flex-col">
+<span class="font-bold text-on-surface">판별식</span>
+<span class="text-[10px] font-bold uppercase tracking-wider text-outline">(추가 연습)</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Action Buttons -->
+<section class="px-8 flex flex-col gap-3 mb-16">
+<button class="w-full bg-primary text-on-primary py-5 font-bold text-sm tracking-[0.1em] transition-colors hover:bg-stone-800">
+                    다시 질문하기
+                </button>
+<button class="w-full border border-outline-variant text-primary py-5 font-bold text-sm tracking-[0.1em] transition-colors hover:bg-surface-container-low">
+                    처음으로
+                </button>
+</section>
+</main>
+<!-- Footer (Shared Component) -->
+<footer class="flex flex-col md:flex-row justify-between items-center w-full px-8 py-12 gap-6 bg-[#faf9f7] border-t border-[#c6c6c6]">
+<div class="font-bold text-black font-['Manrope']">풀다 AI</div>
+<div class="flex gap-6">
+<span class="text-[10px] font-bold uppercase tracking-[0.15em] text-stone-600 hover:text-black transition-colors cursor-pointer">CURRICULUM</span>
+<span class="text-[10px] font-bold uppercase tracking-[0.15em] text-stone-600 hover:text-black transition-colors cursor-pointer">METHODOLOGY</span>
+<span class="text-[10px] font-bold uppercase tracking-[0.15em] text-stone-600 hover:text-black transition-colors cursor-pointer">ARCHIVE</span>
+</div>
+<div class="text-[10px] font-bold uppercase tracking-[0.15em] text-stone-400">
+                © 2026 풀다 AI
+            </div>
+</footer>
+</div>
+</body></html>

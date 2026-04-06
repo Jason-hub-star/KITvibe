@@ -1,4 +1,4 @@
-# RAG Pipeline — MathTutor AI
+# RAG Pipeline — 풀다 AI
 
 > 원본: overview.md §F
 

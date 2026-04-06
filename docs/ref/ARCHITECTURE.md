@@ -1,4 +1,4 @@
-# Architecture — MathTutor AI
+# Architecture — 풀다 AI
 
 > 원본: overview.md §J
 

@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+
+<html class="light" lang="ko"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>풀다 AI - 교사 대시보드</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body {
+            font-family: 'Manrope', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+    </style>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary-fixed-dim": "#464747",
+                    "secondary": "#5e5e5e",
+                    "outline-variant": "#c6c6c6",
+                    "secondary-fixed-dim": "#acabab",
+                    "primary-fixed": "#5e5e5e",
+                    "on-secondary-fixed": "#1b1c1c",
+                    "on-error-container": "#410002",
+                    "tertiary-fixed": "#5e5e5e",
+                    "surface-container-low": "#f4f3f1",
+                    "secondary-container": "#d6d4d4",
+                    "on-primary-fixed": "#ffffff",
+                    "on-secondary-container": "#1b1c1c",
+                    "on-surface-variant": "#474747",
+                    "background": "#faf9f7",
+                    "on-primary": "#e2e2e2",
+                    "surface-tint": "#5e5e5e",
+                    "inverse-on-surface": "#f1f1ef",
+                    "tertiary-container": "#747474",
+                    "outline": "#777777",
+                    "primary-container": "#3b3b3b",
+                    "tertiary": "#3b3b3c",
+                    "on-error": "#ffffff",
+                    "inverse-surface": "#2f3130",
+                    "on-secondary": "#ffffff",
+                    "on-tertiary": "#e3e2e2",
+                    "surface": "#faf9f7",
+                    "surface-container-highest": "#e3e2e0",
+                    "surface-dim": "#dadad8",
+                    "surface-bright": "#faf9f7",
+                    "on-secondary-fixed-variant": "#3b3b3b",
+                    "on-primary-fixed-variant": "#e2e2e2",
+                    "on-tertiary-fixed-variant": "#e3e2e2",
+                    "primary": "#000000",
+                    "surface-container": "#efeeec",
+                    "on-primary-container": "#ffffff",
+                    "on-tertiary-fixed": "#ffffff",
+                    "primary-fixed-dim": "#474747",
+                    "inverse-primary": "#c6c6c6",
+                    "surface-container-high": "#e9e8e6",
+                    "error-container": "#ffdad6",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-variant": "#e3e2e0",
+                    "error": "#ba1a1a",
+                    "secondary-fixed": "#c8c6c6",
+                    "on-background": "#1a1c1b",
+                    "on-surface": "#1a1c1b",
+                    "on-tertiary-container": "#ffffff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0px",
+                    "lg": "0px",
+                    "xl": "0px",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Manrope"],
+                    "body": ["Manrope"],
+                    "label": ["Manrope"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface">
+<!-- TopAppBar -->
+<header class="bg-[#faf9f7] dark:bg-neutral-900 flex justify-between items-center px-8 py-6 w-full docked full-width top-0 border-b-0 tonal-shift bg-[#efeeec] dark:bg-neutral-800">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary" data-icon="grid_view">grid_view</span>
+<h1 class="font-['Manrope'] font-black uppercase tracking-tighter text-2xl text-black dark:text-white">풀다 AI</h1>
+</div>
+<div class="flex items-center gap-6">
+<span class="font-['Manrope'] font-bold text-[#1a1c1b] dark:text-white">교사 대시보드</span>
+<button class="bg-primary text-on-primary-container px-6 py-2 font-bold transition-none hover:bg-primary-container">LOGOUT</button>
+</div>
+</header>
+<main class="max-w-[1440px] mx-auto p-8 space-y-12">
+<!-- Stats Section -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<div class="space-y-1">
+<span class="block font-bold uppercase tracking-[0.15em] text-[10px] text-outline">질문 합계</span>
+<div class="text-6xl font-extrabold tracking-tighter text-primary">23 질문</div>
+</div>
+<div class="space-y-1">
+<span class="block font-bold uppercase tracking-[0.15em] text-[10px] text-outline">활성 학생</span>
+<div class="text-6xl font-extrabold tracking-tighter text-primary">5 학생</div>
+</div>
+<div class="space-y-1">
+<span class="block font-bold uppercase tracking-[0.15em] text-[10px] text-outline">평균 회복률</span>
+<div class="text-6xl font-extrabold tracking-tighter text-primary">64% 회복률</div>
+</div>
+</section>
+<!-- Main Content Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+<!-- Left Column: Heatmap & Top Questions -->
+<div class="lg:col-span-4 space-y-8">
+<!-- Misconception Heatmap -->
+<div class="bg-surface-container-lowest p-6 border-none">
+<div class="border-b border-outline-variant pb-3 mb-6">
+<h3 class="font-bold uppercase tracking-[0.15em] text-[10px] text-on-surface">오개념 히트맵</h3>
+</div>
+<div class="space-y-6">
+<div class="space-y-2">
+<div class="flex justify-between text-[11px] font-bold uppercase tracking-wider">
+<span>인수분해</span>
+<span>80%</span>
+</div>
+<div class="h-4 w-full bg-[#eae8e5]">
+<div class="h-full bg-primary" style="width: 80%"></div>
+</div>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between text-[11px] font-bold uppercase tracking-wider">
+<span>근의공식</span>
+<span>52%</span>
+</div>
+<div class="h-4 w-full bg-[#eae8e5]">
+<div class="h-full bg-primary" style="width: 52%"></div>
+</div>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between text-[11px] font-bold uppercase tracking-wider">
+<span>판별식</span>
+<span>38%</span>
+</div>
+<div class="h-4 w-full bg-[#eae8e5]">
+<div class="h-full bg-primary" style="width: 38%"></div>
+</div>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between text-[11px] font-bold uppercase tracking-wider">
+<span>완전제곱식</span>
+<span>25%</span>
+</div>
+<div class="h-4 w-full bg-[#eae8e5]">
+<div class="h-full bg-primary" style="width: 25%"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Top 5 Questions -->
+<div class="bg-surface-container p-6">
+<div class="border-b border-outline-variant pb-3 mb-6">
+<h3 class="font-bold uppercase tracking-[0.15em] text-[10px] text-on-surface">질문 TOP 5</h3>
+</div>
+<ul class="space-y-4">
+<li class="flex items-start gap-4">
+<span class="font-black text-xl leading-none">01</span>
+<p class="text-sm font-bold leading-tight">복합 이차방정식의 해법이 이해가 되지 않습니다.</p>
+</li>
+<li class="flex items-start gap-4">
+<span class="font-black text-xl leading-none">02</span>
+<p class="text-sm font-bold leading-tight">허근이 발생하는 조건과 판별식의 관계</p>
+</li>
+<li class="flex items-start gap-4">
+<span class="font-black text-xl leading-none">03</span>
+<p class="text-sm font-bold leading-tight">인수분해 공식 중 항이 4개인 경우의 묶음</p>
+</li>
+<li class="flex items-start gap-4">
+<span class="font-black text-xl leading-none">04</span>
+<p class="text-sm font-bold leading-tight">근의 공식 유도 과정에서 완전제곱식 변형</p>
+</li>
+<li class="flex items-start gap-4">
+<span class="font-black text-xl leading-none">05</span>
+<p class="text-sm font-bold leading-tight">이차함수와 이차방정식의 교점 해석</p>
+</li>
+</ul>
+</div>
+</div>
+<!-- Right Column: Question Log Table -->
+<div class="lg:col-span-8">
+<div class="bg-surface-container-lowest p-6 min-h-full">
+<div class="border-b border-outline-variant pb-3 mb-6 flex justify-between items-end">
+<h3 class="font-bold uppercase tracking-[0.15em] text-[10px] text-on-surface">QUESTION LOG</h3>
+<span class="text-[10px] text-outline font-bold">LATEST UPDATES</span>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low">
+<th class="p-4 font-bold uppercase tracking-[0.15em] text-[10px] border border-outline-variant">학생</th>
+<th class="p-4 font-bold uppercase tracking-[0.15em] text-[10px] border border-outline-variant">질문</th>
+<th class="p-4 font-bold uppercase tracking-[0.15em] text-[10px] border border-outline-variant">의도</th>
+<th class="p-4 font-bold uppercase tracking-[0.15em] text-[10px] border border-outline-variant">시각</th>
+</tr>
+</thead>
+<tbody class="text-sm">
+<tr>
+<td class="p-4 border border-outline-variant font-bold">김지우</td>
+<td class="p-4 border border-outline-variant">계산 과정에서 음수 부호 처리가 헷갈려요.</td>
+<td class="p-4 border border-outline-variant text-outline">부호 오류 교정</td>
+<td class="p-4 border border-outline-variant text-outline">14:22</td>
+</tr>
+<tr>
+<td class="p-4 border border-outline-variant font-bold">이서연</td>
+<td class="p-4 border border-outline-variant">판별식 D&lt;0일 때 왜 실근이 없나요?</td>
+<td class="p-4 border border-outline-variant text-outline">개념적 증명 요청</td>
+<td class="p-4 border border-outline-variant text-outline">14:15</td>
+</tr>
+<tr>
+<td class="p-4 border border-outline-variant font-bold">박현우</td>
+<td class="p-4 border border-outline-variant">공통 인수가 안 보이는데 어떻게 묶나요?</td>
+<td class="p-4 border border-outline-variant text-outline">전략적 힌트</td>
+<td class="p-4 border border-outline-variant text-outline">13:58</td>
+</tr>
+<tr>
+<td class="p-4 border border-outline-variant font-bold">정민수</td>
+<td class="p-4 border border-outline-variant">근의 공식에 대입하면 숫자가 너무 커져요.</td>
+<td class="p-4 border border-outline-variant text-outline">연산 효율성</td>
+<td class="p-4 border border-outline-variant text-outline">13:42</td>
+</tr>
+<tr>
+<td class="p-4 border border-outline-variant font-bold">최아린</td>
+<td class="p-4 border border-outline-variant">완전제곱식으로 바꾸는 이유가 뭔가요?</td>
+<td class="p-4 border border-outline-variant text-outline">목적성 이해</td>
+<td class="p-4 border border-outline-variant text-outline">13:10</td>
+</tr>
+<tr>
+<td class="p-4 border border-outline-variant font-bold">김지우</td>
+<td class="p-4 border border-outline-variant">상수항이 분수인 경우의 인수분해 방법</td>
+<td class="p-4 border border-outline-variant text-outline">심화 문제 해결</td>
+<td class="p-4 border border-outline-variant text-outline">12:55</td>
+</tr>
+<tr>
+<td class="p-4 border border-outline-variant font-bold">이서연</td>
+<td class="p-4 border border-outline-variant">짝수 근의 공식을 꼭 외워야 하나요?</td>
+<td class="p-4 border border-outline-variant text-outline">학습 가이드</td>
+<td class="p-4 border border-outline-variant text-outline">12:30</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+<!-- Featured Section: Student Spotlight (Visual Density Example) -->
+<section class="grid grid-cols-1 md:grid-cols-2 gap-8 border-t border-outline-variant pt-12">
+<div class="relative bg-black text-white p-8 overflow-hidden group">
+<div class="relative z-10 space-y-4">
+<span class="block font-bold uppercase tracking-[0.15em] text-[10px] text-outline-variant">학습 동향 분석</span>
+<h2 class="text-4xl font-extrabold tracking-tight">집중 관리가 필요한 학생</h2>
+<p class="text-outline-variant max-w-sm">최근 48시간 내 오개념 발생률이 30% 이상 증가한 학생 2명에 대한 개별 학습 가이드가 생성되었습니다.</p>
+<button class="bg-white text-black px-6 py-3 font-black text-sm tracking-widest uppercase hover:bg-neutral-200">리포트 확인</button>
+</div>
+<div class="absolute right-[-20%] bottom-[-20%] opacity-20 pointer-events-none">
+<span class="text-[300px] font-black leading-none tracking-tighter">AI</span>
+</div>
+</div>
+<div class="bg-surface-container-low p-8 flex flex-col justify-between">
+<div class="space-y-4">
+<span class="block font-bold uppercase tracking-[0.15em] text-[10px] text-outline">AI 커리큘럼 추천</span>
+<h2 class="text-4xl font-extrabold tracking-tight">이차방정식 심화 과정</h2>
+<p class="text-on-surface-variant max-w-sm">현재 학급의 전체적인 이해도가 높습니다. 고난도 사고력 문항을 추가 배치하는 것을 권장합니다.</p>
+</div>
+<div class="flex gap-4 mt-8">
+<div class="h-1 bg-primary flex-1"></div>
+<div class="h-1 bg-primary flex-1"></div>
+<div class="h-1 bg-surface-container-highest flex-1"></div>
+<div class="h-1 bg-surface-container-highest flex-1"></div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-[#efeeec] dark:bg-neutral-900 flex flex-col md:flex-row justify-between items-center px-12 py-10 w-full full-width border-t border-[#c6c6c6] dark:border-neutral-700 hairline">
+<div class="font-['Manrope'] font-black text-black dark:text-white mb-6 md:mb-0">
+            © 2026 풀다 AI
+        </div>
+<nav class="flex gap-10">
+<a class="font-['Manrope'] text-[11px] font-bold uppercase tracking-[0.15em] text-neutral-500 dark:text-neutral-400 hover:text-black dark:hover:text-white transition-none" href="#">Curriculum</a>
+<a class="font-['Manrope'] text-[11px] font-bold uppercase tracking-[0.15em] text-neutral-500 dark:text-neutral-400 hover:text-black dark:hover:text-white transition-none" href="#">Methodology</a>
+<a class="font-['Manrope'] text-[11px] font-bold uppercase tracking-[0.15em] text-neutral-500 dark:text-neutral-400 hover:text-black dark:hover:text-white transition-none underline decoration-2" href="#">Archive</a>
+<a class="font-['Manrope'] text-[11px] font-bold uppercase tracking-[0.15em] text-neutral-500 dark:text-neutral-400 hover:text-black dark:hover:text-white transition-none" href="#">Contact</a>
+</nav>
+</footer>
+</body></html>

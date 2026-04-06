@@ -1,4 +1,4 @@
-# Prompt Design — MathTutor AI
+# Prompt Design — 풀다 AI
 
 > 원본: overview.md §D
 

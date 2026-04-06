@@ -1,4 +1,4 @@
-# Deploy Plan — MathTutor AI
+# Deploy Plan — 풀다 AI
 
 ## 배포 대상
 

@@ -27,9 +27,9 @@ async function main() {
     return;
   }
 
-  // 가장 최근 MathTutor AI 프로젝트 찾기
+  // 가장 최근 풀다 AI 프로젝트 찾기
   const targetProject = projects.find(
-    (p) => (p as any).title?.includes("MathTutor")
+    (p) => (p as any).title?.includes("풀다")
   ) || projects[0];
 
   console.log(`\n🎯 대상 프로젝트: ${targetProject.projectId}`);

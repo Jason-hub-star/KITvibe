@@ -1,5 +1,5 @@
 ---
-project: mathtutor-ai
+project: pulda-ai
 version: 1.0
 updated: 2026-04-06
 deadline: 2026-04-13
@@ -8,7 +8,7 @@ topic: AI활용 차세대 교육 솔루션
 pitch: "교사의 수업자료에 근거해 학생의 막힘 지점을 Grill-Me 질문법으로 해결하고, 교사에게는 오개념 heatmap과 즉시 개입용 보충과제를 제공하는 수업 후 보충 AI 코치."
 ---
 
-# MathTutor AI — Overview (SSOT)
+# 풀다 AI — Overview (SSOT)
 
 > 이 문서는 프로젝트의 **단일 진실 소스(SSOT)**입니다.
 > 각 섹션은 `<!-- @extract-to: {파일명} -->` 태그로 표시되어 있어, 에이전트가 개별 문서로 분리 추출할 수 있습니다.
@@ -452,7 +452,7 @@ billing, organization, classroom_membership, guardian, notification, audit_log (
 | 구분 | 내용 | 이유 |
 |------|------|------|
 | **금지 (강한 게임화)** | 리더보드, 코인, 캐릭터, 출석 보상, 경쟁 랭킹 | 신뢰성·교사 통제권·보충 개입 메시지를 흐림. 로그인 없는 데모 구조와 불일치. "신나게 붙잡아 두는 서비스"가 아님 |
-| **허용 (mastery 마이크로 UX)** | 힌트 사다리 진행도(1/4→4/4), 미니퀴즈 통과 시 "오개념 회복" 배지, 오늘 해결한 막힘 수, 교사용 회복률 카드 | 경쟁이 아닌 즉각 피드백·자기조절·작은 성취감. metacognitive trigger + immediate feedback + context alignment |
+| **허용 (mastery 마이크로 UX)** | 질문 사다리 진행도(1/4→4/4), 미니퀴즈 통과 시 "오개념 회복" 배지, 오늘 해결한 막힘 수, 교사용 회복률 카드 | 경쟁이 아닌 즉각 피드백·자기조절·작은 성취감. metacognitive trigger + immediate feedback + context alignment |
 
 > **최종 방향:** 강한 게임화 ❌ / 가벼운 mastery UX ⭕ / 라이브 폐쇄 루프 데모 강화 ⭕
 > 심사위원은 귀여운 재미보다 **"왜 이 AI가 현장에서 바로 먹히는지"**에 반응한다.

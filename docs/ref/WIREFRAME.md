@@ -1,4 +1,4 @@
-# Wireframe — MathTutor AI
+# Wireframe — 풀다 AI
 
 > 원본: overview.md §C, §G
 > design-to-code 하네스 STEP 1~2에 해당
@@ -7,7 +7,7 @@
 
 ```
 ┌────────────────────────────────────┐
-│         MathTutor AI               │
+│         풀다 AI               │
 │   수업 후 막힘 해소 AI 코치         │
 │                                    │
 │  ┌──────────┐  ┌──────────┐       │
