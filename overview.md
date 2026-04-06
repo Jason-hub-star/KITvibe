@@ -292,7 +292,10 @@ users ─┬─< lessons ─┬─< lesson_materials
 | lesson_id | uuid FK→lessons | |
 | file_name | text | |
 | file_url | text | |
-| extracted_text | text | OCR/파싱 결과 |
+| extracted_text | text | 파싱 결과 (MVP: 전체 주입) |
+| chunk_text | text | nullable — v2 청킹용 |
+| chunk_index | integer | default 0 — v2 청킹 순서 |
+| embedding | vector(1536) | nullable — v2 벡터검색 (pgvector) |
 
 **student_questions**
 | 컬럼 | 타입 | 설명 |
@@ -337,21 +340,30 @@ billing, organization, classroom_membership, guardian, notification, audit_log (
 - 교사가 올린 수업 자료 (PDF/이미지/텍스트)
 - 교사가 입력한 수업 주제/핵심 개념
 
-### F-2. 처리 흐름
+### F-2. 처리 흐름 (확장성 고려)
 
+**MVP (Context Stuffing):**
 ```
-업로드 → 텍스트 추출(OCR) → 청킹 → 임베딩 → 벡터 저장
-                                                    ↓
-학생 질문 → 임베딩 → 유사도 검색 → 상위 chunk 반환 → LLM 프롬프트에 주입
+업로드 → 텍스트 추출 (pdf-parse / gray-matter+remark)
+  → extracted_text를 DB에 저장
+  → 학생 질문 시 해당 수업의 전체 텍스트를 프롬프트에 주입
 ```
 
-### F-3. Chunking 전략
+**v2 (벡터 검색 — 스위치 전환):**
+```
+업로드 → 텍스트 추출 → 청킹 → 임베딩 → pgvector 저장
+  → 학생 질문 → 임베딩 → match_chunks() → top 3 → 프롬프트 주입
+```
+
+**확장 준비 완료:** pgvector 활성화, embedding 컬럼 존재, match_chunks RPC 생성됨. 코드에서 `USE_VECTOR_SEARCH` 스위치 1개로 전환.
+
+### F-3. Chunking 전략 (v2용, 미리 설계)
 
 | 전략 | 파라미터 | 적용 |
 |------|----------|------|
-| **Recursive Character Splitting** | 512 tokens, 15% overlap | 기본값 |
+| Recursive Character Splitting | 512 tokens, 15% overlap | PDF 기본값 |
+| **헤딩 기준 자연 분할** | #/## 경계 | Obsidian .md |
 | 수식 블록 단위 | 문제-풀이-해설 같은 chunk | 수학 특화 |
-| 메타데이터 포함 | 주제, 단원, 출처 | 필터링 지원 |
 
 ### F-4. 응답 원칙
 

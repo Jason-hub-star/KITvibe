@@ -55,11 +55,31 @@
 | 자료 근거 있음 | 근거 기반 응답 + "📚 수업자료 근거" | true |
 | 자료 근거 부족 | "수업 자료에서는 확인되지 않습니다" | false |
 
-## 임베딩 모델
+## 검색 전략 (확장성 고려)
+
+| 단계 | 전략 | 사용 시점 |
+|------|------|----------|
+| **MVP** | Context Stuffing (전체 텍스트 주입) | `extracted_text` WHERE lesson_id |
+| **v2** | 벡터 검색 (`match_chunks` RPC) | 자료 > 128K 토큰 시 전환 |
+
+```
+// USE_VECTOR_SEARCH = false (MVP)
+//   → lesson_materials.extracted_text 전체 주입
+// USE_VECTOR_SEARCH = true (v2)
+//   → embedding → match_chunks() → top 3 chunk
+```
+
+**인프라는 미리 준비됨:**
+- pgvector 확장: 활성화
+- `embedding vector(1536)` 컬럼: 존재 (nullable)
+- `match_chunks` RPC: 생성됨 (미사용)
+- 전환 시 코드 변경: **스위치 1개 + embed.ts 추가**
+
+## 임베딩 모델 (v2용, 미리 선정)
 
 | 모델 | 비용 | 차원 | 선택 이유 |
 |------|------|------|----------|
-| **`openai/text-embedding-3-small`** | $0.02/1M | 1536d | pgvector 사례 풍부, 10배 저렴 (vs Gemini Embedding 2) |
+| **`openai/text-embedding-3-small`** | $0.02/1M | 1536d | pgvector 사례 풍부, Gemini Embedding 2보다 10배 저렴 |
 
 ## 제외
 

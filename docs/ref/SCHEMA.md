@@ -41,8 +41,10 @@ users ─┬─< lessons ─┬─< lesson_materials
 | lesson_id | uuid FK→lessons | |
 | file_name | text | 원본 파일명 |
 | file_url | text | Supabase Storage URL |
-| extracted_text | text | OCR/파싱 결과 |
-| embedding | vector(1536) | 임베딩 벡터 (pgvector) |
+| extracted_text | text | 파싱 결과 (MVP: 전체 텍스트 주입에 사용) |
+| chunk_text | text | nullable — v2 청킹 시 개별 chunk 저장 |
+| chunk_index | integer | default 0 — v2 청킹 시 순서 |
+| embedding | vector(1536) | nullable — v2 벡터검색 시 사용 (pgvector 확장성) |
 
 ### student_questions
 
