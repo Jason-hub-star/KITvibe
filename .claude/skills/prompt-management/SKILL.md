@@ -25,7 +25,7 @@ export const SYSTEM_PROMPTS = {
 
 | 변수 | 용도 |
 |------|------|
-| `{current_step}` | 힌트 사다리 단계 (1-4) |
+| `{current_step}` | Grill-Me 질문 사다리 단계 (1-4) |
 | `{retrieved_chunks}` | RAG 검색 결과 텍스트 |
 | `{question}` | 학생 질문 원문 |
 | `{mode}` | grill-me / guide-me / quick-me |

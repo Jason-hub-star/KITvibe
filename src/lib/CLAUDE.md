@@ -17,4 +17,4 @@
 | `prompts/` | AI 시스템 프롬프트 템플릿 (1곳 관리) |
 | `rag/` | RAG 파이프라인 (텍스트 추출, 청킹, 검색) |
 | `supabase/` | Supabase 클라이언트 유틸 (`client.ts`, `admin.ts`) |
-| `ai/` | AI 호출 유틸 (의도 분류, 힌트 사다리, 스트리밍) |
+| `ai/` | AI 호출 유틸 (의도 분류, Grill-Me 질문 사다리, 스트리밍) |

@@ -14,10 +14,11 @@
 | 시장 조사 | ✅ 완료 | overview.md §A |
 | 하네스 선정 | ✅ 완료 | project-setup, design-to-code, socratic-review |
 | overview.md 구조화 | ✅ 완료 | §A~§N, @extract-to 태그 |
-| 문서 분리 추출 | 🔄 진행중 | 17개 문서 생성 |
-| 프로젝트 셋업 | 🔄 진행중 | git init, 폴더 구조 |
+| 문서 분리 추출 | ✅ 완료 | 23개 문서 생성 |
+| 프로젝트 셋업 | ✅ 완료 | git init, GitHub push, 폴더 구조 |
+| UI 시안 (Stitch) | ✅ 완료 | 5페이지 PNG + HTML 생성 |
+| 디자인 토큰 추출 | ✅ 완료 | Stitch HTML → shadcn CSS 변수 매핑 |
 | 기술스택 초기화 | ⬜ 대기 | Next.js + Supabase |
-| UI/와이어프레임 | ⬜ 대기 | 5페이지 |
 | 코어 구현 | ⬜ 대기 | RAG + AI + 대시보드 |
 | 배포 | ⬜ 대기 | Vercel |
 | 제출 | ⬜ 대기 | 04/13 마감 |

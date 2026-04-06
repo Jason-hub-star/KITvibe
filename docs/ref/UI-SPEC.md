@@ -1,61 +1,87 @@
 # UI/UX 시안 스펙 — MathTutor AI
 
 > design-to-code 하네스 STEP 2~3
-> 디자인 토큰 + shadcn 컴포넌트 매핑 + 레이아웃 스펙
+> Stitch HTML에서 추출한 디자인 토큰 + shadcn 컴포넌트 매핑 + 레이아웃 스펙
+>
+> **상세 토큰:** `docs/design/DESIGN-TOKENS.md` 참조
 
 ---
 
 ## 디자인 토큰
 
+> Stitch 시안 5개 HTML에서 추출. 라이트모드 + 모노크로매틱 웜 팔레트.
+
 ### 색상 시스템 (CSS Variables)
 
 ```css
-:root {
-  /* 기본 다크모드 */
-  --background: 240 10% 3.9%;      /* zinc-950 */
-  --foreground: 0 0% 98%;          /* zinc-50 */
-  --card: 240 10% 6%;              /* zinc-900 */
-  --card-foreground: 0 0% 98%;
-  --border: 240 3.7% 15.9%;        /* zinc-800 */
-  --muted: 240 3.7% 15.9%;
-  --muted-foreground: 240 5% 64.9%;
+@layer base {
+  :root {
+    --background: 40 20% 98%;        /* #faf9f7 — 따뜻한 흰색 */
+    --foreground: 150 6% 10%;        /* #1a1c1b */
+    --card: 0 0% 100%;               /* #ffffff */
+    --card-foreground: 150 6% 10%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 150 6% 10%;
+    --primary: 0 0% 0%;              /* #000000 — 블랙 */
+    --primary-foreground: 30 6% 89%; /* #e5e2e1 */
+    --secondary: 0 1% 37%;           /* #5f5e5e */
+    --secondary-foreground: 0 0% 100%;
+    --muted: 30 6% 95%;              /* #f4f3f1 */
+    --muted-foreground: 0 0% 28%;    /* #474747 */
+    --accent: 30 5% 93%;             /* #efeeec */
+    --accent-foreground: 150 6% 10%;
+    --destructive: 0 73% 41%;        /* #ba1a1a */
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 78%;              /* #c6c6c6 */
+    --input: 0 0% 47%;               /* #777777 */
+    --ring: 0 0% 0%;
+    --radius: 0.125rem;
 
-  /* Accent: Indigo (교육 신뢰감) */
-  --primary: 234 89% 74%;          /* indigo-400 */
-  --primary-foreground: 0 0% 98%;
+    /* 의미 색상 (히트맵, 상태 표시) */
+    --success: 142 76% 36%;
+    --warning: 38 92% 50%;
 
-  /* 의미 색상 */
-  --success: 142 76% 36%;          /* green-600 */
-  --warning: 38 92% 50%;           /* amber-500 */
-  --info: 217 91% 60%;             /* blue-500 */
-
-  /* 힌트 사다리 색상 */
-  --step-1: 234 89% 74%;           /* indigo — 접근법 */
-  --step-2: 217 91% 60%;           /* blue — 개념 */
-  --step-3: 262 83% 58%;           /* violet — 유사문제 */
-  --step-4: 142 76% 36%;           /* green — 완료 */
+    /* 힌트 사다리 — 단계별 색상은 secondary 톤 유지 */
+    --step-active: 0 0% 0%;          /* 현재 단계 */
+    --step-done: 0 0% 47%;           /* 완료 단계 */
+    --step-pending: 0 0% 78%;        /* 대기 단계 */
+  }
 }
+```
+
+### 표면 계층 (Stitch Material Design 3 기반)
+
+```
+surface-container-lowest:  #ffffff    ← 카드, 팝오버
+surface-container-low:     #f4f3f1    ← 뮤트 배경
+surface-container:         #efeeec    ← 섹션 배경
+surface-container-high:    #eae8e5    ← 프로그레스 바 트랙
+surface-container-highest: #e4e2df    ← 강조 배경
 ```
 
 ### 간격/크기
 
 | 토큰 | 값 | 용도 |
 |------|---|------|
-| `page-padding` | `px-4 md:px-8` | 페이지 좌우 여백 |
-| `section-gap` | `space-y-6` | 섹션 간 간격 |
-| `card-padding` | `p-6` | 카드 내부 |
-| `max-width` | `max-w-2xl` (채팅), `max-w-4xl` (대시보드) | 콘텐츠 너비 |
-| `border-radius` | `rounded-xl` | 카드/버튼 |
+| `page-padding` | `px-6 md:px-8 lg:px-12` | 페이지 좌우 여백 |
+| `section-gap` | `space-y-16 md:space-y-24` | 섹션 간 (넉넉한 여백) |
+| `card-padding` | `p-5 md:p-8` | 카드 내부 |
+| `max-width` | `max-w-2xl` (폼/채팅), `max-w-4xl` (채팅), `max-w-7xl` (랜딩), `max-w-[1440px]` (대시보드) | 콘텐츠 너비 |
+| `border-radius` | `--radius: 0.125rem` | 직각 미학 (에디토리얼) |
 
 ### 타이포그래피 스케일
 
-| 용도 | 클래스 | 예시 |
-|------|--------|------|
-| 페이지 제목 | `text-3xl font-bold tracking-tight` | "MathTutor AI" |
-| 섹션 제목 | `text-xl font-semibold` | "오개념 히트맵" |
-| 본문 | `text-sm text-muted-foreground` | 일반 텍스트 |
-| 배지 라벨 | `text-xs font-medium` | "질문 2/4" |
-| 수식 | `font-mono` + KaTeX | $x^2+5x+6$ |
+| 용도 | 클래스 | 사이즈 |
+|------|--------|--------|
+| 히어로 제목 | `text-5xl font-extrabold tracking-tight` | 48px |
+| 페이지 제목 | `text-[3.5rem] font-bold tracking-[-0.02em]` | 56px |
+| 섹션 제목 | `text-2xl~3xl font-bold tracking-tight` | 24~30px |
+| 카드 제목 | `text-xl font-bold` | 20px |
+| 본문 | `text-base leading-relaxed` | 16px |
+| 라벨 | `text-[0.75rem] font-bold uppercase tracking-[0.05em]` | 12px 대문자 |
+| 마이크로 | `text-[10px] font-bold uppercase tracking-widest` | 10px |
+| 수치 (stats) | `text-4xl~6xl font-extrabold tabular-nums` | 큰 숫자 |
+| 수식 | KaTeX + `font-serif italic` | 수식 렌더링 |
 
 ---
 
@@ -361,12 +387,13 @@ AI 질문 메시지:
 
 ### 히트맵 색상 규칙
 
-| 빈도 | 색상 | 의미 |
+모노크로매틱 디자인 원칙에 따라 **단일 primary 색상** 사용. 바 길이(%)로 심각도 표현.
+
+| 요소 | 색상 | 비고 |
 |------|------|------|
-| 70%+ | `bg-red-500` | 긴급 보충 필요 |
-| 40-69% | `bg-amber-500` | 주의 필요 |
-| 20-39% | `bg-blue-500` | 보통 |
-| 0-19% | `bg-green-500` | 양호 |
+| 프로그레스 바 | `bg-primary` (#000000) | 단일 색상 |
+| 트랙 | `bg-surface-container-high` (#eae8e5) | 배경 |
+| 퍼센트 텍스트 | `font-mono text-muted-foreground` | 우측 정렬 |
 
 ---
 

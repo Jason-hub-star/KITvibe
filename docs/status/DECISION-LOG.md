@@ -122,3 +122,55 @@ PDF 외에 Obsidian 마크다운 파일을 RAG 소스로 지원
 - Gemini보다 10배 저렴
 - pgvector 1536d 연동 사례 풍부
 - 대회 전체 임베딩 비용 ~$0.007 (무시 가능)
+
+---
+
+## 2026-04-06 — UI 구현 전략: Stitch 하이브리드
+
+### 맥락
+Google Stitch SDK로 5페이지 UI 시안 생성 완료 (PNG + HTML).
+HTML은 Tailwind CDN + Manrope 폰트 + Material Symbols 아이콘 기반 정적 마크업.
+
+### 검토된 대안
+1. Stitch HTML 그대로 사용 — 기각: CDN 의존, 정적, Next.js Server Component 불가, 인터랙션 없음
+2. shadcn/ui 완전 재구현 (HTML 무시) — 기각: 시안 비주얼 재현 어려움, 시간 낭비
+3. 하이브리드 (컬러/레이아웃 추출 → shadcn 구현) — **채택**
+
+### 최종 결정
+Stitch HTML에서 **디자인 토큰(컬러, 타이포, 간격, 레이아웃 구조) 추출** → `DESIGN-TOKENS.md`에 정리 → shadcn/ui `globals.css` CSS 변수로 매핑하여 구현
+
+### 매핑 요약
+- Stitch `background: #faf9f7` → shadcn `--background`
+- Stitch `primary: #000000` → shadcn `--primary`
+- Stitch `Manrope` 폰트 → Geist Sans (CLAUDE.md 기술스택)
+- Stitch `Material Symbols` → Lucide React (shadcn 표준)
+- Stitch `borderRadius: 0px~0.125rem` → shadcn `--radius: 0.125rem`
+
+### 핵심 디자인 원칙 (Stitch에서 관찰)
+1. 극도의 미니멀리즘 — 장식 없음, 타이포그래피가 주인공
+2. 직각 미학 — border-radius 거의 0 (에디토리얼/아카데믹)
+3. 모노크로매틱 웜 — 검정~회색~따뜻한 흰색
+4. 대문자 라벨 — `uppercase tracking-widest`
+5. 넉넉한 여백 — `space-y-16~24`, `p-8~12`
+
+### 산출물
+- `docs/design/stitch-outputs/P00X-*.html` — 5개 HTML (디자인 레퍼런스)
+- `docs/design/stitch-outputs/P00X-*.png` — 5개 PNG (시각 레퍼런스)
+- `docs/design/DESIGN-TOKENS.md` — 통합 디자인 토큰 + shadcn 매핑
+
+---
+
+## 2026-04-06 — 라이트모드 전환
+
+### 맥락
+초기 UI-SPEC.md는 다크모드(zinc-950) + indigo accent로 설계.
+Stitch 시안은 라이트모드(#faf9f7 warm white) + 블랙 primary로 생성됨.
+
+### 최종 결정
+**라이트모드 기본** + 모노크로매틱 웜 팔레트로 전환
+
+### 이유
+- Stitch 시안이 라이트모드로 확정됨 (5개 페이지 전부 `class="light"`)
+- 에디토리얼/아카데믹 미학과 라이트모드가 더 어울림
+- 교육 맥락에서 라이트모드가 가독성 우수
+- 다크모드는 v2에서 추가 가능 (CSS 변수 구조가 이미 지원)

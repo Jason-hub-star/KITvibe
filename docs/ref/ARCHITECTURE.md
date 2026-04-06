@@ -7,7 +7,7 @@
 | 레이어 | 기술 | 비고 |
 |--------|------|------|
 | 프레임워크 | Next.js (latest) + TypeScript | App Router, `src/` 구조 |
-| UI | Tailwind CSS + shadcn/ui | Geist Sans/Mono, 다크모드 |
+| UI | Tailwind CSS + shadcn/ui | Geist Sans/Mono, 라이트모드 (웜 모노크로매틱) |
 | DB | Supabase (Postgres + pgvector + Storage) | 벡터검색 + 파일 저장 |
 | AI (공모전) | OpenAI via Vercel AI Gateway | 10만원 크레딧 |
 | AI (프로덕션) | **Gemma 4 E4B** (Ollama/WebGPU) | 로컬, API $0 |
@@ -70,10 +70,11 @@ PDF/이미지 → Supabase Storage → 텍스트 추출 (OCR/파싱)
 
 ## 디자인 시스템
 
-- **톤:** 깔끔한 에듀 SaaS, 신뢰감 + 친절함
-- **색상:** zinc 기반, 1개 accent color
+- **톤:** 에디토리얼 아카데믹, 신뢰감 + 절제
+- **색상:** 라이트모드 웜 모노크로매틱 (#faf9f7 배경, #000000 primary, accent 없음)
 - **폰트:** Geist Sans (UI) + Geist Mono (코드/수식/ID)
-- **모드:** 다크모드 우선
+- **반경:** 직각 미학 (--radius: 0.125rem)
+- **참조:** `docs/design/DESIGN-TOKENS.md` (Stitch HTML 추출 토큰)
 
 ## 폴더 구조 (예정)
 
