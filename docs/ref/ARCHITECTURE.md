@@ -6,28 +6,44 @@
 
 | 레이어 | 기술 | 비고 |
 |--------|------|------|
-| 프레임워크 | Next.js 16 + TypeScript | App Router, Server Components |
+| 프레임워크 | Next.js (latest) + TypeScript | App Router, `src/` 구조 |
 | UI | Tailwind CSS + shadcn/ui | Geist Sans/Mono, 다크모드 |
-| DB | Supabase (Postgres) | pgvector for 임베딩 |
-| AI | Vercel AI Gateway | OIDC 인증, provider 무관 |
-| 벡터검색 | pgvector | Supabase 내장 |
+| DB | Supabase (Postgres + pgvector + Storage) | 벡터검색 + 파일 저장 |
+| AI (공모전) | OpenAI via Vercel AI Gateway | 10만원 크레딧 |
+| AI (프로덕션) | **Gemma 4 E4B** (Ollama/WebGPU) | 로컬, API $0 |
+| 임베딩 | `openai/text-embedding-3-small` (1536d) | $0.02/1M |
+| 파일 파싱 | `pdf-parse` + `gray-matter`/`remark` (.md) | |
 | 배포 | Vercel | 자동 배포, Preview URL |
 | 수식 렌더링 | KaTeX → MathJax fallback | |
+
+## AI 모델 전략
+
+**공모전:** OpenAI `gpt-4o-mini` (10만원 크레딧)
+
+**프로덕션 하이브리드:**
+```
+학생 질문 → Task Router (JS 규칙)
+  ├─ 단순 (의도분류, 기본질문, 격려) → Gemma 4 E4B 로컬 ($0)
+  └─ 복잡 (RAG 상세설명, 교사요약) → Cloud API (fallback)
+  └─ WebGPU 미지원 → 자동 Cloud
+```
+
+**Gemma 4 핵심:** AIME 89.2%, Apache 2.0, 128K ctx, E4B ~5GB (4-bit)
 
 ## 시스템 구조
 
 ```
-┌─────────────┐     ┌──────────────┐     ┌─────────────────┐
-│   Browser   │────▶│  Next.js 16  │────▶│  Vercel AI GW   │
-│ (React SPA) │◀────│  App Router  │◀────│  (LLM 라우팅)    │
-└─────────────┘     └──────┬───────┘     └─────────────────┘
-                           │
-                    ┌──────┴───────┐
-                    │   Supabase   │
-                    │  ┌─────────┐ │
-                    │  │Postgres │ │
-                    │  │pgvector │ │
-                    │  │Storage  │ │
+┌─────────────────┐     ┌──────────────┐     ┌─────────────────┐
+│    Browser      │────▶│  Next.js     │────▶│  OpenAI / AI GW │
+│ (React + WebGPU)│◀────│  App Router  │◀────│  (공모전 모드)    │
+│ [Gemma 4 로컬]  │     └──────┬───────┘     └─────────────────┘
+└─────────────────┘            │
+                        ┌──────┴───────┐
+                        │   Supabase   │
+                        │  ┌─────────┐ │
+                        │  │Postgres │ │
+                        │  │pgvector │ │
+                        │  │Storage  │ │
                     │  └─────────┘ │
                     └──────────────┘
 ```
