@@ -53,6 +53,68 @@
 
 ## 코드 컨벤션 (강제)
 
+### 폴더 관심사 분리
+
+```
+src/
+├── app/           # 라우팅 접착제 (FE 페이지 + BE API 공존 = Next.js 표준)
+├── components/    # 순수 UI (프론트엔드) — 비즈니스 로직 금지
+├── lib/           # 비즈니스 로직 (백엔드) — 클라이언트에서 직접 import 금지
+│   ├── actions/   # Server Actions
+│   ├── prompts/   # AI 프롬프트 템플릿
+│   ├── rag/       # RAG 파이프라인
+│   └── supabase/  # DB 접근 유틸
+├── types/         # 공유 타입 (FE+BE)
+└── hooks/         # 클라이언트 커스텀 훅 (FE)
+```
+
+### 도메인별 파일명 일치 (강제)
+
+모든 도메인(lesson, question, misconception)은 파일명이 레이어 간 일관되어야 함:
+
+```
+도메인: lesson
+├── app/api/lessons/route.ts           # API
+├── app/teacher/upload/page.tsx        # 페이지
+├── components/teacher/LessonForm.tsx  # UI
+├── lib/actions/lessons.ts             # Server Action
+├── lib/rag/lessonMaterials.ts         # RAG
+├── types/lesson.types.ts             # 타입
+
+도메인: question
+├── app/api/questions/route.ts
+├── app/student/ask/page.tsx
+├── components/student/QuestionChat.tsx
+├── lib/actions/questions.ts
+├── lib/ai/classifyIntent.ts
+├── types/question.types.ts
+```
+
+### 폴더별 CLAUDE.md (핵심 4곳)
+
+| 폴더 | CLAUDE.md 핵심 내용 |
+|------|-------------------|
+| `src/lib/` | "서버 전용. 클라이언트에서 직접 import 금지. AI 키 접근 가능" |
+| `src/components/` | "순수 UI만. 비즈니스 로직/DB 접근 금지. shadcn/ui 우선 사용" |
+| `src/types/` | "DB 컬럼명과 1:1 매핑. any 금지. Subject = 'math' 리터럴" |
+| `src/app/api/` | "응답 포맷 { success, data/error, code } 통일. 에러 코드 필수" |
+
+### 파일 상단 주석 (강제)
+
+모든 .ts/.tsx 파일 최상단에 JSDoc 주석 필수:
+
+```typescript
+/**
+ * @file lib/actions/questions.ts
+ * @description 학생 질문 처리 Server Actions
+ *   - 질문 저장, 의도 분류, Grill-Me 응답 스트리밍
+ * @domain question
+ * @access server-only
+ */
+```
+
+필수 태그: `@file`, `@description`, `@domain`, `@access` (server-only | client | shared)
+
 ### 파일/폴더 명명
 
 | 대상 | 규칙 | 예시 |
