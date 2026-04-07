@@ -1,15 +1,26 @@
 /**
  * @file app/teacher/upload/page.tsx
- * @description P-002 교사 자료 업로드 페이지 (스켈레톤)
+ * @description P-002 교사 수업 자료 업로드 페이지 — Stitch 스타일
+ *   - 대형 헤드라인 (3.5rem)
+ *   - 역할 검증 (교사만 접근)
  * @domain lesson
  * @access shared
  */
 
+import TeacherUploadGuard from '@/components/teacher/TeacherUploadGuard';
+import { LandingFooter } from '@/components/layout/LandingFooter';
+
 export default function TeacherUploadPage() {
   return (
-    <main className="flex-1 flex flex-col items-center justify-center px-6 py-24">
-      <h1 className="text-2xl font-bold">수업 자료 등록</h1>
-      <p className="mt-2 text-muted-foreground">D-5에서 구현 예정</p>
-    </main>
+    <>
+      <main className="max-w-2xl mx-auto px-6 pt-12 pb-24">
+        {/* Stitch 스타일 대형 헤드라인 */}
+        <h1 className="text-[3.5rem] font-bold leading-[1.1] tracking-tight text-foreground mb-16">
+          수업 자료 등록
+        </h1>
+        <TeacherUploadGuard />
+      </main>
+      <LandingFooter />
+    </>
   );
 }

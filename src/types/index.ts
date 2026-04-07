@@ -8,11 +8,16 @@
 export type { UserRole } from '@/types/common.types';
 export type { ApiSuccess, ApiError, ApiResponse } from '@/types/api.types';
 export type { User } from '@/types/user.types';
-export type { Lesson, LessonMaterial } from '@/types/lesson.types';
+export type { Lesson, LessonMaterial, UploadStatus, UploadFile } from '@/types/lesson.types';
 export type {
   IntentType,
   ResponseType,
   StudentQuestion,
   AiResponse,
   MisconceptionSummary,
+  ChatMode,
+  ParsedAiResponse,
+  ChatMessage,
+  ChatState,
+  RespondRequestBody,
 } from '@/types/question.types';

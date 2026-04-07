@@ -1,6 +1,8 @@
 /**
  * @file components/layout/RoleSelector.tsx
- * @description 역할 선택 카드 — 교사/학생 선택 → 데모 유저 생성 → 라우팅
+ * @description 역할 선택 카드 — Stitch 에디토리얼 스타일
+ *   - gap-px 구분선, hover progress bar, "→" 화살표
+ *   - 교사/학생 선택 → 데모 유저 생성 → 라우팅
  * @domain shared
  * @access client
  */
@@ -9,24 +11,35 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { BookOpen, GraduationCap } from 'lucide-react';
 import { toast } from 'sonner';
-import { Card, CardContent } from '@/components/ui/card';
 import { useRole } from '@/components/layout/RoleProvider';
 import type { UserRole, ApiResponse, User } from '@/types';
 
-const ROLES: { role: UserRole; label: string; description: string; icon: typeof BookOpen }[] = [
+const ROLES: {
+  role: UserRole;
+  label: string;
+  sublabel: string;
+  description: string;
+  progressStart: string;
+  progressHover: string;
+}[] = [
   {
     role: 'teacher',
-    label: '교사',
-    description: '수업 자료를 올리고 학생 오개념을 확인합니다.',
-    icon: BookOpen,
+    label: '교사로 시작',
+    sublabel: 'For Educators / 교수자용',
+    description:
+      '실시간 오개념 분석 대시보드를 통해\n학생들의 사고 과정을 정밀하게 추적하고\n개별화된 피드백을 제공하세요.',
+    progressStart: 'w-1/3',
+    progressHover: 'group-hover:w-1/2',
   },
   {
     role: 'student',
-    label: '학생',
-    description: '수업 후 막히는 부분을 AI에게 질문합니다.',
-    icon: GraduationCap,
+    label: '학생으로 시작',
+    sublabel: 'For Students / 학습자용',
+    description:
+      'AI 튜터와의 대화를 통해\n단순 암기가 아닌 원리를 탐구하고\n스스로 문제를 해결하는 힘을 기르세요.',
+    progressStart: 'w-1/4',
+    progressHover: 'group-hover:w-2/3',
   },
 ];
 
@@ -63,27 +76,37 @@ export function RoleSelector() {
   }
 
   return (
-    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-      {ROLES.map(({ role, label, description, icon: Icon }) => (
-        <button key={role} onClick={() => handleSelect(role)} disabled={loading !== null}>
-          <Card
-            className={`cursor-pointer transition-colors hover:bg-surface-low ${
-              loading === role ? 'opacity-60' : ''
-            }`}
-          >
-            <CardContent className="flex flex-col items-center gap-3 py-8">
-              <Icon className="h-10 w-10 text-foreground" strokeWidth={1.5} />
-              <span className="text-lg font-semibold">{label}</span>
-              <span className="text-sm text-muted-foreground text-center">
-                {description}
-              </span>
-              {loading === role && (
-                <span className="text-xs text-muted-foreground animate-pulse">
-                  준비 중...
-                </span>
-              )}
-            </CardContent>
-          </Card>
+    <div className="grid md:grid-cols-2 gap-px bg-border border border-border">
+      {ROLES.map(({ role, label, sublabel, description, progressStart, progressHover }, index) => (
+        <button
+          key={role}
+          onClick={() => handleSelect(role)}
+          disabled={loading !== null}
+          className={`bg-background p-12 md:p-20 hover:bg-card transition-colors group cursor-pointer text-left ${
+            loading === role ? 'opacity-60' : ''
+          } ${index === 1 ? 'border-t md:border-t-0 md:border-l border-border' : ''}`}
+          style={{ borderRadius: 0 }}
+        >
+          <div className="mb-12">
+            <span className="text-[10px] font-bold tracking-widest text-muted-foreground uppercase">
+              {sublabel}
+            </span>
+          </div>
+          <h2 className="text-3xl font-bold mb-6">{label} →</h2>
+          <p className="text-muted-foreground leading-relaxed mb-12 whitespace-pre-line">
+            {description}
+          </p>
+          {/* Progress Bar */}
+          <div className="h-1 bg-muted w-full relative">
+            <div
+              className={`absolute left-0 top-0 h-full bg-primary ${progressStart} ${progressHover} transition-all duration-500`}
+            />
+          </div>
+          {loading === role && (
+            <span className="text-xs text-muted-foreground animate-pulse mt-4 block">
+              준비 중...
+            </span>
+          )}
         </button>
       ))}
     </div>

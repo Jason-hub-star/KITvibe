@@ -25,3 +25,14 @@ export interface LessonMaterial {
   embedding: number[] | null;
   created_at: string;
 }
+
+/** 파일 업로드 진행 상태 */
+export type UploadStatus = 'idle' | 'uploading' | 'processing' | 'success' | 'error';
+
+/** 업로드 큐 내 개별 파일 */
+export interface UploadFile {
+  file: File;
+  status: UploadStatus;
+  error?: string;
+  material?: LessonMaterial;
+}
