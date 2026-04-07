@@ -1,14 +1,17 @@
 /**
  * @file app/layout.tsx
- * @description 루트 레이아웃 — Geist 폰트, KaTeX CSS, 메타데이터
+ * @description 루트 레이아웃 — Geist 폰트, KaTeX CSS, RoleProvider, Header
  * @domain shared
- * @access client
+ * @access shared
  */
 
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import "katex/dist/katex.min.css";
+import { RoleProvider } from "@/components/layout/RoleProvider";
+import { Header } from "@/components/layout/Header";
+import { Toaster } from "@/components/ui/sonner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -36,7 +39,13 @@ export default function RootLayout({
       lang="ko"
       className={`${geistSans.variable} ${geistMono.variable} h-full`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        <RoleProvider>
+          <Header />
+          {children}
+          <Toaster />
+        </RoleProvider>
+      </body>
     </html>
   );
 }
