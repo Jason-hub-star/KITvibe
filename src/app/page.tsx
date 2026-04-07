@@ -10,6 +10,7 @@
  * @access client
  */
 
+import Link from 'next/link';
 import { BookOpen, Upload, MessageCircle, BarChart3 } from 'lucide-react';
 import { RoleSelector } from '@/components/layout/RoleSelector';
 import { LandingFooter } from '@/components/layout/LandingFooter';
@@ -43,12 +44,12 @@ export default function Home() {
     <div className="min-h-screen flex flex-col">
       {/* Brand Header */}
       <header className="px-8 md:px-24 pt-8 max-w-7xl mx-auto w-full">
-        <div className="flex items-center gap-3">
+        <Link href="/" className="flex items-center gap-3 w-fit">
           <BookOpen className="size-5 text-primary" strokeWidth={1.5} />
           <span className="text-lg font-bold tracking-widest text-foreground uppercase">
             풀다 AI
           </span>
-        </div>
+        </Link>
       </header>
 
       {/* Hero Section — 토스 스타일: 명확한 가치 제안 */}

@@ -26,7 +26,7 @@ const ROLES: {
   {
     role: 'teacher',
     label: '교사로 시작',
-    sublabel: 'For Educators / 교수자용',
+    sublabel: 'For Educators / 교사용',
     description:
       '실시간 오개념 분석 대시보드를 통해\n학생들의 사고 과정을 정밀하게 추적하고\n개별화된 피드백을 제공하세요.',
     progressStart: 'w-1/3',

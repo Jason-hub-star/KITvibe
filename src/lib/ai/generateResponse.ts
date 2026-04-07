@@ -29,9 +29,11 @@ function buildSystemPrompt(
   currentStep: number,
   consecutiveWrong: number,
   retrievedChunks: string,
+  lessonTitle: string,
 ): string {
   const prompt = PROMPTS.GRILL_ME_TUTOR
-    .replace('{mode}', mode)
+    .replace('{lesson_title}', lessonTitle)
+    .replace(/{mode}/g, mode)
     .replace(/{current_step}/g, String(currentStep))
     .replace('{consecutive_wrong}', String(consecutiveWrong))
     .replace('{retrieved_chunks}', retrievedChunks || '(수업 자료 없음)');
@@ -49,8 +51,17 @@ export async function generateTutoringResponse(params: TutoringParams) {
   // 1. RAG: 수업 자료 검색
   const retrievedChunks = await retrieveContext(lessonId);
 
-  // 2. 시스템 프롬프트 구성
-  const system = buildSystemPrompt(mode, currentStep, consecutiveWrong, retrievedChunks);
+  // 2. 수업 제목 조회
+  const supabase = (await import('@/lib/supabase/admin')).createSupabaseAdmin();
+  const { data: lesson } = await supabase
+    .from('lessons')
+    .select('title')
+    .eq('id', lessonId)
+    .single();
+  const lessonTitle = lesson?.title ?? '수업';
+
+  // 3. 시스템 프롬프트 구성
+  const system = buildSystemPrompt(mode, currentStep, consecutiveWrong, retrievedChunks, lessonTitle);
 
   // 3. streamText 호출
   const result = streamText({

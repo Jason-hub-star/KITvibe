@@ -50,8 +50,8 @@ export default function QuestionChat({ lessonId, lessonTitle, topic }: QuestionC
     <div className="min-h-screen flex flex-col">
       {/* Fixed Header */}
       <header className="fixed top-0 w-full bg-background border-b border-border z-50">
-        <div className="flex justify-between items-center w-full px-4 h-16 max-w-4xl mx-auto">
-          <div className="flex items-center gap-4">
+        <div className="flex justify-between items-center w-full px-3 md:px-4 h-16 max-w-4xl mx-auto gap-3">
+          <div className="flex items-center gap-2 md:gap-4 min-w-0">
             <Link
               href="/student/ask"
               className="p-2 hover:bg-muted transition-colors"
@@ -60,19 +60,19 @@ export default function QuestionChat({ lessonId, lessonTitle, topic }: QuestionC
             >
               <ArrowLeft className="size-5" />
             </Link>
-            <h1 className="text-base font-bold tracking-tight">{lessonTitle}</h1>
+            <h1 className="text-sm md:text-base font-bold tracking-tight truncate">{lessonTitle}</h1>
           </div>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 md:gap-4 shrink-0">
             <Link
               href="/"
-              className="p-2 hover:bg-muted transition-colors"
+              className="hidden sm:inline-flex p-2 hover:bg-muted transition-colors"
              
               aria-label="홈으로 이동"
             >
               <Home className="size-5" />
             </Link>
-            <span className="text-base font-bold tracking-tight text-muted-foreground">
-              질문 {state.currentStep}/4
+            <span className="text-[10px] md:text-xs font-bold tracking-tight text-muted-foreground whitespace-nowrap">
+              {state.currentStep}/4단계
             </span>
           </div>
         </div>
@@ -167,7 +167,7 @@ export default function QuestionChat({ lessonId, lessonTitle, topic }: QuestionC
 
       {/* Fixed Bottom Bar */}
       <nav className="fixed bottom-0 w-full bg-background border-t border-border z-50">
-        <div className="max-w-4xl mx-auto p-4 md:p-6 flex flex-col gap-4">
+        <div className="max-w-4xl mx-auto px-3 py-2 md:p-6 flex flex-col gap-2 md:gap-4">
           <ModeSelector
             mode={state.mode}
             onModeChange={handleModeChange}
