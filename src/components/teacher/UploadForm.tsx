@@ -162,7 +162,7 @@ export default function UploadForm({ teacherId }: UploadFormProps) {
 
       {/* 완료 Alert */}
       {completedLessonId && (
-        <Alert style={{ borderRadius: 0 }}>
+        <Alert>
           <BookOpen className="h-4 w-4" />
           <AlertTitle>지식베이스 생성 완료!</AlertTitle>
           <AlertDescription className="mt-2">
@@ -172,12 +172,12 @@ export default function UploadForm({ teacherId }: UploadFormProps) {
                 size="sm"
                 variant="outline"
                 onClick={() => router.push('/teacher/dashboard')}
-                style={{ borderRadius: 0 }}
+               
               >
                 <LayoutDashboard className="mr-1.5 h-4 w-4" />
                 대시보드 보기
               </Button>
-              <Button size="sm" variant="outline" onClick={handleCopyLink} style={{ borderRadius: 0 }}>
+              <Button size="sm" variant="outline" onClick={handleCopyLink}>
                 <Link2 className="mr-1.5 h-4 w-4" />
                 링크 복사
               </Button>
@@ -188,10 +188,11 @@ export default function UploadForm({ teacherId }: UploadFormProps) {
 
       {/* 제목 입력 — Stitch underline 스타일 */}
       <div className="space-y-2">
-        <label className="block text-[10px] font-bold tracking-widest uppercase text-muted-foreground">
+        <label htmlFor="lesson-title" className="block text-[10px] font-bold tracking-widest uppercase text-muted-foreground">
           제목
         </label>
         <input
+          id="lesson-title"
           type="text"
           placeholder="예: 이차방정식의 근의 공식"
           value={title}
@@ -203,10 +204,11 @@ export default function UploadForm({ teacherId }: UploadFormProps) {
 
       {/* 주제 입력 — Stitch underline 스타일 */}
       <div className="space-y-2">
-        <label className="block text-[10px] font-bold tracking-widest uppercase text-muted-foreground">
+        <label htmlFor="lesson-topic" className="block text-[10px] font-bold tracking-widest uppercase text-muted-foreground">
           주제
         </label>
         <input
+          id="lesson-topic"
           type="text"
           placeholder="예: 근의 공식, 판별식"
           value={topic}
@@ -229,7 +231,7 @@ export default function UploadForm({ teacherId }: UploadFormProps) {
                 ? 'border-primary bg-primary/5'
                 : 'border-border hover:bg-muted'
             }`}
-            style={{ borderRadius: 0 }}
+           
           >
             <input {...getInputProps()} />
             <Upload className="size-6 text-muted-foreground" />
@@ -262,7 +264,7 @@ export default function UploadForm({ teacherId }: UploadFormProps) {
                       uploadFile.status === 'uploading' || uploadFile.status === 'processing'
                         ? 'animate-pulse bg-muted-foreground/20'
                         : ''
-                    }`} style={{ borderRadius: 0 }} />
+                    }`} />
                   )}
                   <span className="text-sm font-bold text-foreground">
                     {uploadFile.file.name}
@@ -303,7 +305,7 @@ export default function UploadForm({ teacherId }: UploadFormProps) {
             onClick={handleSubmit}
             disabled={!canSubmit}
             className="w-full bg-primary text-primary-foreground font-bold py-6 px-8 tracking-widest hover:opacity-90 active:scale-[0.98] transition-all duration-75 disabled:opacity-50 disabled:cursor-not-allowed"
-            style={{ borderRadius: 0 }}
+           
           >
             {isSubmitting ? '처리 중...' : '지식베이스 생성하기'}
           </button>

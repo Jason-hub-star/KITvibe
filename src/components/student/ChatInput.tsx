@@ -62,15 +62,15 @@ export default function ChatInput({ onSend, disabled = false }: ChatInputProps) 
           disabled={disabled}
           placeholder="이곳에 답변을 입력하세요..."
           rows={1}
-          className="w-full bg-white border border-border p-4 text-foreground focus:ring-0 focus:border-primary focus:outline-none resize-none min-h-[56px] placeholder:text-muted-foreground text-base disabled:opacity-50"
-          style={{ borderRadius: 0 }}
+          className="w-full bg-background border border-border p-4 text-foreground focus:ring-0 focus:border-primary focus:outline-none resize-none min-h-[56px] placeholder:text-muted-foreground text-base disabled:opacity-50"
+         
         />
       </div>
       <button
         onClick={handleSend}
         disabled={disabled || !value.trim()}
         className="bg-primary text-primary-foreground h-14 w-14 flex items-center justify-center transition-all active:scale-95 disabled:opacity-50"
-        style={{ borderRadius: 0 }}
+       
         aria-label="전송"
       >
         <Send className="size-5" />

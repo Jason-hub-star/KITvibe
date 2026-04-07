@@ -66,7 +66,7 @@ export default async function StudentAskPage({ searchParams }: PageProps) {
           <Link
             href="/"
             className="p-2 hover:bg-muted transition-colors"
-            style={{ borderRadius: 0 }}
+           
           >
             <ArrowLeft className="size-5" />
           </Link>
@@ -93,8 +93,8 @@ export default async function StudentAskPage({ searchParams }: PageProps) {
                 <Link
                   key={lesson.id}
                   href={`/student/ask?lesson=${lesson.id}`}
-                  className="bg-card border border-border p-8 hover:bg-muted transition-colors group"
-                  style={{ borderRadius: 0 }}
+                  className="bg-card border border-border p-4 md:p-8 hover:bg-muted transition-colors group"
+                 
                 >
                   <div className="flex justify-between items-start">
                     <div>

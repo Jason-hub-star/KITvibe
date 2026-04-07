@@ -22,12 +22,13 @@ export function LandingFooter() {
         </div>
         <div className="flex gap-8">
           {FOOTER_LINKS.map((link) => (
-            <span
+            <button
               key={link}
+              type="button"
               className="text-[10px] font-bold tracking-widest text-muted-foreground hover:text-foreground underline underline-offset-4 transition-all duration-200 cursor-pointer uppercase"
             >
               {link}
-            </span>
+            </button>
           ))}
         </div>
       </div>

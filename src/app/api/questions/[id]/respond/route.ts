@@ -59,6 +59,7 @@ export async function POST(
           response_type: mode === 'quick-me' ? 'explanation' : 'hint',
           response_text: fullText,
           grounded_flag: parsed.grounded,
+          misconception_type: parsed.misconceptionType ?? null,
         });
       } catch (err) {
         console.error('[POST /api/questions/[id]/respond] DB 저장 실패', err);

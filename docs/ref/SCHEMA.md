@@ -67,6 +67,7 @@ users ─┬─< lessons ─┬─< lesson_materials
 | response_type | enum('hint','explanation','feedback','similar','quiz','summary') | |
 | response_text | text | AI 응답 본문 |
 | grounded_flag | boolean | 수업 자료 근거 여부 |
+| misconception_type | smallint | nullable, 1~5 오개념 유형 |
 | created_at | timestamp | |
 
 ### misconception_summaries
@@ -79,6 +80,10 @@ users ─┬─< lessons ─┬─< lesson_materials
 | frequency | integer | 질문 빈도 |
 | summary_text | text | AI 요약 |
 | created_at | timestamp | |
+
+## 제약
+
+- `misconception_summaries (lesson_id, concept_name)` unique — 같은 수업/개념 조합은 UPSERT
 
 ## 제외 테이블
 

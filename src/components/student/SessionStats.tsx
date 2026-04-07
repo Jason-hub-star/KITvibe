@@ -1,14 +1,11 @@
 /**
  * @file components/student/SessionStats.tsx
- * @description 학습 통계 Bento Grid — Stitch 간소화 버전
- *   - 학습 개념 + 진행 상태 2열
+ * @description 학습 진행 요약 — 간결한 인라인 표시
  * @domain question
  * @access client
  */
 
 'use client';
-
-import { GraduationCap, TrendingUp } from 'lucide-react';
 
 interface SessionStatsProps {
   topic: string;
@@ -16,44 +13,29 @@ interface SessionStatsProps {
 }
 
 export default function SessionStats({ topic, currentStep }: SessionStatsProps) {
-  return (
-    <section className="grid grid-cols-1 md:grid-cols-2 gap-4">
-      {/* 학습 개념 */}
-      <div
-        className="bg-muted border border-border p-8 flex flex-col justify-between"
-        style={{ borderRadius: 0 }}
-      >
-        <div>
-          <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
-            학습 개념
-          </label>
-          <h3 className="text-2xl font-bold mt-2 text-foreground">{topic}</h3>
-        </div>
-        <div className="mt-8">
-          <GraduationCap className="size-10 text-primary" />
-        </div>
-      </div>
+  const messages = [
+    '좋아요, 한 걸음 더 나아갔어요!',
+    '거의 다 왔어요, 조금만 더!',
+    '마지막 질문이에요, 화이팅!',
+    '대단해요! 모든 단계를 완료했어요!',
+  ];
+  const msg = messages[Math.min(currentStep - 1, messages.length - 1)];
 
-      {/* 진행 상태 */}
-      <div
-        className="bg-muted border border-border p-8 flex flex-col justify-between"
-        style={{ borderRadius: 0 }}
-      >
-        <div>
-          <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
-            진행 상태
-          </label>
-          <div className="flex items-baseline gap-1 mt-2">
-            <span className="text-6xl font-extrabold tracking-tighter text-primary">
-              {currentStep}
-            </span>
-            <span className="text-2xl font-bold text-primary">/ 4</span>
-          </div>
-        </div>
-        <div className="mt-8 flex justify-end">
-          <TrendingUp className="size-10 text-primary" />
-        </div>
+  return (
+    <div className="flex items-center gap-4 px-4 py-3 bg-muted border border-border">
+      <div className="flex gap-1">
+        {[1, 2, 3, 4].map((step) => (
+          <div
+            key={step}
+            className={`h-1.5 w-8 transition-colors ${
+              step <= currentStep ? 'bg-primary' : 'bg-border'
+            }`}
+          />
+        ))}
       </div>
-    </section>
+      <span className="text-xs text-muted-foreground">
+        {topic} · {msg}
+      </span>
+    </div>
   );
 }

@@ -26,7 +26,7 @@ function generateId(): string {
   return `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
 }
 
-export function useQuestionChat(lessonId: string, lessonTitle: string) {
+export function useQuestionChat(lessonId: string, lessonTitle: string, studentId: string) {
   const [state, setState] = useState<ChatState>({
     messages: [],
     mode: 'grill-me',
@@ -35,30 +35,19 @@ export function useQuestionChat(lessonId: string, lessonTitle: string) {
     isStreaming: false,
     lessonTitle,
     lessonId,
-    studentId: '',
+    studentId,
   });
 
   const [modeAlert, setModeAlert] = useState<ModeAlert>(INITIAL_MODE_ALERT);
   const abortRef = useRef<AbortController | null>(null);
-
-  // localStorage에서 student_id 읽기
-  const getStudentId = useCallback((): string => {
-    if (state.studentId) return state.studentId;
-    if (typeof window === 'undefined') return '';
-    const id = localStorage.getItem('pulda_user_id') ?? '';
-    if (id) {
-      setState((prev) => ({ ...prev, studentId: id }));
-    }
-    return id;
-  }, [state.studentId]);
+  const modeAlertTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const sendMessage = useCallback(
     async (text: string) => {
       const trimmed = text.trim();
       if (!trimmed || state.isStreaming) return;
 
-      const studentId = getStudentId();
-      if (!studentId) {
+      if (!state.studentId) {
         console.error('[useQuestionChat] student_id 없음');
         return;
       }
@@ -97,7 +86,7 @@ export function useQuestionChat(lessonId: string, lessonTitle: string) {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             lesson_id: lessonId,
-            student_id: studentId,
+            student_id: state.studentId,
             question_text: trimmed,
           }),
         });
@@ -172,8 +161,9 @@ export function useQuestionChat(lessonId: string, lessonTitle: string) {
               from: prev.mode,
               to: parsed.modeSwitch,
             });
-            // 3초 후 Alert 숨기기
-            setTimeout(() => setModeAlert(INITIAL_MODE_ALERT), 3000);
+            // 3초 후 Alert 숨기기 (이전 타이머 정리)
+            if (modeAlertTimerRef.current) clearTimeout(modeAlertTimerRef.current);
+            modeAlertTimerRef.current = setTimeout(() => setModeAlert(INITIAL_MODE_ALERT), 3000);
             newMode = parsed.modeSwitch;
           }
 
@@ -219,7 +209,7 @@ export function useQuestionChat(lessonId: string, lessonTitle: string) {
         }));
       }
     },
-    [state, lessonId, getStudentId],
+    [state, lessonId],
   );
 
   const handleModeChange = useCallback((mode: ChatMode) => {

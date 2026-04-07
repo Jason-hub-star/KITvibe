@@ -25,6 +25,7 @@ export interface AiResponse {
   response_type: ResponseType;
   response_text: string;
   grounded_flag: boolean;
+  misconception_type: number | null;
   created_at: string;
 }
 
@@ -35,6 +36,46 @@ export interface MisconceptionSummary {
   frequency: number;
   summary_text: string;
   created_at: string;
+}
+
+// --- D-3 대시보드 타입 ---
+
+/** 대시보드 통계 */
+export interface DashboardStats {
+  totalQuestions: number;
+  activeStudents: number;
+  recoveryRate: number;
+}
+
+/** 오개념 히트맵 항목 */
+export interface MisconceptionHeatmapItem {
+  conceptName: string;
+  percentage: number;
+  count: number;
+}
+
+/** TOP 5 질문 */
+export interface TopQuestion {
+  questionText: string;
+  count: number;
+}
+
+/** 질문 로그 행 */
+export interface QuestionLogRow {
+  studentName: string;
+  questionText: string;
+  intentType: string;
+  createdAt: string;
+}
+
+/** 대시보드 전체 데이터 */
+export interface DashboardData {
+  lesson: { id: string; title: string; topic: string | null; created_at: string };
+  stats: DashboardStats;
+  heatmap: MisconceptionHeatmapItem[];
+  topQuestions: TopQuestion[];
+  questionLog: QuestionLogRow[];
+  misconceptionSummaries: MisconceptionSummary[];
 }
 
 // --- D-4 추가 타입 ---

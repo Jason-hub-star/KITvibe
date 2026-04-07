@@ -64,7 +64,7 @@
   --border: #c6c6c6;
   --input: #777777;
   --ring: #000000;
-  --radius: 0.125rem;
+  --radius: 0rem;
 
   /* Stitch 표면 계층 */
   --surface-low: #f4f3f1;

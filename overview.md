@@ -260,7 +260,7 @@ Matt Pocock grill-me 패턴 + socratic-review 하네스를 학습에 적용.
 5. 교사용 로그 요약 제공
 6. 근거 부족 시 명시
 7. 출처/근거 항상 표시 (📚 수업자료 근거)
-8. 감사 로그 기본값
+8. 감사 로그는 v2에서 도입 (MVP 미구현)
 
 ---
 
@@ -284,6 +284,7 @@ users ─┬─< lessons ─┬─< lesson_materials
 | id | uuid PK | |
 | role | enum('teacher','student') | |
 | name | text | |
+| created_at | timestamp | |
 
 **lessons**
 | 컬럼 | 타입 | 설명 |
@@ -306,6 +307,7 @@ users ─┬─< lessons ─┬─< lesson_materials
 | chunk_text | text | nullable — v2 청킹용 |
 | chunk_index | integer | default 0 — v2 청킹 순서 |
 | embedding | vector(1536) | nullable — v2 벡터검색 (pgvector) |
+| created_at | timestamp | |
 
 **student_questions**
 | 컬럼 | 타입 | 설명 |
@@ -326,6 +328,8 @@ users ─┬─< lessons ─┬─< lesson_materials
 | response_type | enum('hint','explanation','feedback','similar','quiz','summary') | |
 | response_text | text | |
 | grounded_flag | boolean | 자료 근거 여부 |
+| misconception_type | smallint | nullable — 1~5 오개념 유형 |
+| created_at | timestamp | |
 
 **misconception_summaries**
 | 컬럼 | 타입 | 설명 |
@@ -335,6 +339,10 @@ users ─┬─< lessons ─┬─< lesson_materials
 | concept_name | text | |
 | frequency | integer | |
 | summary_text | text | |
+| created_at | timestamp | |
+
+**제약**
+- `misconception_summaries (lesson_id, concept_name)` unique — 같은 수업/개념 조합은 UPSERT
 
 ### E-3. 제외 테이블
 
@@ -415,7 +423,7 @@ billing, organization, classroom_membership, guardian, notification, audit_log (
 | P-003 | `/student/ask` | `/api/questions` | POST |
 | P-003 | `/student/ask` | `/api/questions/[id]/respond` | POST |
 | P-004 | `/teacher/dashboard` | `/api/lessons/[id]/dashboard` | GET |
-| P-004 | `/teacher/dashboard` | `/api/lessons/[id]/misconceptions` | GET |
+| P-004 | `/teacher/dashboard` | `/api/lessons/[id]/misconceptions` | POST |
 | P-005 | `/student/summary` | `/api/sessions/[id]/summary` | GET |
 
 ---
@@ -631,13 +639,13 @@ billing, organization, classroom_membership, guardian, notification, audit_log (
 | 미성년 데이터 | 보호자 동의 프로세스 문서화 | 학교 단위 동의 체계 |
 | 국외 이전 | Gemma 4 로컬 옵션 제공 | 국내 클라우드 (네이버/카카오) 옵션 |
 | 보관 기간 | 학기 종료 시 자동 삭제 | 교사가 보관 기간 설정 |
-| 접근 권한 | 교사만 대시보드 접근 | RBAC 역할 기반 접근 |
+| 접근 권한 | 역할 선택 기반 UI 가드 (데모용, 보안 경계 아님) | RBAC 역할 기반 접근 |
 
 ### M-4. 실행 권고 (8개 페르소나 분석 기반)
 
 1. MVP 첫 화면 **"수업 시작까지 30초"** (로그인 최소화, 교사 일괄 제어)
 2. 학생 기능은 **'답변'보다 '질문 생성·진단' 우선**
-3. **교사 통제권 = 제품 핵심 가치** (근거/출처/승인/감사 로그 기본값)
+3. **교사 통제권 = 제품 핵심 가치** (근거/출처/승인 중심, 감사 로그는 v2)
 4. **개인정보 = MVP 선행 조건** (수집 최소화, 데모 단계부터 준수)
 5. 환각 방어: **출처 제시 + 교사 검토 + 오류 신고 루프**
 6. **적응적 모드 전환**: 기본 Grill-Me → 3회 오답 시 Guide-Me → 긴급 시 Quick-Me

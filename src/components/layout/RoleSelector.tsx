@@ -85,7 +85,7 @@ export function RoleSelector() {
           className={`bg-background p-12 md:p-20 hover:bg-card transition-colors group cursor-pointer text-left ${
             loading === role ? 'opacity-60' : ''
           } ${index === 1 ? 'border-t md:border-t-0 md:border-l border-border' : ''}`}
-          style={{ borderRadius: 0 }}
+         
         >
           <div className="mb-12">
             <span className="text-[10px] font-bold tracking-widest text-muted-foreground uppercase">

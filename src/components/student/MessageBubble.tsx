@@ -40,7 +40,7 @@ export default function MessageBubble({ message }: MessageBubbleProps) {
         </label>
         <div
           className="bg-primary text-primary-foreground p-8 w-full text-right"
-          style={{ borderRadius: 0 }}
+         
         >
           <p className="text-lg leading-relaxed font-medium">{message.content}</p>
         </div>
@@ -56,7 +56,7 @@ export default function MessageBubble({ message }: MessageBubbleProps) {
       </label>
       <div
         className="bg-card border border-border p-8 w-full"
-        style={{ borderRadius: 0 }}
+       
       >
         {/* 단계 배지 */}
         {message.step && (
@@ -75,7 +75,7 @@ export default function MessageBubble({ message }: MessageBubbleProps) {
               pre: ({ children }) => (
                 <div
                   className="bg-muted border border-border p-6 flex justify-center items-center my-4 not-prose"
-                  style={{ borderRadius: 0 }}
+                 
                 >
                   {children}
                 </div>
@@ -86,11 +86,11 @@ export default function MessageBubble({ message }: MessageBubbleProps) {
           </ReactMarkdown>
         </div>
 
-        {/* 근거 Badge */}
-        {message.grounded !== undefined && (
+        {/* 근거 Badge — 수업자료 기반 응답일 때만 표시 */}
+        {message.grounded && (
           <div className="mt-4">
             <Badge variant="secondary" className="rounded-none">
-              {message.grounded ? '📚 수업자료 근거' : '⚠️ 자료 미확인'}
+              📚 수업자료에서 찾았어요
             </Badge>
           </div>
         )}
@@ -100,7 +100,7 @@ export default function MessageBubble({ message }: MessageBubbleProps) {
           <Collapsible open={recOpen} onOpenChange={setRecOpen} className="mt-4">
             <CollapsibleTrigger className="flex items-center gap-2 group cursor-pointer">
               <span className="text-[10px] font-bold uppercase tracking-widest text-primary group-hover:underline">
-                추천 보기
+                💡 힌트 보기
               </span>
               {recOpen ? (
                 <ChevronUp className="size-3.5 text-primary" />
@@ -108,7 +108,7 @@ export default function MessageBubble({ message }: MessageBubbleProps) {
                 <ChevronDown className="size-3.5 text-primary" />
               )}
             </CollapsibleTrigger>
-            <CollapsibleContent className="mt-3 p-4 bg-muted border border-border" style={{ borderRadius: 0 }}>
+            <CollapsibleContent className="mt-3 p-4 bg-muted border border-border">
               <p className="text-base text-foreground leading-relaxed">
                 {message.recommendation}
               </p>
