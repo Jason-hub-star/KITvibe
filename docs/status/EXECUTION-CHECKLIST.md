@@ -52,11 +52,11 @@
 
 ## Phase 3. 세션 모델 도입
 
-- [ ] `sessions` 테이블 추가
-- [ ] `student_questions.session_id` 추가
-- [ ] 타입 / SSOT / 상태 문서 동기화
-- [ ] self-review 기록
-- [ ] 검증
+- [x] `sessions` 테이블 추가
+- [x] `student_questions.session_id` 추가
+- [x] 타입 / SSOT / 상태 문서 동기화
+- [x] self-review 기록
+- [x] 검증
 - [ ] commit
 
 ## Phase 4. 학생 이미지 질문
@@ -100,3 +100,9 @@
 - 기존 migration 파일은 있었지만 원격에는 실제 적용되지 않은 상태였고, 이 불일치가 API 저장 경로를 흔들고 있었음을 확인
 - 새 migration 파일을 늘리기보다 기존 migration을 `IF NOT EXISTS`로 보정해 재실행 안전성을 확보함
 - transaction pooler SQL과 `rest/v1` 응답 둘 다에서 `misconception_type`가 노출되는지 확인해 앱 경로 기준 정합성까지 닫음
+
+### Phase 3
+
+- 세션을 붙이기 전 `useQuestionChat`가 `studentId`를 초기값으로만 보유한다는 점을 발견했고, hydration 이후 값이 늦게 들어와도 동기화되도록 보정함
+- 세션 생성 실패 시 재시도가 막히는 ref 잠금 이슈를 커밋 전에 수정함
+- 로컬 migration, 원격 SQL, OpenAPI 노출, Next.js build 라우트에서 모두 `sessions` 경로가 보이는지 확인해 FE/BE/DB 정합성을 맞춤

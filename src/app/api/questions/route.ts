@@ -18,10 +18,13 @@ interface QuestionResponseData {
   confidence: number;
 }
 
+const QUESTION_SELECT =
+  'id, lesson_id, student_id, session_id, question_text, image_url, intent_type, created_at';
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { lesson_id, student_id, question_text, image_url } = body;
+    const { lesson_id, student_id, session_id, question_text, image_url } = body;
 
     // 검증
     if (!lesson_id || !student_id || !question_text) {
@@ -43,11 +46,12 @@ export async function POST(request: NextRequest) {
       .insert({
         lesson_id,
         student_id,
+        session_id: session_id || null,
         question_text,
         image_url: image_url || null,
         intent_type: intent,
       })
-      .select()
+      .select(QUESTION_SELECT)
       .single();
 
     if (error) {

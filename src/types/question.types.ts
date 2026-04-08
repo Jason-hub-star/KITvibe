@@ -13,6 +13,7 @@ export interface StudentQuestion {
   id: string;
   lesson_id: string;
   student_id: string;
+  session_id: string | null;
   question_text: string;
   image_url: string | null;
   intent_type: IntentType | null;
@@ -110,6 +111,7 @@ export interface ChatState {
   mode: ChatMode;
   currentStep: number;
   consecutiveWrong: number;
+  sessionId: string | null;
   isStreaming: boolean;
   lessonTitle: string;
   lessonId: string;

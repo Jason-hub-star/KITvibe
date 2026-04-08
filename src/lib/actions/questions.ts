@@ -12,6 +12,12 @@
 import { createSupabaseAdmin } from '@/lib/supabase/admin';
 import type { AiResponse, ResponseType, StudentQuestion } from '@/types';
 
+const AI_RESPONSE_SELECT =
+  'id, question_id, response_type, response_text, grounded_flag, misconception_type, created_at';
+
+const QUESTION_SELECT =
+  'id, lesson_id, student_id, session_id, question_text, image_url, intent_type, created_at';
+
 /** ai_responses 테이블에 저장 */
 export async function saveAiResponse(data: {
   question_id: string;
@@ -24,7 +30,7 @@ export async function saveAiResponse(data: {
   const { data: inserted, error } = await supabase
     .from('ai_responses')
     .insert(data)
-    .select()
+    .select(AI_RESPONSE_SELECT)
     .single();
 
   if (error) {
@@ -42,7 +48,7 @@ export async function getQuestionsByLesson(
 
   const { data, error } = await supabase
     .from('student_questions')
-    .select()
+    .select(QUESTION_SELECT)
     .eq('lesson_id', lessonId)
     .order('created_at', { ascending: true });
 

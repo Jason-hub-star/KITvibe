@@ -10,7 +10,7 @@
 
 'use client';
 
-import { useState, useCallback, useRef } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import type { ChatMessage, ChatMode, ChatState } from '@/types/question.types';
 import { parseAiResponse } from '@/utils/parseAiTags';
 
@@ -32,6 +32,7 @@ export function useQuestionChat(lessonId: string, lessonTitle: string, studentId
     mode: 'grill-me',
     currentStep: 1,
     consecutiveWrong: 0,
+    sessionId: null,
     isStreaming: false,
     lessonTitle,
     lessonId,
@@ -41,6 +42,57 @@ export function useQuestionChat(lessonId: string, lessonTitle: string, studentId
   const [modeAlert, setModeAlert] = useState<ModeAlert>(INITIAL_MODE_ALERT);
   const abortRef = useRef<AbortController | null>(null);
   const modeAlertTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const sessionBootstrapRef = useRef<string | null>(null);
+
+  useEffect(() => {
+    if (!studentId || studentId === state.studentId) return;
+    setState((prev) => ({ ...prev, studentId }));
+  }, [studentId, state.studentId]);
+
+  useEffect(() => {
+    if (!lessonId || !studentId) return;
+
+    const sessionKey = `${lessonId}:${studentId}`;
+    if (sessionBootstrapRef.current === sessionKey) return;
+
+    sessionBootstrapRef.current = sessionKey;
+    let cancelled = false;
+
+    async function bootstrapSession() {
+      try {
+        const response = await fetch('/api/sessions', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            lesson_id: lessonId,
+            student_id: studentId,
+          }),
+        });
+
+        const data = await response.json();
+        if (!data.success) {
+          throw new Error(data.error || '세션 생성 실패');
+        }
+
+        if (!cancelled) {
+          setState((prev) => ({
+            ...prev,
+            sessionId: data.data.session.id,
+            studentId,
+          }));
+        }
+      } catch (err) {
+        sessionBootstrapRef.current = null;
+        console.error('[useQuestionChat] session bootstrap 실패:', err);
+      }
+    }
+
+    void bootstrapSession();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [lessonId, studentId]);
 
   const sendMessage = useCallback(
     async (text: string) => {
@@ -87,6 +139,7 @@ export function useQuestionChat(lessonId: string, lessonTitle: string, studentId
           body: JSON.stringify({
             lesson_id: lessonId,
             student_id: state.studentId,
+            session_id: state.sessionId,
             question_text: trimmed,
           }),
         });

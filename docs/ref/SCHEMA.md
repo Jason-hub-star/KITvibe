@@ -6,8 +6,9 @@
 
 ```
 users ─┬─< lessons ─┬─< lesson_materials
-       │            ├─< student_questions ─< ai_responses
-       │            └─< misconception_summaries
+       │            ├─< misconception_summaries
+       │            └─< sessions ─< student_questions ─< ai_responses
+       ├─< sessions
        └─< student_questions
 ```
 
@@ -33,6 +34,24 @@ users ─┬─< lessons ─┬─< lesson_materials
 | topic | text | 핵심 개념/주제 |
 | created_at | timestamp | |
 
+### sessions
+
+| 컬럼 | 타입 | 설명 |
+|------|------|------|
+| id | uuid PK | |
+| lesson_id | uuid FK→lessons | |
+| student_id | uuid FK→users | |
+| current_mode | enum('grill-me','guide-me','quick-me') | 기본값 'grill-me' |
+| current_step | integer | 기본값 1 |
+| consecutive_wrong | integer | 기본값 0 |
+| quiz_question | text | nullable |
+| quiz_answer | text | nullable |
+| quiz_passed | boolean | nullable |
+| summary_text | text | nullable |
+| next_recommendation | text | nullable |
+| started_at | timestamp | |
+| ended_at | timestamp | nullable |
+
 ### lesson_materials
 
 | 컬럼 | 타입 | 설명 |
@@ -53,6 +72,7 @@ users ─┬─< lessons ─┬─< lesson_materials
 | id | uuid PK | |
 | lesson_id | uuid FK→lessons | |
 | student_id | uuid FK→users | |
+| session_id | uuid FK→sessions | nullable, 현재 학습 세션 |
 | question_text | text | 질문 본문 |
 | image_url | text | nullable, 이미지 URL |
 | intent_type | enum('concept','hint','review','similar') | AI 분류 결과 |
@@ -83,6 +103,8 @@ users ─┬─< lessons ─┬─< lesson_materials
 
 ## 제약
 
+- `sessions.current_step` 1~4 범위 유지
+- `sessions.consecutive_wrong` 0 이상
 - `misconception_summaries (lesson_id, concept_name)` unique — 같은 수업/개념 조합은 UPSERT
 
 ## 제외 테이블

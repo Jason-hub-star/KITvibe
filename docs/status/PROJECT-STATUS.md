@@ -10,9 +10,9 @@
 
 실제 원격 Supabase `public` 스키마를 `rest/v1` OpenAPI와 transaction pooler SQL 조회로 재확인했다.
 
-- 원격 public 테이블: `users`, `lessons`, `lesson_materials`, `student_questions`, `ai_responses`, `misconception_summaries`
+- 원격 public 테이블: `users`, `lessons`, `lesson_materials`, `sessions`, `student_questions`, `ai_responses`, `misconception_summaries`
 - 원격 public RPC: `match_chunks`, `rls_auto_enable`
-- 원격 DB에는 아직 `sessions` 테이블이 없다
+- 원격 DB의 `sessions` 테이블은 2026-04-08 반영 완료
 - 원격 DB의 `ai_responses.misconception_type`는 2026-04-08 반영 완료
 - 원격 Storage bucket은 현재 `lesson-files`만 있다
 - 원격 RLS는 켜져 있지만, 현재 확인된 policy는 `anon SELECT`만이다

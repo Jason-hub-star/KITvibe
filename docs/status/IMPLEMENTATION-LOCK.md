@@ -95,15 +95,16 @@
 
 ### 확인된 사실
 
-- `sessions` 테이블이 없다
+- `sessions` 테이블은 2026-04-08 반영 완료
 - `session_summaries`, `quiz_attempts` 같은 세션 전용 테이블도 없다
 - `student_questions.image_url`는 이미 존재한다
+- `student_questions.session_id`는 2026-04-08 반영 완료
 - `ai_responses.response_type` enum에는 이미 `'quiz'`, `'summary'`가 포함돼 있다
 - 원격 `ai_responses.misconception_type`는 2026-04-08 transaction pooler SQL로 반영 완료
-- 원격 RLS는 6개 테이블 모두 enable 되어 있다
+- 원격 RLS는 7개 테이블 모두 enable 되어 있다
 - 원격 public policy는 현재 `anon SELECT`만 확인되며, 로컬 migration에 있는 `anon INSERT` 정책은 보이지 않는다
 - 원격 Storage bucket은 현재 `lesson-files`만 존재한다
-- 현재 남은 핵심 구조 갭은 `sessions` 부재다
+- 현재 남은 핵심 구조 갭은 `question-images` bucket, 세션 summary 라우트, 자동 모드 전환 계약이다
 
 ## 구현 전 잠금 결정
 
@@ -158,6 +159,12 @@
 - 같은 학생이 같은 수업에서 여러 번 질문하면 현재 구조만으로는 "한 번의 학습 세션" 경계를 안정적으로 구분할 수 없다
 - `ai_responses`는 `question_id` 기반이라 세션 요약을 직접 매달기엔 모델이 맞지 않는다
 - `summary_text`와 `quiz_passed`를 `sessions`에 두면 `P-005`와 교사 회복률 집계가 단순해진다
+
+상태:
+
+- 2026-04-08 반영 완료
+- 원격 `sessions` 테이블 생성 확인
+- 원격 `student_questions.session_id` 컬럼 확인
 
 ### 3. 학생 이미지 질문은 기존 `image_url`을 재사용한다
 

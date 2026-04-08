@@ -19,6 +19,7 @@
 | P-001 | `/` | — | static | — |
 | P-002 | `/teacher/upload` | `/api/lessons` | POST | title, subject, topic |
 | P-002 | `/teacher/upload` | `/api/materials/upload` | POST | file (multipart) |
+| P-003 | `/student/ask` | `/api/sessions` | POST | lesson_id, student_id |
 | P-003 | `/student/ask` | `/api/questions` | POST | question_text, image?, lesson_id |
 | P-003 | `/student/ask` | `/api/questions/[id]/respond` | POST | (AI 스트리밍 응답) |
 | P-004 | `/teacher/dashboard` | `/api/lessons/[id]/dashboard` | GET | — |

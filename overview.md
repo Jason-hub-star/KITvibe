@@ -267,12 +267,13 @@ Matt Pocock grill-me 패턴 + socratic-review 하네스를 학습에 적용.
 <!-- @extract-to: SCHEMA.md -->
 ## §E. 데이터 모델
 
-### E-1. 최소 엔티티 (6개)
+### E-1. 최소 엔티티 (7개)
 
 ```
 users ─┬─< lessons ─┬─< lesson_materials
-       │            └─< student_questions ─< ai_responses
-       │            └─< misconception_summaries
+       │            ├─< misconception_summaries
+       │            └─< sessions ─< student_questions ─< ai_responses
+       ├─< sessions
        └─< student_questions
 ```
 
@@ -309,12 +310,30 @@ users ─┬─< lessons ─┬─< lesson_materials
 | embedding | vector(1536) | nullable — v2 벡터검색 (pgvector) |
 | created_at | timestamp | |
 
+**sessions**
+| 컬럼 | 타입 | 설명 |
+|------|------|------|
+| id | uuid PK | |
+| lesson_id | uuid FK→lessons | |
+| student_id | uuid FK→users | |
+| current_mode | enum('grill-me','guide-me','quick-me') | 기본값 'grill-me' |
+| current_step | integer | 기본값 1 |
+| consecutive_wrong | integer | 기본값 0 |
+| quiz_question | text | nullable |
+| quiz_answer | text | nullable |
+| quiz_passed | boolean | nullable |
+| summary_text | text | nullable |
+| next_recommendation | text | nullable |
+| started_at | timestamp | |
+| ended_at | timestamp | nullable |
+
 **student_questions**
 | 컬럼 | 타입 | 설명 |
 |------|------|------|
 | id | uuid PK | |
 | lesson_id | uuid FK→lessons | |
 | student_id | uuid FK→users | |
+| session_id | uuid FK→sessions | nullable |
 | question_text | text | |
 | image_url | text | nullable |
 | intent_type | enum('concept','hint','review','similar') | |
@@ -342,6 +361,8 @@ users ─┬─< lessons ─┬─< lesson_materials
 | created_at | timestamp | |
 
 **제약**
+- `sessions.current_step` 1~4 범위 유지
+- `sessions.consecutive_wrong` 0 이상
 - `misconception_summaries (lesson_id, concept_name)` unique — 같은 수업/개념 조합은 UPSERT
 
 ### E-3. 제외 테이블
@@ -420,6 +441,7 @@ billing, organization, classroom_membership, guardian, notification, audit_log (
 | P-001 | `/` | — | static |
 | P-002 | `/teacher/upload` | `/api/lessons` | POST |
 | P-002 | `/teacher/upload` | `/api/materials/upload` | POST |
+| P-003 | `/student/ask` | `/api/sessions` | POST |
 | P-003 | `/student/ask` | `/api/questions` | POST |
 | P-003 | `/student/ask` | `/api/questions/[id]/respond` | POST |
 | P-004 | `/teacher/dashboard` | `/api/lessons/[id]/dashboard` | GET |
