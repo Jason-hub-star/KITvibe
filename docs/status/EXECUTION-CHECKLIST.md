@@ -40,7 +40,7 @@
 - [x] 구현 잠금 문서화
 - [x] self-review 기록
 - [x] 검증
-- [ ] commit
+- [x] commit
 
 ## Phase 2. Migration 0
 
@@ -48,7 +48,7 @@
 - [x] 반영 후 SQL 재검증
 - [x] self-review 기록
 - [x] 검증
-- [ ] commit
+- [x] commit
 
 ## Phase 3. 세션 모델 도입
 
@@ -57,7 +57,7 @@
 - [x] 타입 / SSOT / 상태 문서 동기화
 - [x] self-review 기록
 - [x] 검증
-- [ ] commit
+- [x] commit
 
 ## Phase 4. 학생 이미지 질문
 
@@ -66,7 +66,7 @@
 - [x] 학생 질문 UI 연결
 - [x] self-review 기록
 - [x] 검증
-- [ ] commit
+- [x] commit
 
 ## Phase 5. 적응형 모드
 
@@ -112,3 +112,4 @@
 - 학생 이미지 질문이 “Storage에만 저장되고 AI는 무시하는 상태”가 되지 않도록, 업로드 경로와 멀티모달 응답 경로를 함께 연결함
 - 이미지 업로드 예외가 `try/catch` 밖으로 빠지는 흐름을 발견하고 커밋 전에 정리함
 - private bucket 저장과 AI 입력 전달을 분리해, DB에는 storage URL을 남기고 AI에는 client-side data URL을 전달하는 구조로 잠금
+- 예시 질문 버튼 시그니처 변경이 Phase 4 본커밋에서 누락된 것을 발견했고, 바로 후속 fix commit으로 정리함
