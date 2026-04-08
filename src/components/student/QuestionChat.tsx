@@ -129,7 +129,7 @@ export default function QuestionChat({ lessonId, lessonTitle, topic }: QuestionC
                 <button
                   key={question}
                   type="button"
-                  onClick={() => sendMessage(question)}
+                  onClick={() => sendMessage({ text: question })}
                   disabled={state.isStreaming}
                   className="text-left px-6 py-4 border border-border bg-background hover:bg-muted transition-colors text-sm text-foreground disabled:opacity-50"
                  
