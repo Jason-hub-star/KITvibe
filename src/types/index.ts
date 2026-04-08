@@ -11,6 +11,7 @@ export type { User } from '@/types/user.types';
 export type { Lesson, LessonMaterial, UploadStatus, UploadFile } from '@/types/lesson.types';
 export type { Session, CreateSessionRequestBody, UpdateSessionRequestBody } from '@/types/session.types';
 export type {
+  AnswerCheck,
   IntentType,
   ResponseType,
   StudentQuestion,

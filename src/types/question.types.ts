@@ -82,12 +82,14 @@ export interface DashboardData {
 // --- D-4 추가 타입 ---
 
 export type ChatMode = 'grill-me' | 'guide-me' | 'quick-me';
+export type AnswerCheck = 'correct' | 'partial' | 'wrong';
 
 /** AI 응답 태그 파싱 결과 */
 export interface ParsedAiResponse {
   content: string;
   recommendation?: string;
   modeSwitch?: ChatMode;
+  answerCheck?: AnswerCheck;
   misconceptionType?: number;
   grounded: boolean;
 }
@@ -100,6 +102,7 @@ export interface ChatMessage {
   imageUrl?: string;
   recommendation?: string;
   grounded?: boolean;
+  answerCheck?: AnswerCheck;
   step?: number;
   mode?: ChatMode;
   misconceptionType?: number;

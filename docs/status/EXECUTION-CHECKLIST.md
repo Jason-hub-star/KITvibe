@@ -70,11 +70,11 @@
 
 ## Phase 5. 적응형 모드
 
-- [ ] `[ANSWER_CHECK]` 태그 계약 반영
-- [ ] `consecutive_wrong` 상태 반영
-- [ ] 3회 오답 자동 전환 / Guide-Me 복귀 구현
-- [ ] self-review 기록
-- [ ] 검증
+- [x] `[ANSWER_CHECK]` 태그 계약 반영
+- [x] `consecutive_wrong` 상태 반영
+- [x] 3회 오답 자동 전환 / Guide-Me 복귀 구현
+- [x] self-review 기록
+- [x] 검증
 - [ ] commit
 
 ## Phase 6. 미니퀴즈 + P-005 요약
@@ -113,3 +113,9 @@
 - 이미지 업로드 예외가 `try/catch` 밖으로 빠지는 흐름을 발견하고 커밋 전에 정리함
 - private bucket 저장과 AI 입력 전달을 분리해, DB에는 storage URL을 남기고 AI에는 client-side data URL을 전달하는 구조로 잠금
 - 예시 질문 버튼 시그니처 변경이 Phase 4 본커밋에서 누락된 것을 발견했고, 바로 후속 fix commit으로 정리함
+
+### Phase 5
+
+- `Quick-Me`는 SSOT상 수동 전환만 허용되므로, 기존 프롬프트의 자동 `quick-me` 전환 규칙을 제거함
+- `ANSWER_CHECK`가 없으면 3회 오답 판정이 성립하지 않아서, 프롬프트와 파서와 클라이언트 상태를 한 번에 연결함
+- 세션 상태(`current_mode`, `current_step`, `consecutive_wrong`)를 응답 후마다 서버에 동기화해, 이후 요약 페이지의 기반 데이터를 먼저 고정함

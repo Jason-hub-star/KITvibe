@@ -16,8 +16,9 @@
 - 원격 DB의 `ai_responses.misconception_type`는 2026-04-08 반영 완료
 - 원격 Storage bucket은 현재 `lesson-files`, `question-images`가 있다
 - 원격 RLS는 켜져 있지만, 현재 확인된 policy는 `anon SELECT`만이다
-- 따라서 `P-005 결과/요약`, `학생 이미지 질문`, `미니퀴즈`, `3회 오답 자동 전환` 구현 전
-  세션 모델과 스키마 정합성을 먼저 잠가야 한다
+- 적응형 모드 전환은 `[ANSWER_CHECK]` 기반으로 2026-04-08 반영 완료
+- 따라서 현재 남은 핵심 구현은 `미니퀴즈`, `P-005 결과/요약`, `세션 summary API`이며,
+  이들은 이미 잠근 세션 모델과 적응형 모드 계약 위에서 진행한다
 
 상세 잠금 문서: `docs/status/IMPLEMENTATION-LOCK.md`
 

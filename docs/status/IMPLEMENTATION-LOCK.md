@@ -104,7 +104,7 @@
 - 원격 RLS는 7개 테이블 모두 enable 되어 있다
 - 원격 public policy는 현재 `anon SELECT`만 확인되며, 로컬 migration에 있는 `anon INSERT` 정책은 보이지 않는다
 - 원격 Storage bucket은 현재 `lesson-files`, `question-images`가 존재한다
-- 현재 남은 핵심 구조 갭은 세션 summary 라우트와 자동 모드 전환 계약이다
+- 현재 남은 핵심 구조 갭은 세션 summary 라우트와 미니퀴즈 생성/채점 흐름이다
 
 ## 구현 전 잠금 결정
 
@@ -214,6 +214,12 @@
 
 - 세션 상태와 프롬프트 태그가 동시에 맞지 않으면 자동 전환은 재현 불가능하다
 - 이 규칙이 고정돼야 `useQuestionChat`, 응답 파서, 프롬프트, DB 업데이트가 한 방향으로 맞는다
+
+상태:
+
+- 2026-04-08 반영 완료
+- `[ANSWER_CHECK: correct|partial|wrong]` 태그 계약 반영 완료
+- `grill-me -> guide-me`, `guide-me -> grill-me`, `quick-me 수동 유지` 로직 반영 완료
 
 ### 5. 미니퀴즈는 1문항만, 결과는 세션에 남긴다
 

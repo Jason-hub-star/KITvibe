@@ -11,7 +11,7 @@
 'use client';
 
 import { useState, useCallback, useEffect, useRef } from 'react';
-import type { ChatMessage, ChatMode, ChatState } from '@/types/question.types';
+import type { ChatMessage, ChatMode, ChatState, ParsedAiResponse } from '@/types/question.types';
 import { parseAiResponse } from '@/utils/parseAiTags';
 
 interface ModeAlert {
@@ -42,6 +42,49 @@ async function fileToDataUrl(file: File): Promise<string> {
   });
 }
 
+function deriveNextChatState(
+  prev: ChatState,
+  parsed: ParsedAiResponse,
+): Pick<ChatState, 'mode' | 'currentStep' | 'consecutiveWrong'> {
+  let nextMode = prev.mode;
+  let nextStep = prev.currentStep;
+  let nextConsecutiveWrong = prev.consecutiveWrong;
+
+  if (parsed.answerCheck === 'wrong') {
+    nextConsecutiveWrong = prev.consecutiveWrong + 1;
+  } else if (parsed.answerCheck === 'correct') {
+    nextConsecutiveWrong = 0;
+  }
+
+  if (parsed.modeSwitch && parsed.modeSwitch !== 'quick-me' && parsed.modeSwitch !== prev.mode) {
+    nextMode = parsed.modeSwitch;
+  }
+
+  if (
+    prev.mode === 'grill-me' &&
+    parsed.recommendation &&
+    parsed.answerCheck !== 'wrong' &&
+    nextStep < 4
+  ) {
+    nextStep = prev.currentStep + 1;
+  }
+
+  if (
+    prev.mode === 'guide-me' &&
+    parsed.answerCheck === 'correct' &&
+    nextMode === 'grill-me' &&
+    nextStep < 4
+  ) {
+    nextStep = prev.currentStep + 1;
+  }
+
+  return {
+    mode: nextMode,
+    currentStep: nextStep,
+    consecutiveWrong: nextConsecutiveWrong,
+  };
+}
+
 export function useQuestionChat(lessonId: string, lessonTitle: string, studentId: string) {
   const [state, setState] = useState<ChatState>({
     messages: [],
@@ -59,6 +102,27 @@ export function useQuestionChat(lessonId: string, lessonTitle: string, studentId
   const abortRef = useRef<AbortController | null>(null);
   const modeAlertTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const sessionBootstrapRef = useRef<string | null>(null);
+
+  const syncSessionState = useCallback(
+    async (payload: {
+      current_mode?: ChatMode;
+      current_step?: number;
+      consecutive_wrong?: number;
+    }) => {
+      if (!state.sessionId) return;
+
+      try {
+        await fetch(`/api/sessions/${state.sessionId}`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+      } catch (err) {
+        console.error('[useQuestionChat] session sync 실패:', err);
+      }
+    },
+    [state.sessionId],
+  );
 
   useEffect(() => {
     if (!studentId || studentId === state.studentId) return;
@@ -231,7 +295,7 @@ export function useQuestionChat(lessonId: string, lessonTitle: string, studentId
           fullText += chunk;
 
           // assistant 메시지 점진 업데이트 (태그는 실시간 필터링)
-          const displayText = fullText.replace(/\[(?:RECOMMENDATION|MODE_SWITCH|MISCONCEPTION_TYPE|GROUNDED)[^\]]*\](?:\s*추천:\s*"[^"]*")?/g, '').trim();
+          const displayText = fullText.replace(/\[(?:RECOMMENDATION|ANSWER_CHECK|MODE_SWITCH|MISCONCEPTION_TYPE|GROUNDED)[^\]]*\](?:\s*추천:\s*"[^"]*")?/g, '').trim();
           setState((prev) => ({
             ...prev,
             messages: prev.messages.map((m) =>
@@ -242,35 +306,30 @@ export function useQuestionChat(lessonId: string, lessonTitle: string, studentId
 
         // 6. 스트리밍 완료 → 태그 파싱
         const parsed = parseAiResponse(fullText);
+        const nextTutorState = deriveNextChatState(state, parsed);
+
+        if (parsed.modeSwitch && parsed.modeSwitch !== state.mode && parsed.modeSwitch !== 'quick-me') {
+          setModeAlert({
+            show: true,
+            from: state.mode,
+            to: parsed.modeSwitch,
+          });
+          if (modeAlertTimerRef.current) clearTimeout(modeAlertTimerRef.current);
+          modeAlertTimerRef.current = setTimeout(() => setModeAlert(INITIAL_MODE_ALERT), 3000);
+        }
+
+        await syncSessionState({
+          current_mode: nextTutorState.mode,
+          current_step: nextTutorState.currentStep,
+          consecutive_wrong: nextTutorState.consecutiveWrong,
+        });
 
         setState((prev) => {
-          let newMode = prev.mode;
-          let newStep = prev.currentStep;
-          const newConsecutiveWrong = prev.consecutiveWrong;
-
-          // 모드 전환 감지
-          if (parsed.modeSwitch && parsed.modeSwitch !== prev.mode) {
-            setModeAlert({
-              show: true,
-              from: prev.mode,
-              to: parsed.modeSwitch,
-            });
-            // 3초 후 Alert 숨기기 (이전 타이머 정리)
-            if (modeAlertTimerRef.current) clearTimeout(modeAlertTimerRef.current);
-            modeAlertTimerRef.current = setTimeout(() => setModeAlert(INITIAL_MODE_ALERT), 3000);
-            newMode = parsed.modeSwitch;
-          }
-
-          // grill-me 모드에서 단계 진행 (간단한 휴리스틱: 추천이 있으면 다음 단계)
-          if (prev.mode === 'grill-me' && parsed.recommendation && newStep < 4) {
-            newStep = prev.currentStep + 1;
-          }
-
           return {
             ...prev,
-            mode: newMode,
-            currentStep: newStep,
-            consecutiveWrong: newConsecutiveWrong,
+            mode: nextTutorState.mode,
+            currentStep: nextTutorState.currentStep,
+            consecutiveWrong: nextTutorState.consecutiveWrong,
             isStreaming: false,
             messages: prev.messages.map((m) =>
               m.id === assistantId
@@ -279,8 +338,9 @@ export function useQuestionChat(lessonId: string, lessonTitle: string, studentId
                     content: parsed.content,
                     recommendation: parsed.recommendation,
                     grounded: parsed.grounded,
+                    answerCheck: parsed.answerCheck,
                     misconceptionType: parsed.misconceptionType,
-                    mode: newMode,
+                    mode: nextTutorState.mode,
                     step: prev.currentStep,
                   }
                 : m,
@@ -303,12 +363,13 @@ export function useQuestionChat(lessonId: string, lessonTitle: string, studentId
         }));
       }
     },
-    [state, lessonId],
+    [state, lessonId, syncSessionState],
   );
 
   const handleModeChange = useCallback((mode: ChatMode) => {
     setState((prev) => ({ ...prev, mode }));
-  }, []);
+    void syncSessionState({ current_mode: mode });
+  }, [syncSessionState]);
 
   return { state, sendMessage, handleModeChange, modeAlert };
 }

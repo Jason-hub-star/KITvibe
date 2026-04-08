@@ -1,15 +1,16 @@
 /**
  * @file utils/parseAiTags.ts
  * @description AI 응답 텍스트에서 메타 태그를 파싱하여 구조화된 데이터로 변환
- *   - [RECOMMENDATION], [MODE_SWITCH], [MISCONCEPTION_TYPE], [GROUNDED]
+ *   - [RECOMMENDATION], [ANSWER_CHECK], [MODE_SWITCH], [MISCONCEPTION_TYPE], [GROUNDED]
  *   - 순수 함수 — 서버/클라이언트 양쪽에서 사용 가능
  * @domain question
  * @access shared
  */
 
-import type { ParsedAiResponse, ChatMode } from '@/types';
+import type { ParsedAiResponse, ChatMode, AnswerCheck } from '@/types';
 
 const VALID_MODES: ChatMode[] = ['grill-me', 'guide-me', 'quick-me'];
+const VALID_ANSWER_CHECKS: AnswerCheck[] = ['correct', 'partial', 'wrong'];
 
 /**
  * AI 응답 텍스트에서 태그를 추출하고 본문을 정리
@@ -18,6 +19,7 @@ export function parseAiResponse(text: string): ParsedAiResponse {
   let content = text;
   let recommendation: string | undefined;
   let modeSwitch: ChatMode | undefined;
+  let answerCheck: AnswerCheck | undefined;
   let misconceptionType: number | undefined;
   let grounded = false;
 
@@ -26,6 +28,16 @@ export function parseAiResponse(text: string): ParsedAiResponse {
   if (recMatch) {
     recommendation = recMatch[1];
     content = content.replace(recMatch[0], '');
+  }
+
+  // [ANSWER_CHECK: correct|partial|wrong]
+  const answerCheckMatch = content.match(/\[ANSWER_CHECK:\s*(correct|partial|wrong)\]/);
+  if (answerCheckMatch) {
+    const parsed = answerCheckMatch[1] as AnswerCheck;
+    if (VALID_ANSWER_CHECKS.includes(parsed)) {
+      answerCheck = parsed;
+    }
+    content = content.replace(answerCheckMatch[0], '');
   }
 
   // [MODE_SWITCH: guide-me]
@@ -62,6 +74,7 @@ export function parseAiResponse(text: string): ParsedAiResponse {
     content,
     recommendation,
     modeSwitch,
+    answerCheck,
     misconceptionType,
     grounded,
   };
