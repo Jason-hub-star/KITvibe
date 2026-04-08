@@ -44,10 +44,10 @@
 
 ## Phase 2. Migration 0
 
-- [ ] `ai_responses.misconception_type` 원격 정합성 반영
-- [ ] 반영 후 SQL 재검증
-- [ ] self-review 기록
-- [ ] 검증
+- [x] `ai_responses.misconception_type` 원격 정합성 반영
+- [x] 반영 후 SQL 재검증
+- [x] self-review 기록
+- [x] 검증
 - [ ] commit
 
 ## Phase 3. 세션 모델 도입
@@ -94,3 +94,9 @@
 - `overview.md`와 실제 원격 DB를 대조해 `P-005`, 이미지 질문, 3오답 전환을 바로 구현하면 다시 뜯게 되는 구조임을 확인
 - 원격 DB에는 `sessions`가 없고 `ai_responses.misconception_type`도 없어, 문서와 코드 가정이 실제 스키마보다 앞서 나간 상태임을 확인
 - 원격 RLS는 활성화돼 있지만 현재 확인된 정책은 `anon SELECT`만이라, 로컬 migration 문구와 실제 원격 상태가 다름을 기록
+
+### Phase 2
+
+- 기존 migration 파일은 있었지만 원격에는 실제 적용되지 않은 상태였고, 이 불일치가 API 저장 경로를 흔들고 있었음을 확인
+- 새 migration 파일을 늘리기보다 기존 migration을 `IF NOT EXISTS`로 보정해 재실행 안전성을 확보함
+- transaction pooler SQL과 `rest/v1` 응답 둘 다에서 `misconception_type`가 노출되는지 확인해 앱 경로 기준 정합성까지 닫음

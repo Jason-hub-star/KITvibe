@@ -99,11 +99,11 @@
 - `session_summaries`, `quiz_attempts` 같은 세션 전용 테이블도 없다
 - `student_questions.image_url`는 이미 존재한다
 - `ai_responses.response_type` enum에는 이미 `'quiz'`, `'summary'`가 포함돼 있다
-- 원격 `ai_responses`에는 아직 `misconception_type` 컬럼이 없다
+- 원격 `ai_responses.misconception_type`는 2026-04-08 transaction pooler SQL로 반영 완료
 - 원격 RLS는 6개 테이블 모두 enable 되어 있다
 - 원격 public policy는 현재 `anon SELECT`만 확인되며, 로컬 migration에 있는 `anon INSERT` 정책은 보이지 않는다
 - 원격 Storage bucket은 현재 `lesson-files`만 존재한다
-- 즉, 로컬 타입/문서와 원격 DB 사이에 스키마 드리프트가 1건 존재한다
+- 현재 남은 핵심 구조 갭은 `sessions` 부재다
 
 ## 구현 전 잠금 결정
 
@@ -117,6 +117,12 @@
 
 - 현재 `src/types/question.types.ts`와 `src/app/api/questions/[id]/respond/route.ts`는 이 컬럼이 있다고 가정한다
 - 실제 원격 DB에는 없어서, 오개념 유형 저장은 현재 실패 가능한 상태다
+
+상태:
+
+- 2026-04-08 반영 완료
+- transaction pooler SQL 재검증 완료
+- `rest/v1/ai_responses?select=id,misconception_type` 응답 200 확인 완료
 
 ### 2. 세션 단위를 DB에 도입한다
 
