@@ -1,6 +1,7 @@
 # Style Guide — 풀다 AI
 
 > Stitch 시안에서 확정된 디자인 방향. 상세 토큰은 `docs/design/DESIGN-TOKENS.md` 참조.
+> 반응형 합격 기준은 `docs/ref/RESPONSIVE-GUIDE.md` 참조.
 
 ## 디자인 톤
 
@@ -42,6 +43,7 @@
 - **넉넉한 여백:** `space-y-16~24` 섹션 간, `p-8~12` 카드 내부
 - **12컬럼 그리드:** 대시보드에서 `lg:grid-cols-12` 사용
 - **반응형:** 모바일 1열 → 태블릿 2열 → 데스크톱 max-width
+- 브레이크포인트별 QA는 `docs/ref/RESPONSIVE-GUIDE.md`를 따른다
 
 ## 컴포넌트 기준
 
@@ -66,5 +68,6 @@
 | 파일 | 내용 |
 |------|------|
 | `docs/design/DESIGN-TOKENS.md` | 전체 토큰 + HSL 값 + shadcn 매핑 |
+| `docs/ref/RESPONSIVE-GUIDE.md` | 모바일/태블릿/데스크톱 반응형 합격 기준 |
 | `docs/design/stitch-outputs/P00X-*.html` | Stitch 원본 HTML (레이아웃 레퍼런스) |
 | `docs/design/stitch-outputs/P00X-*.png` | Stitch 시각 레퍼런스 |

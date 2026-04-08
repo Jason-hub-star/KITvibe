@@ -4,6 +4,7 @@
 > Stitch HTML에서 추출한 디자인 토큰 + shadcn 컴포넌트 매핑 + 레이아웃 스펙
 >
 > **상세 토큰:** `docs/design/DESIGN-TOKENS.md` 참조
+> **반응형 기준:** `docs/ref/RESPONSIVE-GUIDE.md` 참조
 
 ---
 

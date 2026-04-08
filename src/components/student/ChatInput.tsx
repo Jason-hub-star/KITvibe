@@ -49,31 +49,27 @@ export default function ChatInput({ onSend, disabled = false }: ChatInputProps) 
   }, []);
 
   return (
-    <div className="flex gap-4 items-end">
-      <div className="flex-1 relative">
-        <textarea
-          ref={textareaRef}
-          value={value}
-          onChange={(e) => {
-            setValue(e.target.value);
-            handleInput();
-          }}
-          onKeyDown={handleKeyDown}
-          disabled={disabled}
-          placeholder="이곳에 답변을 입력하세요..."
-          rows={1}
-          className="w-full bg-background border border-border p-4 text-foreground focus:ring-0 focus:border-primary focus:outline-none resize-none min-h-[56px] placeholder:text-muted-foreground text-base disabled:opacity-50"
-         
-        />
-      </div>
+    <div className="relative">
+      <textarea
+        ref={textareaRef}
+        value={value}
+        onChange={(e) => {
+          setValue(e.target.value);
+          handleInput();
+        }}
+        onKeyDown={handleKeyDown}
+        disabled={disabled}
+        placeholder="이곳에 답변을 입력하세요..."
+        rows={1}
+        className="w-full bg-background border border-border px-3 py-2.5 pr-16 md:p-4 md:pr-16 text-foreground focus:ring-0 focus:border-primary focus:outline-none resize-none min-h-11 md:min-h-[56px] placeholder:text-muted-foreground text-sm md:text-base disabled:opacity-50"
+      />
       <button
         onClick={handleSend}
         disabled={disabled || !value.trim()}
-        className="bg-primary text-primary-foreground h-14 w-14 flex items-center justify-center transition-all active:scale-95 disabled:opacity-50"
-       
+        className="absolute right-1.5 bottom-1.5 bg-primary text-primary-foreground h-11 w-11 md:h-10 md:w-10 flex items-center justify-center transition-all active:scale-95 disabled:opacity-50"
         aria-label="전송"
       >
-        <Send className="size-5" />
+        <Send className="size-4 md:size-4" />
       </button>
     </div>
   );

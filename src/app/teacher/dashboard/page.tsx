@@ -47,7 +47,7 @@ export default async function TeacherDashboardPage({ searchParams }: PageProps) 
     return (
       <>
         <main className="max-w-2xl mx-auto px-6 pt-12 pb-24">
-          <h1 className="text-[3.5rem] font-bold leading-[1.1] tracking-tight text-foreground mb-8">
+          <h1 className="text-4xl sm:text-5xl md:text-[3.5rem] font-bold leading-[1.1] tracking-tight text-foreground mb-8">
             대시보드
           </h1>
           <p className="text-sm text-muted-foreground">
@@ -67,7 +67,7 @@ export default async function TeacherDashboardPage({ searchParams }: PageProps) 
           <span className="text-[10px] font-bold tracking-widest text-muted-foreground uppercase">
             {data.lesson.topic ?? '수업 대시보드'}
           </span>
-          <h1 className="text-[3.5rem] font-bold leading-[1.1] tracking-tight text-foreground mt-2">
+          <h1 className="text-4xl sm:text-5xl md:text-[3.5rem] font-bold leading-[1.1] tracking-tight text-foreground mt-2 break-words">
             {data.lesson.title}
           </h1>
           <span className="text-xs text-muted-foreground mt-2 block">
@@ -116,7 +116,7 @@ async function LessonSelectView() {
   return (
     <>
       <main className="max-w-2xl mx-auto px-6 pt-12 pb-24">
-        <h1 className="text-[3.5rem] font-bold leading-[1.1] tracking-tight text-foreground mb-4">
+        <h1 className="text-4xl sm:text-5xl md:text-[3.5rem] font-bold leading-[1.1] tracking-tight text-foreground mb-4">
           교사 대시보드
         </h1>
         <p className="text-sm text-muted-foreground mb-12">

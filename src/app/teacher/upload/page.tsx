@@ -15,7 +15,7 @@ export default function TeacherUploadPage() {
     <>
       <main className="max-w-2xl mx-auto px-6 pt-12 pb-24">
         {/* Stitch 스타일 대형 헤드라인 */}
-        <h1 className="text-[3.5rem] font-bold leading-[1.1] tracking-tight text-foreground mb-16">
+        <h1 className="text-4xl sm:text-5xl md:text-[3.5rem] font-bold leading-[1.1] tracking-tight text-foreground mb-16">
           수업 자료 등록
         </h1>
         <TeacherUploadGuard />
