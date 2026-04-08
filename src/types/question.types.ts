@@ -83,6 +83,8 @@ export interface DashboardData {
 
 export type ChatMode = 'grill-me' | 'guide-me' | 'quick-me';
 export type AnswerCheck = 'correct' | 'partial' | 'wrong';
+export type RequiredAiTag = 'recommendation' | 'answerCheck' | 'grounded';
+export type AnswerCheckSource = 'explicit' | 'inferred' | 'missing';
 
 /** AI 응답 태그 파싱 결과 */
 export interface ParsedAiResponse {
@@ -90,8 +92,12 @@ export interface ParsedAiResponse {
   recommendation?: string;
   modeSwitch?: ChatMode;
   answerCheck?: AnswerCheck;
+  answerCheckSource: AnswerCheckSource;
+  hasExplicitAnswerCheck: boolean;
   misconceptionType?: number;
   grounded: boolean;
+  hasExplicitGrounded: boolean;
+  missingRequiredTags: RequiredAiTag[];
 }
 
 /** 채팅 메시지 (클라이언트 상태용) */

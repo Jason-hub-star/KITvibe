@@ -5,4 +5,4 @@
  * @access server-only
  */
 
-export { parseAiResponse } from '@/utils/parseAiTags';
+export { parseAiResponse, stripAiMetadataTags } from '@/utils/parseAiTags';

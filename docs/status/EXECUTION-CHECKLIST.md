@@ -98,6 +98,14 @@
 - [x] self-review 기록
 - [x] commit
 
+## Phase 8. 태그 계약 하드닝
+
+- [x] `ANSWER_CHECK` fallback 보수화
+- [x] 태그 누락 런타임 감지
+- [x] quiz / summary transcript 태그 제거
+- [x] 검증
+- [x] commit
+
 ## Self-review Log
 
 ### Phase 1
@@ -144,3 +152,10 @@
 - 브라우저 재완주 중 이미지 업로드가 끝나기 전 새 질문이 들어갈 수 있는 재진입 틈을 발견했고, `isStreaming`을 업로드 시작 시점에 먼저 올려 질문 순서 역전을 막음
 - 최신 재완주 러닝 `완주 테스트 R1 1775630411556`에서 `student_questions` 6건이 모두 동일 `session_id`를 가지는 것을 원격 SQL로 확인함
 - 같은 러닝에서 `sessions.current_step = 4`, `quiz_question` 존재, `summary_text` 존재, `/student/summary` 진입, 대시보드 API 집계를 모두 확인해 문서상의 차단 경로가 해소됐음을 검증함
+
+### Phase 8
+
+- `ANSWER_CHECK` fallback을 완전히 제거하면 실제 완주가 `2/4`에서 멈췄고, 반대로 낙관적 칭찬 문구 전체를 허용하면 단계가 과하게 빨라질 수 있음을 확인함
+- 그래서 fallback은 `강한 긍정 신호 + 질문형 grill-me 응답`일 때만 제한적으로 단계 상승을 허용하고, 그 외에는 로그로 태그 누락을 드러내는 절충안으로 잠금
+- `ai_responses.response_text` 저장 시점과 quiz/summary transcript 생성 시점 모두에서 메타 태그를 제거해 후속 프롬프트 오염 경로를 닫음
+- 최신 재검증 러닝 `완주 테스트 R1 1775631624362`에서 `current_step = 4`, `has_quiz_question = true`, `has_summary_text = true`, `null session_id count = 0`를 확인해 보수화 후에도 완주가 유지됨을 검증함

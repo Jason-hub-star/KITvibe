@@ -18,7 +18,7 @@ import type {
   ChatState,
   ParsedAiResponse,
 } from '@/types/question.types';
-import { parseAiResponse } from '@/utils/parseAiTags';
+import { parseAiResponse, stripAiMetadataTags } from '@/utils/parseAiTags';
 
 interface ModeAlert {
   show: boolean;
@@ -27,8 +27,6 @@ interface ModeAlert {
 }
 
 const INITIAL_MODE_ALERT: ModeAlert = { show: false, from: 'grill-me', to: 'grill-me' };
-const TAG_STRIP_PATTERN =
-  /\[(?:RECOMMENDATION|ANSWER_CHECK|MODE_SWITCH|MISCONCEPTION_TYPE|GROUNDED)[^\]]*\](?:\s*추천:\s*"[^"]*")?/g;
 
 function generateId(): string {
   return `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
@@ -74,6 +72,11 @@ function deriveNextChatState(
   let nextStep = prev.currentStep;
   const nextConsecutiveWrong = normalizedConsecutiveWrong;
 
+  const canAdvanceByInferredSignal =
+    parsed.answerCheckSource === 'inferred' &&
+    parsed.answerCheck === 'correct' &&
+    parsed.content.includes('?');
+
   if (prev.mode === 'grill-me' && normalizedConsecutiveWrong >= 3) {
     nextMode = 'guide-me';
   } else if (prev.mode === 'guide-me' && parsed.answerCheck === 'correct') {
@@ -86,7 +89,13 @@ function deriveNextChatState(
     nextMode = parsed.modeSwitch;
   }
 
-  if (prev.mode === 'grill-me' && parsed.answerCheck && parsed.answerCheck !== 'wrong' && nextStep < 4) {
+  if (
+    prev.mode === 'grill-me' &&
+    parsed.answerCheck &&
+    (parsed.hasExplicitAnswerCheck || canAdvanceByInferredSignal) &&
+    parsed.answerCheck !== 'wrong' &&
+    nextStep < 4
+  ) {
     nextStep = prev.currentStep + 1;
   }
 
@@ -379,7 +388,7 @@ export function useQuestionChat(lessonId: string, lessonTitle: string, studentId
           fullText += chunk;
 
           // assistant 메시지 점진 업데이트 (태그는 실시간 필터링)
-          const displayText = fullText.replace(TAG_STRIP_PATTERN, '').trim();
+          const displayText = stripAiMetadataTags(fullText);
           applyState((prev) => ({
             ...prev,
             messages: prev.messages.map((m) =>
@@ -422,7 +431,7 @@ export function useQuestionChat(lessonId: string, lessonTitle: string, studentId
                   content: parsed.content,
                   recommendation: parsed.recommendation,
                   grounded: parsed.grounded,
-                  answerCheck: parsed.answerCheck,
+                  answerCheck: parsed.hasExplicitAnswerCheck ? parsed.answerCheck : undefined,
                   misconceptionType: parsed.misconceptionType,
                   mode: nextTutorState.mode,
                   step: nextTutorState.currentStep,

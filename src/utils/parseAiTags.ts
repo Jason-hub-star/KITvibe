@@ -7,14 +7,22 @@
  * @access shared
  */
 
-import type { ParsedAiResponse, ChatMode, AnswerCheck } from '@/types';
+import type {
+  ParsedAiResponse,
+  ChatMode,
+  AnswerCheck,
+  RequiredAiTag,
+  AnswerCheckSource,
+} from '@/types';
 
 const VALID_MODES: ChatMode[] = ['grill-me', 'guide-me', 'quick-me'];
 const VALID_ANSWER_CHECKS: AnswerCheck[] = ['correct', 'partial', 'wrong'];
+const STRIP_TAG_PATTERN =
+  /\[(?:RECOMMENDATION|ANSWER_CHECK|MODE_SWITCH|MISCONCEPTION_TYPE|GROUNDED)[^\]]*\](?:\s*추천:\s*"[^"]*")?/g;
 const ANSWER_CHECK_FALLBACK_PATTERNS: Record<AnswerCheck, RegExp[]> = {
-  wrong: [/틀렸/, /아니에요/, /다시 생각/, /조금 달라요/, /아직 아니/, /놓쳤어요/],
-  partial: [/부분적으로/, /조금 더/, /거의 맞/, /방향은 맞/, /한 번 더/, /조금만 더/],
-  correct: [/정확히/, /맞아요/, /맞습니다/, /좋아요/, /잘했어요/, /잘 이해했어요/],
+  wrong: [/틀렸/, /아니에요/, /다시 생각/, /조금 달라요/, /아직 아니/, /놓쳤어요/, /잘못된 것 같/],
+  partial: [/거의 맞/, /부분적으로/, /방향은 맞/, /조금만 더/, /한 번 더/, /작은 실수/],
+  correct: [/^맞아요!?/, /^좋아요!?/, /^정확히/, /^잘 하셨/, /^정확히 이해하셨/],
 };
 
 function inferAnswerCheck(content: string): AnswerCheck | undefined {
@@ -30,6 +38,33 @@ function inferAnswerCheck(content: string): AnswerCheck | undefined {
   return undefined;
 }
 
+function collectMissingRequiredTags(params: {
+  recommendation?: string;
+  answerCheck?: AnswerCheck;
+  hasExplicitAnswerCheck: boolean;
+  hasExplicitGrounded: boolean;
+}): RequiredAiTag[] {
+  const missingTags: RequiredAiTag[] = [];
+
+  if (!params.recommendation) {
+    missingTags.push('recommendation');
+  }
+
+  if (!params.hasExplicitAnswerCheck || !params.answerCheck) {
+    missingTags.push('answerCheck');
+  }
+
+  if (!params.hasExplicitGrounded) {
+    missingTags.push('grounded');
+  }
+
+  return missingTags;
+}
+
+export function stripAiMetadataTags(text: string): string {
+  return text.replace(STRIP_TAG_PATTERN, '').replace(/\n{3,}/g, '\n\n').trim();
+}
+
 /**
  * AI 응답 텍스트에서 태그를 추출하고 본문을 정리
  */
@@ -40,6 +75,9 @@ export function parseAiResponse(text: string): ParsedAiResponse {
   let answerCheck: AnswerCheck | undefined;
   let misconceptionType: number | undefined;
   let grounded = false;
+  let hasExplicitAnswerCheck = false;
+  let hasExplicitGrounded = false;
+  let answerCheckSource: AnswerCheckSource = 'missing';
 
   // [RECOMMENDATION] 추천: "..."
   const recMatch = content.match(/\[RECOMMENDATION\]\s*추천:\s*"([^"]+)"/);
@@ -54,6 +92,8 @@ export function parseAiResponse(text: string): ParsedAiResponse {
     const parsed = answerCheckMatch[1] as AnswerCheck;
     if (VALID_ANSWER_CHECKS.includes(parsed)) {
       answerCheck = parsed;
+      hasExplicitAnswerCheck = true;
+      answerCheckSource = 'explicit';
     }
     content = content.replace(answerCheckMatch[0], '');
   }
@@ -82,22 +122,36 @@ export function parseAiResponse(text: string): ParsedAiResponse {
   const groundedMatch = content.match(/\[GROUNDED:\s*(true|false)\]/);
   if (groundedMatch) {
     grounded = groundedMatch[1] === 'true';
+    hasExplicitGrounded = true;
     content = content.replace(groundedMatch[0], '');
   }
 
-  // 남은 빈 줄 정리
-  content = content.replace(/\n{3,}/g, '\n\n').trim();
+  content = stripAiMetadataTags(content);
 
   if (!answerCheck) {
     answerCheck = inferAnswerCheck(content);
+    if (answerCheck) {
+      answerCheckSource = 'inferred';
+    }
   }
+
+  const missingRequiredTags = collectMissingRequiredTags({
+    recommendation,
+    answerCheck,
+    hasExplicitAnswerCheck,
+    hasExplicitGrounded,
+  });
 
   return {
     content,
     recommendation,
     modeSwitch,
     answerCheck,
+    answerCheckSource,
+    hasExplicitAnswerCheck,
     misconceptionType,
     grounded,
+    hasExplicitGrounded,
+    missingRequiredTags,
   };
 }

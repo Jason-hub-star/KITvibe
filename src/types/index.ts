@@ -12,6 +12,8 @@ export type { Lesson, LessonMaterial, UploadStatus, UploadFile } from '@/types/l
 export type { Session, CreateSessionRequestBody, UpdateSessionRequestBody } from '@/types/session.types';
 export type {
   AnswerCheck,
+  AnswerCheckSource,
+  RequiredAiTag,
   IntentType,
   ResponseType,
   StudentQuestion,

@@ -10,7 +10,7 @@
 import { NextRequest } from 'next/server';
 import { after } from 'next/server';
 import { generateTutoringResponse } from '@/lib/ai/generateResponse';
-import { parseAiResponse } from '@/lib/ai/parseAiTags';
+import { parseAiResponse, stripAiMetadataTags } from '@/lib/ai/parseAiTags';
 import { createSupabaseAdmin } from '@/lib/supabase/admin';
 import type { RespondRequestBody } from '@/types';
 
@@ -53,11 +53,18 @@ export async function POST(
         const fullText = await result.text;
         const parsed = parseAiResponse(fullText);
 
+        if (parsed.missingRequiredTags.length > 0) {
+          console.warn('[POST /api/questions/[id]/respond] 태그 누락', {
+            questionId,
+            missingRequiredTags: parsed.missingRequiredTags,
+          });
+        }
+
         const supabase = createSupabaseAdmin();
         await supabase.from('ai_responses').insert({
           question_id: questionId,
           response_type: mode === 'quick-me' ? 'explanation' : 'hint',
-          response_text: fullText,
+          response_text: stripAiMetadataTags(fullText),
           grounded_flag: parsed.grounded,
           misconception_type: parsed.misconceptionType ?? null,
         });

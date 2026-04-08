@@ -19,6 +19,13 @@
 상세 결과: `docs/qa/QA-FULL-RUN-2026-04-08.md`
 해결 계획: `docs/status/REMEDIATION-PLAN-2026-04-08.md`
 
+## 2026-04-08 태그 계약 하드닝
+
+- `ANSWER_CHECK` fallback을 보수적으로 줄여, 태그 없는 칭찬 문구만으로 단계가 오르지 않게 조정
+- 태그 필수 계약 위반 시 `[POST /api/questions/[id]/respond] 태그 누락` 경고 로그를 남기도록 보강
+- `ai_responses.response_text` 저장과 quiz/summary transcript 생성 시 메타 태그를 제거해 후속 프롬프트 오염을 방지
+- 보수화 후 재완주 러닝 `완주 테스트 R1 1775631624362`도 `current_step = 4`, `quiz_question`, `summary_text`까지 유지됨을 재검증
+
 ## 2026-04-08 원격 스키마 감사 + 구현 잠금
 
 실제 원격 Supabase `public` 스키마를 `rest/v1` OpenAPI와 transaction pooler SQL 조회로 재확인했다.

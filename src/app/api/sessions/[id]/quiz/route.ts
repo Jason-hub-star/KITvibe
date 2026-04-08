@@ -6,6 +6,7 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
+import { stripAiMetadataTags } from '@/lib/ai/parseAiTags';
 import { createSupabaseAdmin } from '@/lib/supabase/admin';
 import { generateMiniQuiz } from '@/lib/ai/generateMiniQuiz';
 import { retrieveContext } from '@/lib/rag/search';
@@ -32,7 +33,9 @@ function buildSessionLog(
       }
 
       if (row.response_text) {
-        parts.push(`AI 응답(${row.response_type ?? 'unknown'}): ${row.response_text}`);
+        parts.push(
+          `AI 응답(${row.response_type ?? 'unknown'}): ${stripAiMetadataTags(row.response_text)}`,
+        );
       }
 
       return parts.join('\n');
