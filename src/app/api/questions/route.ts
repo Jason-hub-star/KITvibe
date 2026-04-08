@@ -30,10 +30,10 @@ export async function POST(request: NextRequest) {
       typeof question_text === 'string' ? question_text.trim() : '';
 
     // 검증
-    if (!lesson_id || !student_id || (!normalizedQuestionText && !image_url)) {
+    if (!lesson_id || !student_id || !session_id || (!normalizedQuestionText && !image_url)) {
       const errorResponse: ApiResponse<never> = {
         success: false,
-        error: '필수 필드 누락: lesson_id, student_id, question_text 또는 image_url',
+        error: '필수 필드 누락: lesson_id, student_id, session_id, question_text 또는 image_url',
         code: 'VALIDATION_ERROR',
       };
       return NextResponse.json(errorResponse, { status: 400 });
@@ -51,7 +51,7 @@ export async function POST(request: NextRequest) {
       .insert({
         lesson_id,
         student_id,
-        session_id: session_id || null,
+        session_id,
         question_text: normalizedQuestionText || IMAGE_ONLY_PLACEHOLDER,
         image_url: image_url || null,
         intent_type: intentResult.intent,

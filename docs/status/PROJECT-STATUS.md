@@ -6,6 +6,19 @@
 
 **Phase 1: 코어 구현** — D-2 통합+QA+UX 폴리시 완료
 
+## 2026-04-08 실사용 완주 테스트
+
+실제 브라우저 자동화로 `교사 업로드 -> 학생 질문 -> 미니퀴즈 -> 세션 요약 -> 교사 대시보드` 재완주 테스트를 다시 실행했고, 최신 러닝은 PASS로 닫혔다.
+
+- `PASS` 역할 선택, 교사 업로드, 학생 질문 저장, AI 응답 생성
+- `PASS` `student_questions.session_id` 전건 연결
+- `PASS` `sessions.current_step = 4`, `quiz_question`, `summary_text` 저장
+- `PASS` `/student/summary` 진입과 교사 대시보드 API 집계 (`totalQuestions=6`, `activeStudents=1`, `recoveryRate=44`)
+- `FIXED` 이미지 질문 업로드 중 입력창이 다시 열리던 재진입 버그
+
+상세 결과: `docs/qa/QA-FULL-RUN-2026-04-08.md`
+해결 계획: `docs/status/REMEDIATION-PLAN-2026-04-08.md`
+
 ## 2026-04-08 원격 스키마 감사 + 구현 잠금
 
 실제 원격 Supabase `public` 스키마를 `rest/v1` OpenAPI와 transaction pooler SQL 조회로 재확인했다.

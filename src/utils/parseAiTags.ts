@@ -11,6 +11,24 @@ import type { ParsedAiResponse, ChatMode, AnswerCheck } from '@/types';
 
 const VALID_MODES: ChatMode[] = ['grill-me', 'guide-me', 'quick-me'];
 const VALID_ANSWER_CHECKS: AnswerCheck[] = ['correct', 'partial', 'wrong'];
+const ANSWER_CHECK_FALLBACK_PATTERNS: Record<AnswerCheck, RegExp[]> = {
+  wrong: [/틀렸/, /아니에요/, /다시 생각/, /조금 달라요/, /아직 아니/, /놓쳤어요/],
+  partial: [/부분적으로/, /조금 더/, /거의 맞/, /방향은 맞/, /한 번 더/, /조금만 더/],
+  correct: [/정확히/, /맞아요/, /맞습니다/, /좋아요/, /잘했어요/, /잘 이해했어요/],
+};
+
+function inferAnswerCheck(content: string): AnswerCheck | undefined {
+  const normalizedContent = content.replace(/\s+/g, ' ').trim();
+
+  for (const answerCheck of VALID_ANSWER_CHECKS) {
+    const patterns = ANSWER_CHECK_FALLBACK_PATTERNS[answerCheck];
+    if (patterns.some((pattern) => pattern.test(normalizedContent))) {
+      return answerCheck;
+    }
+  }
+
+  return undefined;
+}
 
 /**
  * AI 응답 텍스트에서 태그를 추출하고 본문을 정리
@@ -69,6 +87,10 @@ export function parseAiResponse(text: string): ParsedAiResponse {
 
   // 남은 빈 줄 정리
   content = content.replace(/\n{3,}/g, '\n\n').trim();
+
+  if (!answerCheck) {
+    answerCheck = inferAnswerCheck(content);
+  }
 
   return {
     content,

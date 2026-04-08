@@ -87,6 +87,17 @@
 - [x] 검증
 - [x] commit
 
+## Phase 7. 완주 복구 QA
+
+- [x] `session_id` race 해결
+- [x] `current_step` 누적 안정화
+- [x] 이미지 업로드 중 재진입 차단
+- [x] 브라우저 재완주 PASS
+- [x] 원격 DB 저장값 검증
+- [x] 대시보드 API 재검증
+- [x] self-review 기록
+- [x] commit
+
 ## Self-review Log
 
 ### Phase 1
@@ -126,3 +137,10 @@
 - summary 페이지는 `/student/summary?session=...` 경로로 구현해 SSOT의 페이지 경로는 유지하고, 세션 식별자는 query로 전달하도록 고정함
 - 요약 생성은 캐시(`sessions.summary_text`, `sessions.next_recommendation`, `sessions.summary_concepts`)를 우선하고, 없을 때만 AI 생성 후 저장하도록 구현함
 - 요약 페이지는 `page.tsx`가 `searchParams`를 받고, client 뷰에는 `sessionId`만 전달하도록 분리해 Next.js App Router 기본 패턴과 맞춤
+
+### Phase 7
+
+- `useQuestionChat`의 `sessionIdRef + sessionPromiseRef + stateRef` 구조로 첫 질문의 `session_id` 누락과 단계 누적 stale closure를 함께 제거함
+- 브라우저 재완주 중 이미지 업로드가 끝나기 전 새 질문이 들어갈 수 있는 재진입 틈을 발견했고, `isStreaming`을 업로드 시작 시점에 먼저 올려 질문 순서 역전을 막음
+- 최신 재완주 러닝 `완주 테스트 R1 1775630411556`에서 `student_questions` 6건이 모두 동일 `session_id`를 가지는 것을 원격 SQL로 확인함
+- 같은 러닝에서 `sessions.current_step = 4`, `quiz_question` 존재, `summary_text` 존재, `/student/summary` 진입, 대시보드 API 집계를 모두 확인해 문서상의 차단 경로가 해소됐음을 검증함
