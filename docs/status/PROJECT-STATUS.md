@@ -1,10 +1,28 @@
 # Project Status
 
-> 최종 업데이트: 2026-04-07
+> 최종 업데이트: 2026-04-08
 
 ## 현재 단계
 
 **Phase 1: 코어 구현** — D-2 통합+QA+UX 폴리시 완료
+
+## 2026-04-08 원격 스키마 감사 + 구현 잠금
+
+실제 원격 Supabase `public` 스키마를 `rest/v1` OpenAPI와 transaction pooler SQL 조회로 재확인했다.
+
+- 원격 public 테이블: `users`, `lessons`, `lesson_materials`, `student_questions`, `ai_responses`, `misconception_summaries`
+- 원격 public RPC: `match_chunks`, `rls_auto_enable`
+- 원격 DB에는 아직 `sessions` 테이블이 없다
+- 원격 DB에는 아직 `ai_responses.misconception_type` 컬럼이 없다
+- 원격 Storage bucket은 현재 `lesson-files`만 있다
+- 원격 RLS는 켜져 있지만, 현재 확인된 policy는 `anon SELECT`만이다
+- 따라서 `P-005 결과/요약`, `학생 이미지 질문`, `미니퀴즈`, `3회 오답 자동 전환` 구현 전
+  세션 모델과 스키마 정합성을 먼저 잠가야 한다
+
+상세 잠금 문서: `docs/status/IMPLEMENTATION-LOCK.md`
+
+- 구현 진입 기준은 `잠금 체크리스트`와 `진행 게이트`를 먼저 충족하는 방식으로 고정
+- 실제 실행 체크는 `docs/status/EXECUTION-CHECKLIST.md`에서 페이즈별로 관리
 
 ## 진행 상태
 

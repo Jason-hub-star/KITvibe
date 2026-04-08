@@ -8,6 +8,9 @@
 - [x] SSOT(`overview.md`) 기준 범위 잠금 확인
 - [x] 원격 DB 실스키마 확인
 - [x] 구현 전 잠금 문서 작성
+- [x] Phase 0 self-review 기록
+- [x] Phase 0 검증
+- [x] Phase 0 git commit
 - [ ] 각 페이즈 종료 시 self-review 기록
 - [ ] 각 페이즈 종료 시 `npm run lint && npm run typecheck && npm run build`
 - [ ] 각 페이즈 종료 시 git commit
@@ -21,7 +24,7 @@
 - [x] 모바일 전송 버튼 최소 터치 영역 44x44 보정
 - [x] self-review 기록
 - [x] 검증
-- [ ] commit
+- [x] commit
 
 자기리뷰:
 
@@ -35,8 +38,8 @@
 - [x] 실제 enum / RLS / bucket 확인
 - [x] 스키마 드리프트(`misconception_type`, `sessions`) 확인
 - [x] 구현 잠금 문서화
-- [ ] self-review 기록
-- [ ] 검증
+- [x] self-review 기록
+- [x] 검증
 - [ ] commit
 
 ## Phase 2. Migration 0
@@ -83,3 +86,11 @@
 - [ ] self-review 기록
 - [ ] 검증
 - [ ] commit
+
+## Self-review Log
+
+### Phase 1
+
+- `overview.md`와 실제 원격 DB를 대조해 `P-005`, 이미지 질문, 3오답 전환을 바로 구현하면 다시 뜯게 되는 구조임을 확인
+- 원격 DB에는 `sessions`가 없고 `ai_responses.misconception_type`도 없어, 문서와 코드 가정이 실제 스키마보다 앞서 나간 상태임을 확인
+- 원격 RLS는 활성화돼 있지만 현재 확인된 정책은 `anon SELECT`만이라, 로컬 migration 문구와 실제 원격 상태가 다름을 기록
