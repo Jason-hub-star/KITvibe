@@ -7,7 +7,7 @@
  * @access server-only
  */
 
-import { streamText } from 'ai';
+import { streamText, type ModelMessage } from 'ai';
 import { openai } from '@ai-sdk/openai';
 import { PROMPTS } from '@/lib/prompts';
 import { retrieveContext } from '@/lib/rag/search';
@@ -18,7 +18,7 @@ interface TutoringParams {
   mode: ChatMode;
   currentStep: number;
   consecutiveWrong: number;
-  messages: Array<{ role: 'user' | 'assistant'; content: string }>;
+  messages: Array<{ role: 'user' | 'assistant'; content: string; image_url?: string }>;
 }
 
 /**
@@ -62,15 +62,28 @@ export async function generateTutoringResponse(params: TutoringParams) {
 
   // 3. 시스템 프롬프트 구성
   const system = buildSystemPrompt(mode, currentStep, consecutiveWrong, retrievedChunks, lessonTitle);
+  const modelMessages: ModelMessage[] = messages.map((message) =>
+    message.role === 'user'
+      ? {
+          role: 'user',
+          content: message.image_url
+            ? [
+                { type: 'text', text: message.content || '이미지 질문입니다.' },
+                { type: 'image', image: message.image_url },
+              ]
+            : [{ type: 'text', text: message.content || '이미지 질문입니다.' }],
+        }
+      : {
+          role: 'assistant',
+          content: message.content,
+        },
+  );
 
   // 3. streamText 호출
   const result = streamText({
     model: openai('gpt-4o-mini'),
     system,
-    messages: messages.map((m) => ({
-      role: m.role,
-      content: m.content,
-    })),
+    messages: modelMessages,
   });
 
   return result;

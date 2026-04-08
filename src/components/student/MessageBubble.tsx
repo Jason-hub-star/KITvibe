@@ -11,6 +11,7 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import ReactMarkdown from 'react-markdown';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
@@ -42,7 +43,20 @@ export default function MessageBubble({ message }: MessageBubbleProps) {
           className="bg-primary text-primary-foreground p-8 w-full text-right"
          
         >
-          <p className="text-lg leading-relaxed font-medium">{message.content}</p>
+          {message.imageUrl && (
+            <div className="relative ml-auto mb-4 h-40 w-full max-w-xs overflow-hidden border border-primary-foreground/20">
+              <Image
+                src={message.imageUrl}
+                alt="학생이 첨부한 질문 이미지"
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 320px"
+              />
+            </div>
+          )}
+          {message.content && (
+            <p className="text-lg leading-relaxed font-medium">{message.content}</p>
+          )}
         </div>
       </section>
     );

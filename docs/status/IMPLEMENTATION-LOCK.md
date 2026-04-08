@@ -103,8 +103,8 @@
 - 원격 `ai_responses.misconception_type`는 2026-04-08 transaction pooler SQL로 반영 완료
 - 원격 RLS는 7개 테이블 모두 enable 되어 있다
 - 원격 public policy는 현재 `anon SELECT`만 확인되며, 로컬 migration에 있는 `anon INSERT` 정책은 보이지 않는다
-- 원격 Storage bucket은 현재 `lesson-files`만 존재한다
-- 현재 남은 핵심 구조 갭은 `question-images` bucket, 세션 summary 라우트, 자동 모드 전환 계약이다
+- 원격 Storage bucket은 현재 `lesson-files`, `question-images`가 존재한다
+- 현재 남은 핵심 구조 갭은 세션 summary 라우트와 자동 모드 전환 계약이다
 
 ## 구현 전 잠금 결정
 

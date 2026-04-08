@@ -97,6 +97,7 @@ export interface ChatMessage {
   id: string;
   role: 'user' | 'assistant';
   content: string;
+  imageUrl?: string;
   recommendation?: string;
   grounded?: boolean;
   step?: number;
@@ -124,5 +125,5 @@ export interface RespondRequestBody {
   mode: ChatMode;
   current_step: number;
   consecutive_wrong: number;
-  messages: Array<{ role: 'user' | 'assistant'; content: string }>;
+  messages: Array<{ role: 'user' | 'assistant'; content: string; image_url?: string }>;
 }

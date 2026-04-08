@@ -14,30 +14,35 @@ import type { ApiResponse, StudentQuestion, IntentType } from '@/types';
 
 interface QuestionResponseData {
   question: StudentQuestion;
-  intent: IntentType;
-  confidence: number;
+  intent: IntentType | null;
+  confidence: number | null;
 }
 
 const QUESTION_SELECT =
   'id, lesson_id, student_id, session_id, question_text, image_url, intent_type, created_at';
+const IMAGE_ONLY_PLACEHOLDER = '이미지 질문';
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
     const { lesson_id, student_id, session_id, question_text, image_url } = body;
+    const normalizedQuestionText =
+      typeof question_text === 'string' ? question_text.trim() : '';
 
     // 검증
-    if (!lesson_id || !student_id || !question_text) {
+    if (!lesson_id || !student_id || (!normalizedQuestionText && !image_url)) {
       const errorResponse: ApiResponse<never> = {
         success: false,
-        error: '필수 필드 누락: lesson_id, student_id, question_text',
+        error: '필수 필드 누락: lesson_id, student_id, question_text 또는 image_url',
         code: 'VALIDATION_ERROR',
       };
       return NextResponse.json(errorResponse, { status: 400 });
     }
 
     // 1. 의도 분류
-    const { intent, confidence } = await classifyIntent(question_text);
+    const intentResult = normalizedQuestionText
+      ? await classifyIntent(normalizedQuestionText)
+      : { intent: null, confidence: null };
 
     // 2. DB 저장
     const supabase = createSupabaseAdmin();
@@ -47,9 +52,9 @@ export async function POST(request: NextRequest) {
         lesson_id,
         student_id,
         session_id: session_id || null,
-        question_text,
+        question_text: normalizedQuestionText || IMAGE_ONLY_PLACEHOLDER,
         image_url: image_url || null,
-        intent_type: intent,
+        intent_type: intentResult.intent,
       })
       .select(QUESTION_SELECT)
       .single();
@@ -68,8 +73,8 @@ export async function POST(request: NextRequest) {
       success: true,
       data: {
         question: data as StudentQuestion,
-        intent,
-        confidence,
+        intent: intentResult.intent,
+        confidence: intentResult.confidence,
       },
     };
 

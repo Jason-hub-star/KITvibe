@@ -442,6 +442,7 @@ billing, organization, classroom_membership, guardian, notification, audit_log (
 | P-002 | `/teacher/upload` | `/api/lessons` | POST |
 | P-002 | `/teacher/upload` | `/api/materials/upload` | POST |
 | P-003 | `/student/ask` | `/api/sessions` | POST |
+| P-003 | `/student/ask` | `/api/questions/image` | POST |
 | P-003 | `/student/ask` | `/api/questions` | POST |
 | P-003 | `/student/ask` | `/api/questions/[id]/respond` | POST |
 | P-004 | `/teacher/dashboard` | `/api/lessons/[id]/dashboard` | GET |

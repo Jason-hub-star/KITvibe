@@ -61,11 +61,11 @@
 
 ## Phase 4. 학생 이미지 질문
 
-- [ ] `question-images` bucket 추가
-- [ ] 업로드 API 추가
-- [ ] 학생 질문 UI 연결
-- [ ] self-review 기록
-- [ ] 검증
+- [x] `question-images` bucket 추가
+- [x] 업로드 API 추가
+- [x] 학생 질문 UI 연결
+- [x] self-review 기록
+- [x] 검증
 - [ ] commit
 
 ## Phase 5. 적응형 모드
@@ -106,3 +106,9 @@
 - 세션을 붙이기 전 `useQuestionChat`가 `studentId`를 초기값으로만 보유한다는 점을 발견했고, hydration 이후 값이 늦게 들어와도 동기화되도록 보정함
 - 세션 생성 실패 시 재시도가 막히는 ref 잠금 이슈를 커밋 전에 수정함
 - 로컬 migration, 원격 SQL, OpenAPI 노출, Next.js build 라우트에서 모두 `sessions` 경로가 보이는지 확인해 FE/BE/DB 정합성을 맞춤
+
+### Phase 4
+
+- 학생 이미지 질문이 “Storage에만 저장되고 AI는 무시하는 상태”가 되지 않도록, 업로드 경로와 멀티모달 응답 경로를 함께 연결함
+- 이미지 업로드 예외가 `try/catch` 밖으로 빠지는 흐름을 발견하고 커밋 전에 정리함
+- private bucket 저장과 AI 입력 전달을 분리해, DB에는 storage URL을 남기고 AI에는 client-side data URL을 전달하는 구조로 잠금

@@ -26,6 +26,22 @@ function generateId(): string {
   return `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
 }
 
+async function fileToDataUrl(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      if (typeof reader.result === 'string') {
+        resolve(reader.result);
+        return;
+      }
+
+      reject(new Error('이미지 data URL 생성 실패'));
+    };
+    reader.onerror = () => reject(new Error('이미지 data URL 생성 실패'));
+    reader.readAsDataURL(file);
+  });
+}
+
 export function useQuestionChat(lessonId: string, lessonTitle: string, studentId: string) {
   const [state, setState] = useState<ChatState>({
     messages: [],
@@ -95,43 +111,66 @@ export function useQuestionChat(lessonId: string, lessonTitle: string, studentId
   }, [lessonId, studentId]);
 
   const sendMessage = useCallback(
-    async (text: string) => {
-      const trimmed = text.trim();
-      if (!trimmed || state.isStreaming) return;
+    async (input: { text: string; image?: File | null }) => {
+      const trimmed = input.text.trim();
+      if ((!trimmed && !input.image) || state.isStreaming) return;
 
       if (!state.studentId) {
         console.error('[useQuestionChat] student_id 없음');
         return;
       }
 
-      // 1. user 메시지 추가
-      const userMessage: ChatMessage = {
-        id: generateId(),
-        role: 'user',
-        content: trimmed,
-        step: state.currentStep,
-        mode: state.mode,
-        createdAt: new Date(),
-      };
-
-      // 2. user + assistant placeholder 한 번에 추가
       const assistantId = generateId();
-      const assistantMessage: ChatMessage = {
-        id: assistantId,
-        role: 'assistant',
-        content: '',
-        step: state.currentStep,
-        mode: state.mode,
-        createdAt: new Date(),
-      };
-
-      setState((prev) => ({
-        ...prev,
-        messages: [...prev.messages, userMessage, assistantMessage],
-        isStreaming: true,
-      }));
 
       try {
+        let uploadedImageUrl: string | null = null;
+        let imageDataUrl: string | undefined;
+
+        if (input.image) {
+          const formData = new FormData();
+          formData.append('file', input.image);
+
+          const uploadRes = await fetch('/api/questions/image', {
+            method: 'POST',
+            body: formData,
+          });
+
+          const uploadData = await uploadRes.json();
+          if (!uploadData.success) {
+            throw new Error(uploadData.error || '질문 이미지 업로드 실패');
+          }
+
+          uploadedImageUrl = uploadData.data.image_url;
+          imageDataUrl = await fileToDataUrl(input.image);
+        }
+
+        // 1. user 메시지 추가
+        const userMessage: ChatMessage = {
+          id: generateId(),
+          role: 'user',
+          content: trimmed,
+          imageUrl: imageDataUrl,
+          step: state.currentStep,
+          mode: state.mode,
+          createdAt: new Date(),
+        };
+
+        // 2. user + assistant placeholder 한 번에 추가
+        const assistantMessage: ChatMessage = {
+          id: assistantId,
+          role: 'assistant',
+          content: '',
+          step: state.currentStep,
+          mode: state.mode,
+          createdAt: new Date(),
+        };
+
+        setState((prev) => ({
+          ...prev,
+          messages: [...prev.messages, userMessage, assistantMessage],
+          isStreaming: true,
+        }));
+
         // 3. POST /api/questions — 질문 저장 + 의도 분류
         const questionRes = await fetch('/api/questions', {
           method: 'POST',
@@ -141,6 +180,7 @@ export function useQuestionChat(lessonId: string, lessonTitle: string, studentId
             student_id: state.studentId,
             session_id: state.sessionId,
             question_text: trimmed,
+            image_url: uploadedImageUrl,
           }),
         });
 
@@ -156,6 +196,7 @@ export function useQuestionChat(lessonId: string, lessonTitle: string, studentId
         const historyMessages = [...state.messages, userMessage].map((m) => ({
           role: m.role,
           content: m.content,
+          image_url: m.imageUrl,
         }));
 
         abortRef.current = new AbortController();
