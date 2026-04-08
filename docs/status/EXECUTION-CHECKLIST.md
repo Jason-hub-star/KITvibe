@@ -11,9 +11,9 @@
 - [x] Phase 0 self-review 기록
 - [x] Phase 0 검증
 - [x] Phase 0 git commit
-- [ ] 각 페이즈 종료 시 self-review 기록
-- [ ] 각 페이즈 종료 시 `npm run lint && npm run typecheck && npm run build`
-- [ ] 각 페이즈 종료 시 git commit
+- [x] 각 페이즈 종료 시 self-review 기록
+- [x] 각 페이즈 종료 시 `npm run lint && npm run typecheck && npm run build`
+- [x] 각 페이즈 종료 시 git commit
 
 ## Phase 0. 반응형 기준 정리 + 모바일 보정
 
@@ -75,17 +75,17 @@
 - [x] 3회 오답 자동 전환 / Guide-Me 복귀 구현
 - [x] self-review 기록
 - [x] 검증
-- [ ] commit
+- [x] commit
 
 ## Phase 6. 미니퀴즈 + P-005 요약
 
-- [ ] 세션당 1문항 미니퀴즈 구현
-- [ ] 세션 summary 생성 / 저장
-- [ ] `/api/sessions/[id]/summary` 구현
-- [ ] `/student/summary` 구현
-- [ ] self-review 기록
-- [ ] 검증
-- [ ] commit
+- [x] 세션당 1문항 미니퀴즈 구현
+- [x] 세션 summary 생성 / 저장
+- [x] `/api/sessions/[id]/summary` 구현
+- [x] `/student/summary` 구현
+- [x] self-review 기록
+- [x] 검증
+- [x] commit
 
 ## Self-review Log
 
@@ -119,3 +119,10 @@
 - `Quick-Me`는 SSOT상 수동 전환만 허용되므로, 기존 프롬프트의 자동 `quick-me` 전환 규칙을 제거함
 - `ANSWER_CHECK`가 없으면 3회 오답 판정이 성립하지 않아서, 프롬프트와 파서와 클라이언트 상태를 한 번에 연결함
 - 세션 상태(`current_mode`, `current_step`, `consecutive_wrong`)를 응답 후마다 서버에 동기화해, 이후 요약 페이지의 기반 데이터를 먼저 고정함
+
+### Phase 6
+
+- 미니퀴즈는 세션당 자유응답 1문항으로 제한해 SSOT 범위를 지켰고, 생성/채점/요약을 각각 별도 API로 나눠 책임을 분리함
+- summary 페이지는 `/student/summary?session=...` 경로로 구현해 SSOT의 페이지 경로는 유지하고, 세션 식별자는 query로 전달하도록 고정함
+- 요약 생성은 캐시(`sessions.summary_text`, `sessions.next_recommendation`, `sessions.summary_concepts`)를 우선하고, 없을 때만 AI 생성 후 저장하도록 구현함
+- 요약 페이지는 `page.tsx`가 `searchParams`를 받고, client 뷰에는 `sessionId`만 전달하도록 분리해 Next.js App Router 기본 패턴과 맞춤

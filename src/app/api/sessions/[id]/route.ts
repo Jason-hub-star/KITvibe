@@ -21,6 +21,7 @@ function buildUpdatePayload(body: UpdateSessionRequestBody): UpdateSessionReques
   if (body.quiz_passed !== undefined) payload.quiz_passed = body.quiz_passed;
   if (body.summary_text !== undefined) payload.summary_text = body.summary_text;
   if (body.next_recommendation !== undefined) payload.next_recommendation = body.next_recommendation;
+  if (body.summary_concepts !== undefined) payload.summary_concepts = body.summary_concepts;
   if (body.ended_at !== undefined) payload.ended_at = body.ended_at;
 
   return payload;
@@ -61,6 +62,34 @@ export async function PATCH(
     console.error('[PATCH /api/sessions/[id]]', err);
     return NextResponse.json<ApiResponse<never>>(
       { success: false, error: '세션 업데이트 중 오류가 발생했습니다.', code: 'INTERNAL_ERROR' },
+      { status: 500 },
+    );
+  }
+}
+
+export async function GET(
+  _request: NextRequest,
+  { params }: { params: Promise<{ id: string }> },
+) {
+  const { id } = await params;
+
+  try {
+    const session = await getSessionById(id);
+    if (!session) {
+      return NextResponse.json<ApiResponse<never>>(
+        { success: false, error: '세션을 찾을 수 없습니다.', code: 'NOT_FOUND' },
+        { status: 404 },
+      );
+    }
+
+    return NextResponse.json<ApiResponse<{ session: Session }>>(
+      { success: true, data: { session } },
+      { status: 200 },
+    );
+  } catch (err) {
+    console.error('[GET /api/sessions/[id]]', err);
+    return NextResponse.json<ApiResponse<never>>(
+      { success: false, error: '세션 조회 중 오류가 발생했습니다.', code: 'INTERNAL_ERROR' },
       { status: 500 },
     );
   }

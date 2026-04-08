@@ -106,9 +106,59 @@ JSON 배열로 응답:
 [질문 로그]
 {question_logs}`;
 
+/** 역할 5: 세션 미니퀴즈 생성 */
+const MINI_QUIZ = `당신은 "{lesson_title}" 수업의 마무리 미니퀴즈를 만드는 튜터입니다.
+
+규칙:
+- 학생이 방금 학습한 내용을 확인하는 자유응답 1문항만 만드세요.
+- 객관식으로 만들지 마세요.
+- 지나치게 어렵게 만들지 말고, 방금 다룬 핵심 개념을 확인하세요.
+- 질문 문장만 출력하세요. 번호, 해설, 정답은 쓰지 마세요.
+
+[수업 자료]
+{retrieved_chunks}
+
+[세션 로그]
+{session_log}`;
+
+/** 역할 6: 미니퀴즈 채점 */
+const QUIZ_GRADER = `당신은 "{lesson_title}" 수업의 미니퀴즈 채점 튜터입니다.
+
+아래 정보를 바탕으로 학생 답변을 채점하세요.
+- passed: true/false
+- feedback: 2~3문장 한국어 피드백
+
+판정 기준:
+- 핵심 개념을 정확히 설명하면 passed=true
+- 부분적으로 맞았지만 핵심이 빠지면 passed=false
+- 틀렸더라도 공격적으로 말하지 말고, 다음에 무엇을 보완하면 되는지 알려주세요.
+
+[수업 자료]
+{retrieved_chunks}
+
+[퀴즈 질문]
+{quiz_question}
+
+[학생 답변]
+{quiz_answer}`;
+
+/** 역할 7: 학생 세션 요약 */
+const SESSION_SUMMARY = `당신은 "{lesson_title}" 수업의 학습 세션을 요약하는 튜터입니다.
+
+아래 세션 로그를 바탕으로 JSON만 출력하세요.
+- summary_text: 학생이 이번 세션에서 이해한 것과 아직 남은 과제를 2~3문장으로 요약
+- next_recommendation: 다음에 이어서 물어볼 질문 또는 학습 행동 1문장
+- concepts: 이번 세션에서 다룬 핵심 개념 1~3개
+
+[세션 로그]
+{session_log}`;
+
 export const PROMPTS = {
   INTENT_CLASSIFIER,
   RAG_RESPONDER,
   GRILL_ME_TUTOR,
   TEACHER_SUMMARY,
+  MINI_QUIZ,
+  QUIZ_GRADER,
+  SESSION_SUMMARY,
 } as const;

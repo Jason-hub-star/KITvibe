@@ -324,6 +324,7 @@ users ─┬─< lessons ─┬─< lesson_materials
 | quiz_passed | boolean | nullable |
 | summary_text | text | nullable |
 | next_recommendation | text | nullable |
+| summary_concepts | text[] | nullable |
 | started_at | timestamp | |
 | ended_at | timestamp | nullable |
 
@@ -445,6 +446,8 @@ billing, organization, classroom_membership, guardian, notification, audit_log (
 | P-003 | `/student/ask` | `/api/questions/image` | POST |
 | P-003 | `/student/ask` | `/api/questions` | POST |
 | P-003 | `/student/ask` | `/api/questions/[id]/respond` | POST |
+| P-003 | `/student/ask` | `/api/sessions/[id]/quiz` | POST |
+| P-003 | `/student/ask` | `/api/sessions/[id]/quiz/grade` | POST |
 | P-004 | `/teacher/dashboard` | `/api/lessons/[id]/dashboard` | GET |
 | P-004 | `/teacher/dashboard` | `/api/lessons/[id]/misconceptions` | POST |
 | P-005 | `/student/summary` | `/api/sessions/[id]/summary` | GET |

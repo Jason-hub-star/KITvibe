@@ -23,6 +23,8 @@
 | P-003 | `/student/ask` | `/api/questions/image` | POST | file (multipart) |
 | P-003 | `/student/ask` | `/api/questions` | POST | question_text, image?, lesson_id |
 | P-003 | `/student/ask` | `/api/questions/[id]/respond` | POST | (AI 스트리밍 응답) |
+| P-003 | `/student/ask` | `/api/sessions/[id]/quiz` | POST | 미니퀴즈 생성 |
+| P-003 | `/student/ask` | `/api/sessions/[id]/quiz/grade` | POST | answer |
 | P-004 | `/teacher/dashboard` | `/api/lessons/[id]/dashboard` | GET | — |
 | P-004 | `/teacher/dashboard` | `/api/lessons/[id]/misconceptions` | POST | 오개념 요약 생성 |
 | P-005 | `/student/summary` | `/api/sessions/[id]/summary` | GET | — |

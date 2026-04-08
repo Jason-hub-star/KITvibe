@@ -11,7 +11,7 @@
 
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ArrowLeft, Home, Info } from 'lucide-react';
 import Link from 'next/link';
 import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';
@@ -38,6 +38,11 @@ export default function QuestionChat({ lessonId, lessonTitle, topic }: QuestionC
   const { userId } = useRole();
   const { state, sendMessage, handleModeChange, modeAlert } = useQuestionChat(lessonId, lessonTitle, userId ?? '');
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const [quizQuestion, setQuizQuestion] = useState<string | null>(null);
+  const [quizAnswer, setQuizAnswer] = useState('');
+  const [quizFeedback, setQuizFeedback] = useState<string | null>(null);
+  const [quizPassed, setQuizPassed] = useState<boolean | null>(null);
+  const [isQuizLoading, setIsQuizLoading] = useState(false);
 
   // 메시지 추가 시 자동 스크롤
   useEffect(() => {
@@ -45,6 +50,53 @@ export default function QuestionChat({ lessonId, lessonTitle, topic }: QuestionC
   }, [state.messages]);
 
   const progressPercent = (state.currentStep / 4) * 100;
+
+  async function handleGenerateQuiz() {
+    if (!state.sessionId) return;
+
+    try {
+      setIsQuizLoading(true);
+      const response = await fetch(`/api/sessions/${state.sessionId}/quiz`, {
+        method: 'POST',
+      });
+      const data = await response.json();
+      if (!data.success) {
+        throw new Error(data.error || '미니퀴즈 생성 실패');
+      }
+
+      setQuizQuestion(data.data.quiz_question);
+      setQuizFeedback(null);
+      setQuizPassed(null);
+    } catch (err) {
+      console.error('[QuestionChat] quiz 생성 실패:', err);
+    } finally {
+      setIsQuizLoading(false);
+    }
+  }
+
+  async function handleGradeQuiz() {
+    if (!state.sessionId || !quizQuestion || !quizAnswer.trim()) return;
+
+    try {
+      setIsQuizLoading(true);
+      const response = await fetch(`/api/sessions/${state.sessionId}/quiz/grade`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ answer: quizAnswer }),
+      });
+      const data = await response.json();
+      if (!data.success) {
+        throw new Error(data.error || '미니퀴즈 채점 실패');
+      }
+
+      setQuizFeedback(data.data.feedback);
+      setQuizPassed(data.data.passed);
+    } catch (err) {
+      console.error('[QuestionChat] quiz 채점 실패:', err);
+    } finally {
+      setIsQuizLoading(false);
+    }
+  }
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -160,6 +212,71 @@ export default function QuestionChat({ lessonId, lessonTitle, topic }: QuestionC
         {/* Stats Grid — 메시지가 있을 때만 */}
         {state.messages.length > 0 && (
           <SessionStats topic={topic} currentStep={state.currentStep} />
+        )}
+
+        {state.currentStep >= 4 && state.sessionId && (
+          <section className="flex flex-col items-start max-w-2xl gap-2 w-full">
+            <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
+              Mini Quiz
+            </label>
+            <div className="bg-card border border-border p-6 md:p-8 w-full space-y-4">
+              {!quizQuestion ? (
+                <>
+                  <p className="text-sm text-muted-foreground">
+                    마지막으로 핵심 개념을 직접 설명해보는 미니퀴즈 1문항을 풀어볼까요?
+                  </p>
+                  <button
+                    type="button"
+                    onClick={handleGenerateQuiz}
+                    disabled={isQuizLoading}
+                    className="px-4 py-3 bg-primary text-primary-foreground text-sm font-medium disabled:opacity-50"
+                  >
+                    {isQuizLoading ? '생성 중...' : '미니퀴즈 시작'}
+                  </button>
+                </>
+              ) : (
+                <>
+                  <p className="text-base font-medium text-foreground leading-relaxed">
+                    {quizQuestion}
+                  </p>
+                  <textarea
+                    value={quizAnswer}
+                    onChange={(e) => setQuizAnswer(e.target.value)}
+                    placeholder="한두 문장으로 직접 설명해보세요."
+                    className="w-full min-h-28 border border-border bg-background p-4 text-sm text-foreground focus:outline-none focus:border-primary"
+                  />
+                  <div className="flex flex-col sm:flex-row gap-3">
+                    <button
+                      type="button"
+                      onClick={handleGradeQuiz}
+                      disabled={isQuizLoading || !quizAnswer.trim()}
+                      className="px-4 py-3 bg-primary text-primary-foreground text-sm font-medium disabled:opacity-50"
+                    >
+                      {isQuizLoading ? '채점 중...' : '채점 받기'}
+                    </button>
+                    {quizPassed !== null && (
+                      <Link
+                        href={`/student/summary?session=${state.sessionId}`}
+                        className="px-4 py-3 border border-border text-sm font-medium hover:bg-muted transition-colors"
+                      >
+                        세션 요약 보기
+                      </Link>
+                    )}
+                  </div>
+                  {quizFeedback && (
+                    <div className="border border-border bg-muted p-4">
+                      <p className="text-sm font-medium text-foreground">
+                        {quizPassed ? '오개념 회복' : '한 번 더 점검해봐요'}
+                      </p>
+                      <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
+                        {quizFeedback}
+                      </p>
+                    </div>
+                  )}
+                </>
+              )}
+            </div>
+          </section>
         )}
 
         <div ref={messagesEndRef} />

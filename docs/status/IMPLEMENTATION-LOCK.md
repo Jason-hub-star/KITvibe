@@ -23,7 +23,7 @@
 | 자동 모드 전환 규칙 | ✅ LOCKED | `grill-me -> guide-me`, `guide-me -> grill-me`, `quick-me`는 수동만 |
 | 미니퀴즈 범위 | ✅ LOCKED | 세션당 자유응답 1문항 |
 | 퀴즈 결과 저장 위치 | ✅ LOCKED | `sessions.quiz_answer`, `sessions.quiz_passed` |
-| 세션 요약 저장 위치 | ✅ LOCKED | `sessions.summary_text` 캐시 |
+| 세션 요약 저장 위치 | ✅ LOCKED | `sessions.summary_text`, `sessions.next_recommendation`, `sessions.summary_concepts` 캐시 |
 | P-005 라우트 계약 | ✅ LOCKED | `/student/summary`, `/api/sessions/[id]/summary` 유지 |
 | 구현 진입 게이트 | ✅ LOCKED | `Migration 0 -> sessions -> image -> mode -> quiz -> summary` 순서 고정 |
 
@@ -104,7 +104,7 @@
 - 원격 RLS는 7개 테이블 모두 enable 되어 있다
 - 원격 public policy는 현재 `anon SELECT`만 확인되며, 로컬 migration에 있는 `anon INSERT` 정책은 보이지 않는다
 - 원격 Storage bucket은 현재 `lesson-files`, `question-images`가 존재한다
-- 현재 남은 핵심 구조 갭은 세션 summary 라우트와 미니퀴즈 생성/채점 흐름이다
+- 현재 남은 핵심 구조 갭은 모두 해소되었고, 이후 작업은 QA와 polish 중심이다
 
 ## 구현 전 잠금 결정
 
@@ -147,6 +147,7 @@
 - `quiz_passed boolean null`
 - `summary_text text null`
 - `next_recommendation text null`
+- `summary_concepts text[] null`
 - `started_at timestamptz not null default now()`
 - `ended_at timestamptz null`
 
@@ -158,7 +159,7 @@
 
 - 같은 학생이 같은 수업에서 여러 번 질문하면 현재 구조만으로는 "한 번의 학습 세션" 경계를 안정적으로 구분할 수 없다
 - `ai_responses`는 `question_id` 기반이라 세션 요약을 직접 매달기엔 모델이 맞지 않는다
-- `summary_text`와 `quiz_passed`를 `sessions`에 두면 `P-005`와 교사 회복률 집계가 단순해진다
+- `summary_text`, `next_recommendation`, `summary_concepts`, `quiz_passed`를 `sessions`에 두면 `P-005`와 교사 회복률 집계가 단순해진다
 
 상태:
 
@@ -238,13 +239,18 @@
 - `ai_responses`의 기존 enum을 활용하면서도, 세션 결과 카드에는 별도 집계 없이 바로 접근할 수 있다
 - 세션당 1문항으로 제한해야 MVP 범위와 복구율 지표가 단순해진다
 
+상태:
+
+- 2026-04-08 반영 완료
+- 생성 API, 채점 API, 세션 저장 흐름 반영 완료
+
 ### 6. P-005 요약은 세션 기반 캐시형으로 구현한다
 
 잠금 사항:
 
 - 라우트는 SSOT대로 `/student/summary` 유지
 - API도 SSOT대로 `/api/sessions/[id]/summary` 유지
-- 요약은 세션 종료 시 1회 생성 후 `sessions.summary_text`에 저장
+- 요약은 세션 종료 시 1회 생성 후 `sessions.summary_text`, `sessions.next_recommendation`, `sessions.summary_concepts`에 저장
 - 이후 조회는 재생성보다 캐시 우선
 
 요약 데이터 소스:
@@ -257,6 +263,12 @@
 
 - 세션 단위가 먼저 있어야 결과 페이지의 ID와 데이터 소스가 명확해진다
 - 매 조회마다 AI 요약을 다시 만들면 비용과 일관성 문제가 생긴다
+
+상태:
+
+- 2026-04-08 반영 완료
+- `/api/sessions/[id]/summary` 구현 완료
+- `/student/summary` 구현 완료
 
 ## 구현 순서 잠금
 

@@ -17,8 +17,7 @@
 - 원격 Storage bucket은 현재 `lesson-files`, `question-images`가 있다
 - 원격 RLS는 켜져 있지만, 현재 확인된 policy는 `anon SELECT`만이다
 - 적응형 모드 전환은 `[ANSWER_CHECK]` 기반으로 2026-04-08 반영 완료
-- 따라서 현재 남은 핵심 구현은 `미니퀴즈`, `P-005 결과/요약`, `세션 summary API`이며,
-  이들은 이미 잠근 세션 모델과 적응형 모드 계약 위에서 진행한다
+- 세션 미니퀴즈, `P-005 결과/요약`, `세션 summary API`도 2026-04-08 반영 완료
 
 상세 잠금 문서: `docs/status/IMPLEMENTATION-LOCK.md`
 
@@ -205,9 +204,9 @@ v2 대상: Supabase Database 타입, cn() 유틸 활용, API 인증, rate limiti
 ✅ npm run lint      — 0 errors (3 warnings: v2 준비 파일)
 ✅ npm run typecheck  — 통과
 ✅ npm run build      — 통과
-✅ 페이지 렌더링     — 4개 구현 (/, /teacher/upload, /student/ask, /teacher/dashboard)
-⚠️ P-005 상태       — `/student/summary`는 SSOT에 있으나 현재 미구현
-✅ API 라우트        — 7개 구현
+✅ 페이지 렌더링     — 5개 구현 (/, /teacher/upload, /student/ask, /teacher/dashboard, /student/summary)
+✅ P-005 상태       — `/student/summary` 구현 완료
+✅ API 라우트        — 13개 구현
 ✅ QA 통과           — 18/18 시나리오 + E2E 관통
 ✅ SSOT 정합성       — 12/12 PASS
 ✅ 에러 바운더리     — error.tsx + not-found.tsx

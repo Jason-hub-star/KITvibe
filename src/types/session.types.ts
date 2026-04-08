@@ -19,6 +19,7 @@ export interface Session {
   quiz_passed: boolean | null;
   summary_text: string | null;
   next_recommendation: string | null;
+  summary_concepts: string[] | null;
   started_at: string;
   ended_at: string | null;
 }
@@ -37,5 +38,6 @@ export interface UpdateSessionRequestBody {
   quiz_passed?: boolean | null;
   summary_text?: string | null;
   next_recommendation?: string | null;
+  summary_concepts?: string[] | null;
   ended_at?: string | null;
 }

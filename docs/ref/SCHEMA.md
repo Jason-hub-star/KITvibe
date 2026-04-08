@@ -49,6 +49,7 @@ users ─┬─< lessons ─┬─< lesson_materials
 | quiz_passed | boolean | nullable |
 | summary_text | text | nullable |
 | next_recommendation | text | nullable |
+| summary_concepts | text[] | nullable |
 | started_at | timestamp | |
 | ended_at | timestamp | nullable |
 
