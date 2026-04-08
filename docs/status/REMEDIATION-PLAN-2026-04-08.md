@@ -6,6 +6,7 @@
 ## 상태 업데이트
 
 - `2026-04-08 2차 재완주 PASS`
+- `2026-04-08 태그 계약 하드닝 후 재완주 PASS`
 - 해결된 항목:
   - `student_questions.session_id` 전건 연결
   - `sessions.current_step = 4` 누적
@@ -13,6 +14,9 @@
   - `/student/summary` 진입
 - 추가 자기리뷰 수정:
   - 이미지 업로드 중 `isStreaming` 선반영으로 재진입/질문 순서 역전 방지
+  - 태그 없는 긍정 문구만으로 단계가 오르지 않도록 fallback 보수화
+  - 태그 누락을 런타임 경고로 노출
+  - quiz/summary transcript에서 메타 태그 제거
 
 ## 문제 요약
 
@@ -230,3 +234,4 @@
 1. 완주 PASS 결과를 기준선으로 유지
 2. 남은 lint warning 3건은 기능 페이즈와 분리해 정리
 3. 모바일 실기기 QA를 한 번 더 수행
+4. 필요 시 `sessions.ended_at` 저장 시점을 별도 페이즈로 정리

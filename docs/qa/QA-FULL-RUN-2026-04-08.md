@@ -3,16 +3,16 @@
 > 실행 일시: 2026-04-08
 > 환경: `http://localhost:3000`, `.env.local`, 원격 Supabase 연결
 > 방식: 실제 브라우저 자동화로 교사 업로드 → 학생 질문 → 미니퀴즈 → 세션 요약 → 교사 대시보드까지 순차 검증
-> 최신 결과: 2차 재완주 `PASS`
+> 최신 결과: 태그 계약 하드닝 후 재완주 `PASS`
 
 ## 사용 테스트 데이터
 
 - 수업 자료: `test-data/quadratic-e2e.md`
 - 학생 질문 이미지: `test-data/tc05-screenshot.png`
 - 초기 실패 러닝: `완주 테스트 310423`
-- 최신 PASS 러닝: `완주 테스트 R1 1775630411556`
-- 최신 PASS lesson_id: `b9cab0ff-df8b-4d76-92a3-343245edf890`
-- 최신 PASS session_id: `b0a9e3a1-c37b-49f1-9861-8de75da438e8`
+- 최신 PASS 러닝: `완주 테스트 R1 1775631624362`
+- 최신 PASS lesson_id: `ca487c9e-3665-41df-9a0f-3e66d923cd8c`
+- 최신 PASS session_id: `60c81b12-86b7-49ce-b2ac-7ae4daeddf64`
 
 ## 요약
 
@@ -33,14 +33,16 @@
   - 역할 선택 후 `/teacher/upload` 진입 성공
   - `quadratic-e2e.md` 업로드 후 `지식베이스 생성 완료` Alert 확인
   - 생성 스크린샷: `test-data/full-run-upload-pass.png`
+  - 태그 계약 하드닝 후에도 업로드/질문 진입 흐름 유지 확인
 
 ### 2. 학생 질문 → 4단계 도달
 
 - 결과: `PASS`
 - 확인 내용:
   - 이미지 포함 첫 질문 저장 성공
-  - 후속 답변 5회 내 `4/4단계` 도달
-  - 헤더 최종 상태: `완주 테스트 R1 1775630411556 / 4/4단계`
+  - 후속 답변 흐름에서 `4/4단계` 도달
+  - 태그 없는 긍정 문구만으로는 무조건 상승하지 않도록 보수화한 뒤에도 완주 유지
+  - 헤더 최종 상태: `완주 테스트 R1 1775631624362 / 4/4단계`
 
 ### 3. 세션 연결 / 미니퀴즈 / 요약
 
@@ -49,7 +51,7 @@
   - `sessions.current_step = 4`
   - `sessions.quiz_question is not null`
   - `sessions.summary_text is not null`
-  - `student_questions` 6건 모두 동일 `session_id = b0a9e3a1-c37b-49f1-9861-8de75da438e8`
+  - `student_questions` 7건 모두 동일 `session_id = 60c81b12-86b7-49ce-b2ac-7ae4daeddf64`
 - UI 확인:
   - `미니퀴즈 시작` 버튼 노출
   - 채점 후 `세션 요약 보기` 링크 노출
@@ -60,10 +62,18 @@
 
 - 결과: `PASS`
 - API 확인:
-  - `GET /api/lessons/b9cab0ff-df8b-4d76-92a3-343245edf890/dashboard`
-  - `totalQuestions = 6`
+  - `GET /api/lessons/ca487c9e-3665-41df-9a0f-3e66d923cd8c/dashboard`
+  - `totalQuestions = 7`
   - `activeStudents = 1`
-  - `recoveryRate = 44`
+  - `recoveryRate`는 질문/채점 결과에 따라 변동 가능
+
+### 5. 태그 계약 하드닝 회귀 확인
+
+- 결과: `PASS`
+- 확인 내용:
+  - `[ANSWER_CHECK]` fallback을 보수화한 뒤에도 완주 시나리오 유지
+  - 응답 저장 시 메타 태그 제거 경로 유지
+  - 태그 누락은 런타임 경고로 드러나고, quiz/summary 입력에는 raw 태그가 재주입되지 않음
 
 ## 초기 실패 러닝 기록
 
@@ -128,6 +138,8 @@
 ## 수정 후 자기리뷰 메모
 
 1. `useQuestionChat`에서 `sessionIdRef + sessionPromiseRef + stateRef` 구조로 세션 race와 stale closure를 함께 제거함
-2. 태그가 누락돼도 `parseAiTags` fallback으로 `ANSWER_CHECK`를 보수적으로 추정하도록 보강함
-3. 재완주 중 이미지 질문 업로드가 끝나기 전 입력창이 다시 열리는 재진입 버그를 추가로 발견했고, `isStreaming`을 업로드 시작 시점에 먼저 올려 순서 역전을 막음
-4. 기존 `test-data/quadratic-equations.pdf`는 업로드 시 서버 로그에 `bad XRef entry`가 남아, 완주 테스트는 계속 Markdown fixture로 유지하는 것이 안전함
+2. `ANSWER_CHECK` fallback은 완전 제거 시 `2/4`에 멈췄고, 완전 허용 시 과상승 위험이 있어 `강한 긍정 신호 + 질문형 grill-me 응답`일 때만 제한적으로 허용하는 절충안으로 잠금
+3. 태그 필수 계약 위반은 `[POST /api/questions/[id]/respond] 태그 누락` 경고 로그로 남기도록 보강함
+4. `ai_responses.response_text` 저장과 quiz/summary transcript 생성 시 메타 태그를 제거해 후속 프롬프트 오염 경로를 닫음
+5. 재완주 중 이미지 질문 업로드가 끝나기 전 입력창이 다시 열리는 재진입 버그를 추가로 발견했고, `isStreaming`을 업로드 시작 시점에 먼저 올려 순서 역전을 막음
+6. 기존 `test-data/quadratic-equations.pdf`는 업로드 시 서버 로그에 `bad XRef entry`가 남아, 완주 테스트는 계속 Markdown fixture로 유지하는 것이 안전함

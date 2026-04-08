@@ -4,7 +4,18 @@
 
 ## 현재 단계
 
-**Phase 1: 코어 구현** — D-2 통합+QA+UX 폴리시 완료
+**Phase 2: 배포 + 제출 준비** — Production 배포 완료, PPT/제출물 정리 진행 중
+
+## 2026-04-08 배포 상태
+
+Vercel Preview/Production 배포를 완료했고, 공개 alias 기준으로 핵심 라우트 응답을 확인했다.
+
+- `PASS` Preview 환경변수 5개 반영 완료
+- `PASS` Preview 배포 성공: `https://vibecoding-6jue3n13r-kimjuyoung1127s-projects.vercel.app`
+- `PASS` Preview 보호 응답 `401` 확인
+- `PASS` Production 배포 성공: `https://vibecoding-two-jade.vercel.app`
+- `PASS` 공개 라우트 `GET /`, `GET /teacher/upload`, `GET /student/ask`, `GET /teacher/dashboard` 모두 `200`
+- `TODO` 실기기 브라우저 기준 라이브 완주 1회
 
 ## 2026-04-08 실사용 완주 테스트
 
@@ -62,7 +73,7 @@
 | 학생 질문 + AI 응답 (D-4) | ✅ 완료 | 의도 분류, Grill-Me 질문 사다리, 스트리밍, Stitch UI |
 | 교사 대시보드 (D-3) | ✅ 완료 | 오개념 히트맵, 질문 로그, TOP 5, AI 보충 추천 |
 | 통합 + 시연 흐름 (D-2) | ✅ 완료 | 버그 12건 수정, QA 18/18 PASS, E2E 관통 PASS |
-| 배포 + 제출 준비 (D-1) | ⬜ 대기 | Vercel 배포, AI 리포트 |
+| 배포 + 제출 준비 (D-1) | 🟡 진행중 | Vercel Preview/Production 배포 완료, AI 리포트/PPT 잔여 |
 | 최종 제출 (D-0) | ⬜ 대기 | 04/13 마감 |
 
 ## D-4 완료 산출물
