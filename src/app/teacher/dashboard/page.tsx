@@ -89,10 +89,37 @@ export default async function TeacherDashboardPage({ searchParams }: PageProps) 
           <span className="text-xs text-muted-foreground mt-2 block">
             {new Date(data.lesson.created_at).toLocaleDateString('ko-KR')}
           </span>
+
+          <nav className="mt-6 flex flex-wrap gap-2" aria-label="대시보드 빠른 이동">
+            <a
+              href="#dashboard-stats"
+              className="border border-border bg-card px-3 py-2 text-[10px] font-bold uppercase tracking-widest text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+            >
+              통계
+            </a>
+            <a
+              href="#lesson-report"
+              className="border border-border bg-card px-3 py-2 text-[10px] font-bold uppercase tracking-widest text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+            >
+              리포트
+            </a>
+            <a
+              href="#question-log"
+              className="border border-border bg-card px-3 py-2 text-[10px] font-bold uppercase tracking-widest text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+            >
+              질문 로그
+            </a>
+            <a
+              href="#ai-insights"
+              className="border border-border bg-card px-3 py-2 text-[10px] font-bold uppercase tracking-widest text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+            >
+              AI 보충
+            </a>
+          </nav>
         </div>
 
         {/* 3열 통계 */}
-        <section className="mb-16">
+        <section id="dashboard-stats" className="mb-16 scroll-mt-24">
           <DashboardStats stats={data.stats} />
         </section>
 
@@ -102,18 +129,20 @@ export default async function TeacherDashboardPage({ searchParams }: PageProps) 
             <MisconceptionHeatmap items={data.heatmap} />
             <TopQuestionsCard questions={data.topQuestions} />
           </div>
-          <div className="lg:col-span-8">
+          <div id="question-log" className="lg:col-span-8 scroll-mt-24">
             <QuestionLogTable logs={data.questionLog} />
           </div>
         </section>
 
         {/* AI Spotlight + Curriculum — misconception 자동 생성 포함 */}
-        <DashboardMisconceptionLoader
-          lessonId={lessonId}
-          hasSummaries={data.misconceptionSummaries.length > 0}
-          initialSummaries={data.misconceptionSummaries}
-          totalQuestions={data.stats.totalQuestions}
-        />
+        <section id="ai-insights" className="scroll-mt-24">
+          <DashboardMisconceptionLoader
+            lessonId={lessonId}
+            hasSummaries={data.misconceptionSummaries.length > 0}
+            initialSummaries={data.misconceptionSummaries}
+            totalQuestions={data.stats.totalQuestions}
+          />
+        </section>
       </main>
       <LandingFooter />
     </>
