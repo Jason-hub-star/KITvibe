@@ -21,18 +21,21 @@ import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
 import { createLesson } from '@/lib/actions/lessons';
-import type { UploadFile, UploadStatus as UploadStatusType } from '@/types';
-
-const ACCEPTED_TYPES: Record<string, string[]> = {
-  'application/pdf': ['.pdf'],
-  'text/markdown': ['.md', '.markdown'],
-  'image/png': ['.png'],
-  'image/jpeg': ['.jpg', '.jpeg'],
-  'image/gif': ['.gif'],
-  'image/webp': ['.webp'],
-};
-
-const MAX_FILE_SIZE = 10 * 1024 * 1024;
+import { createSupabaseClient } from '@/lib/supabase/client';
+import type {
+  ApiResponse,
+  LessonMaterial,
+  LessonMaterialUploadRequest,
+  LessonMaterialUploadUrl,
+  ProcessLessonMaterialRequest,
+  UploadFile,
+  UploadStatus as UploadStatusType,
+} from '@/types';
+import {
+  LESSON_MATERIALS_BUCKET,
+  LESSON_MATERIAL_ACCEPTED_TYPES,
+  LESSON_MATERIAL_MAX_FILE_SIZE,
+} from '@/utils/lessonUpload';
 
 function formatFileSize(size: number): string {
   if (size < 1024) return `${size} B`;
@@ -46,6 +49,7 @@ interface UploadFormProps {
 
 export default function UploadForm({ teacherId }: UploadFormProps) {
   const router = useRouter();
+  const supabase = createSupabaseClient();
   const [title, setTitle] = useState('');
   const [topic, setTopic] = useState('');
   const [files, setFiles] = useState<UploadFile[]>([]);
@@ -62,8 +66,8 @@ export default function UploadForm({ teacherId }: UploadFormProps) {
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
-    accept: ACCEPTED_TYPES,
-    maxSize: MAX_FILE_SIZE,
+    accept: LESSON_MATERIAL_ACCEPTED_TYPES,
+    maxSize: LESSON_MATERIAL_MAX_FILE_SIZE,
     onDropRejected: (rejections) => {
       rejections.forEach((r) => {
         const msg = r.errors.map((e) => e.message).join(', ');
@@ -80,6 +84,42 @@ export default function UploadForm({ teacherId }: UploadFormProps) {
     setFiles((prev) =>
       prev.map((f, i) => (i === index ? { ...f, status, error } : f)),
     );
+  };
+
+  const requestUploadUrl = async (
+    payload: LessonMaterialUploadRequest,
+  ): Promise<LessonMaterialUploadUrl> => {
+    const response = await fetch('/api/materials/upload-url', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+
+    const result = (await response.json()) as ApiResponse<LessonMaterialUploadUrl>;
+
+    if (!result.success) {
+      throw new Error(result.error);
+    }
+
+    return result.data;
+  };
+
+  const processUploadedFile = async (
+    payload: ProcessLessonMaterialRequest,
+  ): Promise<LessonMaterial[]> => {
+    const response = await fetch('/api/materials/upload', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+
+    const result = (await response.json()) as ApiResponse<LessonMaterial[]>;
+
+    if (!result.success) {
+      throw new Error(result.error);
+    }
+
+    return result.data;
   };
 
   const handleSubmit = async () => {
@@ -106,26 +146,41 @@ export default function UploadForm({ teacherId }: UploadFormProps) {
         updateFileStatus(i, 'uploading');
 
         try {
-          const formData = new FormData();
-          formData.set('file', files[i].file);
-          formData.set('lesson_id', lessonId);
+          const currentFile = files[i].file;
+          const uploadUrl = await requestUploadUrl({
+            lesson_id: lessonId,
+            file_name: currentFile.name,
+            file_size: currentFile.size,
+            file_type: currentFile.type,
+          });
+
+          const { error: uploadError } = await supabase.storage
+            .from(LESSON_MATERIALS_BUCKET)
+            .uploadToSignedUrl(
+              uploadUrl.path,
+              uploadUrl.token,
+              currentFile,
+              { contentType: currentFile.type || 'application/octet-stream' },
+            );
+
+          if (uploadError) {
+            throw new Error('파일 업로드에 실패했습니다.');
+          }
 
           updateFileStatus(i, 'processing');
 
-          const response = await fetch('/api/materials/upload', {
-            method: 'POST',
-            body: formData,
+          await processUploadedFile({
+            lesson_id: lessonId,
+            file_name: currentFile.name,
+            file_size: currentFile.size,
+            file_type: currentFile.type,
+            storage_path: uploadUrl.path,
           });
 
-          const result = await response.json();
-
-          if (result.success) {
-            updateFileStatus(i, 'success');
-          } else {
-            updateFileStatus(i, 'error', result.error);
-          }
-        } catch {
-          updateFileStatus(i, 'error', '업로드 중 오류가 발생했습니다.');
+          updateFileStatus(i, 'success');
+        } catch (error) {
+          const message = error instanceof Error ? error.message : '업로드 중 오류가 발생했습니다.';
+          updateFileStatus(i, 'error', message);
         }
       }
 
@@ -236,7 +291,7 @@ export default function UploadForm({ teacherId }: UploadFormProps) {
             <input {...getInputProps()} />
             <Upload className="size-6 text-muted-foreground" />
             <p className="text-sm text-muted-foreground">
-              {isDragActive ? '파일을 놓으세요' : 'PDF/Markdown 지원'}
+              {isDragActive ? '파일을 놓으세요' : 'PDF/Markdown/이미지 지원 · 최대 10MB'}
             </p>
           </div>
         )}

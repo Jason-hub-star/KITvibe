@@ -18,7 +18,8 @@
 |--------|-------------|---------------|--------|--------|
 | P-001 | `/` | — | static | — |
 | P-002 | `/teacher/upload` | `/api/lessons` | POST | title, subject, topic |
-| P-002 | `/teacher/upload` | `/api/materials/upload` | POST | file (multipart) |
+| P-002 | `/teacher/upload` | `/api/materials/upload-url` | POST | lesson_id, file_name, file_size, file_type |
+| P-002 | `/teacher/upload` | `/api/materials/upload` | POST | storage_path 후처리 (legacy multipart 호환) |
 | P-003 | `/student/ask` | `/api/sessions` | POST | lesson_id, student_id |
 | P-003 | `/student/ask` | `/api/questions/image` | POST | file (multipart) |
 | P-003 | `/student/ask` | `/api/questions` | POST | question_text, image?, lesson_id |

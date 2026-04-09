@@ -8,7 +8,15 @@
 export type { UserRole } from '@/types/common.types';
 export type { ApiSuccess, ApiError, ApiResponse } from '@/types/api.types';
 export type { User } from '@/types/user.types';
-export type { Lesson, LessonMaterial, UploadStatus, UploadFile } from '@/types/lesson.types';
+export type {
+  Lesson,
+  LessonMaterial,
+  LessonMaterialUploadRequest,
+  LessonMaterialUploadUrl,
+  ProcessLessonMaterialRequest,
+  UploadStatus,
+  UploadFile,
+} from '@/types/lesson.types';
 export type { Session, CreateSessionRequestBody, UpdateSessionRequestBody } from '@/types/session.types';
 export type {
   AnswerCheck,

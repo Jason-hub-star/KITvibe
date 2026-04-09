@@ -441,6 +441,7 @@ billing, organization, classroom_membership, guardian, notification, audit_log (
 |--------|-------------|-----------|--------|
 | P-001 | `/` | — | static |
 | P-002 | `/teacher/upload` | `/api/lessons` | POST |
+| P-002 | `/teacher/upload` | `/api/materials/upload-url` | POST |
 | P-002 | `/teacher/upload` | `/api/materials/upload` | POST |
 | P-003 | `/student/ask` | `/api/sessions` | POST |
 | P-003 | `/student/ask` | `/api/questions/image` | POST |

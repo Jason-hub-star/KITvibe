@@ -6,7 +6,8 @@
 
 ```
 [교사 업로드 — PDF]
-  PDF → Supabase Storage → pdf-parse 텍스트 추출
+  브라우저 → signed upload URL 발급 → Supabase Storage direct upload
+    → 서버 후처리 → pdf-parse 텍스트 추출
     → Recursive 청킹 (512 tokens, 15% overlap)
     → text-embedding-3-small 임베딩
     → pgvector 저장

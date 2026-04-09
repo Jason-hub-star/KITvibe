@@ -52,7 +52,8 @@
 
 ### 교사 자료 업로드
 ```
-PDF/이미지 → Supabase Storage → 텍스트 추출 (OCR/파싱)
+브라우저 → signed upload URL 발급 → Supabase Storage direct upload
+  → 서버 후처리 → 텍스트 추출 (OCR/파싱)
   → 청킹 (512 tokens, 15% overlap) → 임베딩 → pgvector 저장
 ```
 
@@ -89,6 +90,7 @@ app/
 │   └── summary/page.tsx        # P-005 요약
 └── api/
     ├── lessons/route.ts
+    ├── materials/upload-url/route.ts
     ├── materials/upload/route.ts
     ├── questions/route.ts
     └── ...

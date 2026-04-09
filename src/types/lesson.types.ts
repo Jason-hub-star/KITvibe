@@ -26,6 +26,24 @@ export interface LessonMaterial {
   created_at: string;
 }
 
+export interface LessonMaterialUploadRequest {
+  lesson_id: string;
+  file_name: string;
+  file_size: number;
+  file_type: string;
+}
+
+export interface LessonMaterialUploadUrl {
+  path: string;
+  token: string;
+  signed_url: string;
+  file_url: string;
+}
+
+export interface ProcessLessonMaterialRequest extends LessonMaterialUploadRequest {
+  storage_path: string;
+}
+
 /** 파일 업로드 진행 상태 */
 export type UploadStatus = 'idle' | 'uploading' | 'processing' | 'success' | 'error';
 
