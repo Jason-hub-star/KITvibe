@@ -11,6 +11,7 @@ import Link from 'next/link';
 import { ArrowLeft, BookOpen } from 'lucide-react';
 import { createSupabaseAdmin } from '@/lib/supabase/admin';
 import QuestionChat from '@/components/student/QuestionChat';
+import { LessonSearchList } from '@/components/lesson/LessonSearchList';
 
 interface PageProps {
   searchParams: Promise<{ lesson?: string }>;
@@ -88,30 +89,14 @@ export default async function StudentAskPage({ searchParams }: PageProps) {
             <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
               질문할 수업을 선택하세요
             </label>
-            <div className="grid gap-4">
-              {lessons.map((lesson) => (
-                <Link
-                  key={lesson.id}
-                  href={`/student/ask?lesson=${lesson.id}`}
-                  className="bg-card border border-border p-4 md:p-8 hover:bg-muted transition-colors group"
-                 
-                >
-                  <div className="flex justify-between items-start">
-                    <div>
-                      <h3 className="text-xl font-bold group-hover:text-primary transition-colors">
-                        {lesson.title}
-                      </h3>
-                      {lesson.topic && (
-                        <p className="mt-1 text-muted-foreground">{lesson.topic}</p>
-                      )}
-                    </div>
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
-                      {lesson.subject ?? 'math'}
-                    </span>
-                  </div>
-                </Link>
-              ))}
-            </div>
+            <LessonSearchList
+              lessons={lessons}
+              routeBase="/student/ask"
+              searchPlaceholder="수업 제목이나 주제로 검색"
+              emptyTitle="등록된 수업이 없습니다."
+              emptyDescription="선생님이 수업을 업로드하면 여기에 표시됩니다."
+              emptySearchMessage="검색 결과가 없습니다. 다른 키워드로 다시 찾아보세요."
+            />
           </div>
         )}
       </main>

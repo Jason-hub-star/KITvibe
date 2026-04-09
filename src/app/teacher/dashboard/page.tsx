@@ -7,6 +7,8 @@
  * @access shared
  */
 
+import Link from 'next/link';
+import { ArrowLeft } from 'lucide-react';
 import { getDashboardData } from '@/lib/actions/dashboard';
 import { LandingFooter } from '@/components/layout/LandingFooter';
 import { DashboardStats } from '@/components/teacher/DashboardStats';
@@ -47,6 +49,13 @@ export default async function TeacherDashboardPage({ searchParams }: PageProps) 
     return (
       <>
         <main className="max-w-2xl mx-auto px-6 pt-12 pb-24">
+          <Link
+            href="/teacher/dashboard"
+            className="mb-8 inline-flex items-center gap-2 text-muted-foreground transition-colors hover:text-foreground"
+          >
+            <ArrowLeft className="size-4" />
+            <span className="text-[10px] font-bold uppercase tracking-widest">수업 목록으로 돌아가기</span>
+          </Link>
           <h1 className="text-4xl sm:text-5xl md:text-[3.5rem] font-bold leading-[1.1] tracking-tight text-foreground mb-8">
             대시보드
           </h1>
@@ -64,6 +73,13 @@ export default async function TeacherDashboardPage({ searchParams }: PageProps) 
       <main className="max-w-7xl mx-auto px-6 md:px-8 pt-12 pb-24">
         {/* 수업 메타 */}
         <div className="mb-12">
+          <Link
+            href="/teacher/dashboard"
+            className="mb-6 inline-flex items-center gap-2 text-muted-foreground transition-colors hover:text-foreground"
+          >
+            <ArrowLeft className="size-4" />
+            <span className="text-[10px] font-bold uppercase tracking-widest">수업 목록으로 돌아가기</span>
+          </Link>
           <span className="text-[10px] font-bold tracking-widest text-muted-foreground uppercase">
             {data.lesson.topic ?? '수업 대시보드'}
           </span>
@@ -81,7 +97,7 @@ export default async function TeacherDashboardPage({ searchParams }: PageProps) 
         </section>
 
         {/* 12열 그리드: 좌 히트맵+TOP5, 우 질문로그 */}
-        <section className="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-16">
+        <section id="lesson-report" className="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-16 scroll-mt-24">
           <div className="lg:col-span-4 space-y-6">
             <MisconceptionHeatmap items={data.heatmap} />
             <TopQuestionsCard questions={data.topQuestions} />
@@ -116,6 +132,13 @@ async function LessonSelectView() {
   return (
     <>
       <main className="max-w-2xl mx-auto px-6 pt-12 pb-24">
+        <Link
+          href="/"
+          className="mb-8 inline-flex items-center gap-2 text-muted-foreground transition-colors hover:text-foreground"
+        >
+          <ArrowLeft className="size-4" />
+          <span className="text-[10px] font-bold uppercase tracking-widest">홈으로 돌아가기</span>
+        </Link>
         <h1 className="text-4xl sm:text-5xl md:text-[3.5rem] font-bold leading-[1.1] tracking-tight text-foreground mb-4">
           교사 대시보드
         </h1>

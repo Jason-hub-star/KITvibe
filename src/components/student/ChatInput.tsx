@@ -1,8 +1,8 @@
 /**
  * @file components/student/ChatInput.tsx
- * @description 채팅 입력 영역 — Stitch 스타일 textarea + 전송 버튼
+ * @description 채팅 입력 영역 — 입력 셸 내부 버튼 정렬
  *   - Enter → 전송, Shift+Enter → 줄바꿈
- *   - 블랙 정사각형 전송 버튼
+ *   - 이미지 버튼/전송 버튼이 동일 입력 박스 안에 배치
  * @domain question
  * @access client
  */
@@ -122,36 +122,41 @@ export default function ChatInput({ onSend, disabled = false }: ChatInputProps) 
           onChange={handleImageChange}
           disabled={disabled}
         />
-        <button
-          type="button"
-          onClick={() => fileInputRef.current?.click()}
-          disabled={disabled}
-          className="absolute left-1.5 bottom-1.5 h-11 w-11 flex items-center justify-center border border-border bg-background text-foreground disabled:opacity-50"
-          aria-label="질문 이미지 추가"
-        >
-          <ImagePlus className="size-4" />
-        </button>
-      <textarea
-        ref={textareaRef}
-        value={value}
-        onChange={(e) => {
-          setValue(e.target.value);
-          handleInput();
-        }}
-        onKeyDown={handleKeyDown}
-        disabled={disabled}
-        placeholder="질문을 입력하거나 이미지를 함께 보내보세요..."
-        rows={1}
-        className="w-full bg-background border border-border pl-16 pr-16 py-2.5 md:p-4 md:pr-16 md:pl-16 text-foreground focus:ring-0 focus:border-primary focus:outline-none resize-none min-h-11 md:min-h-[56px] placeholder:text-muted-foreground text-sm md:text-base disabled:opacity-50"
-      />
-      <button
-        onClick={handleSend}
-        disabled={disabled || (!value.trim() && !imageFile)}
-        className="absolute right-1.5 bottom-1.5 bg-primary text-primary-foreground h-11 w-11 md:h-10 md:w-10 flex items-center justify-center transition-all active:scale-95 disabled:opacity-50"
-        aria-label="전송"
-      >
-        <Send className="size-4 md:size-4" />
-      </button>
+        <div className="flex items-end gap-2 border border-border bg-background p-2 md:p-3">
+          <button
+            type="button"
+            onClick={() => fileInputRef.current?.click()}
+            disabled={disabled}
+            className="flex h-10 w-10 shrink-0 items-center justify-center border border-border bg-card text-foreground transition-colors hover:bg-muted disabled:opacity-50"
+            aria-label="질문 이미지 추가"
+          >
+            <ImagePlus className="size-4" />
+          </button>
+
+          <textarea
+            ref={textareaRef}
+            value={value}
+            onChange={(e) => {
+              setValue(e.target.value);
+              handleInput();
+            }}
+            onKeyDown={handleKeyDown}
+            disabled={disabled}
+            placeholder="질문을 입력하거나 이미지를 함께 보내보세요..."
+            rows={1}
+            className="min-h-10 flex-1 resize-none bg-transparent px-1 py-2 text-sm text-foreground outline-none placeholder:text-muted-foreground md:min-h-[44px] md:text-base"
+          />
+
+          <button
+            type="button"
+            onClick={handleSend}
+            disabled={disabled || (!value.trim() && !imageFile)}
+            className="flex h-10 w-10 shrink-0 items-center justify-center bg-primary text-primary-foreground transition-all active:scale-95 disabled:opacity-50"
+            aria-label="전송"
+          >
+            <Send className="size-4" />
+          </button>
+        </div>
       </div>
     </div>
   );

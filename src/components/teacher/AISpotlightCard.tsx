@@ -32,9 +32,12 @@ export function AISpotlightCard({ summaries, totalQuestions }: Props) {
         <p className="text-sm opacity-80 max-w-md leading-relaxed">
           {description}
         </p>
-        <button className="bg-background text-foreground px-6 py-2 text-xs font-bold tracking-widest uppercase w-fit hover:bg-background/90 transition-colors">
+        <a
+          href="#lesson-report"
+          className="bg-background text-foreground px-6 py-2 text-xs font-bold tracking-widest uppercase w-fit hover:bg-background/90 transition-colors"
+        >
           리포트 확인
-        </button>
+        </a>
       </div>
       <span className="text-[120px] font-black leading-none opacity-10 select-none absolute right-8 top-1/2 -translate-y-1/2">
         AI

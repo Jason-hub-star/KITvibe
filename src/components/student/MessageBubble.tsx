@@ -23,6 +23,7 @@ import {
   CollapsibleContent,
 } from '@/components/ui/collapsible';
 import type { ChatMessage } from '@/types/question.types';
+import { getChatStep } from '@/utils/chatSteps';
 
 interface MessageBubbleProps {
   message: ChatMessage;
@@ -75,7 +76,7 @@ export default function MessageBubble({ message }: MessageBubbleProps) {
         {/* 단계 배지 */}
         {message.step && (
           <Badge variant="secondary" className="mb-4 rounded-none">
-            질문 {message.step}/4
+            {getChatStep(message.step).label} · {message.step}/4
           </Badge>
         )}
 

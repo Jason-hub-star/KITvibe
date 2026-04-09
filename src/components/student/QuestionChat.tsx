@@ -21,6 +21,7 @@ import ModeSelector from '@/components/student/ModeSelector';
 import SessionStats from '@/components/student/SessionStats';
 import { useQuestionChat } from '@/hooks/useQuestionChat';
 import { useRole } from '@/components/layout/RoleProvider';
+import { getChatStep } from '@/utils/chatSteps';
 
 interface QuestionChatProps {
   lessonId: string;
@@ -43,6 +44,7 @@ export default function QuestionChat({ lessonId, lessonTitle, topic }: QuestionC
   const [quizFeedback, setQuizFeedback] = useState<string | null>(null);
   const [quizPassed, setQuizPassed] = useState<boolean | null>(null);
   const [isQuizLoading, setIsQuizLoading] = useState(false);
+  const currentStepInfo = getChatStep(state.currentStep);
 
   // 메시지 추가 시 자동 스크롤
   useEffect(() => {
@@ -124,7 +126,7 @@ export default function QuestionChat({ lessonId, lessonTitle, topic }: QuestionC
               <Home className="size-5" />
             </Link>
             <span className="text-[10px] md:text-xs font-bold tracking-tight text-muted-foreground whitespace-nowrap">
-              {state.currentStep}/4단계
+              {currentStepInfo.label} · {state.currentStep}/4
             </span>
           </div>
         </div>
@@ -211,7 +213,7 @@ export default function QuestionChat({ lessonId, lessonTitle, topic }: QuestionC
 
         {/* Stats Grid — 메시지가 있을 때만 */}
         {state.messages.length > 0 && (
-          <SessionStats topic={topic} currentStep={state.currentStep} />
+          <SessionStats topic={topic} currentStep={state.currentStep} mode={state.mode} />
         )}
 
         {state.currentStep >= 4 && state.sessionId && (

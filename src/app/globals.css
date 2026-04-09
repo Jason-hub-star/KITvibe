@@ -42,7 +42,7 @@
 
 /*
  * 풀다 AI — Stitch 디자인 토큰
- * 라이트모드 웜 모노크로매틱 (#faf9f7 배경, #000 primary)
+ * 라이트모드 웜 모노크로매틱 (#faf9f7 배경, graphite primary)
  * 참조: docs/design/DESIGN-TOKENS.md
  */
 :root {
@@ -52,9 +52,9 @@
   --card-foreground: #1a1c1b;
   --popover: #ffffff;
   --popover-foreground: #1a1c1b;
-  --primary: #000000;
-  --primary-foreground: #e5e2e1;
-  --secondary: #5f5e5e;
+  --primary: #222222;
+  --primary-foreground: #f4f1ec;
+  --secondary: #5a5957;
   --secondary-foreground: #ffffff;
   --muted: #f4f3f1;
   --muted-foreground: #474747;
@@ -63,7 +63,7 @@
   --destructive: #ba1a1a;
   --border: #c6c6c6;
   --input: #777777;
-  --ring: #000000;
+  --ring: #3d3d3d;
   --radius: 0rem;
 
   /* Stitch 표면 계층 */
