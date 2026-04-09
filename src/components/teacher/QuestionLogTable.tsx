@@ -1,7 +1,7 @@
 /**
  * @file components/teacher/QuestionLogTable.tsx
  * @description 질문 로그 테이블 — Stitch P004 스타일
- *   - 검정 헤더 (bg-primary text-primary-foreground)
+ *   - 강조 헤더 행 + 4열 테이블
  *   - 4열: 학생, 질문, 의도, 시각
  * @domain misconception
  * @access client
@@ -59,11 +59,11 @@ export function QuestionLogTable({ logs }: Props) {
       </div>
       <Table>
         <TableHeader>
-          <TableRow className="bg-primary hover:bg-primary">
-            <TableHead className="text-primary-foreground font-bold text-xs">학생</TableHead>
-            <TableHead className="text-primary-foreground font-bold text-xs">질문</TableHead>
-            <TableHead className="text-primary-foreground font-bold text-xs">의도</TableHead>
-            <TableHead className="text-primary-foreground font-bold text-xs">시각</TableHead>
+          <TableRow className="bg-surface-highest hover:bg-surface-highest">
+            <TableHead className="text-foreground font-bold text-xs">학생</TableHead>
+            <TableHead className="text-foreground font-bold text-xs">질문</TableHead>
+            <TableHead className="text-foreground font-bold text-xs">의도</TableHead>
+            <TableHead className="text-foreground font-bold text-xs">시각</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>

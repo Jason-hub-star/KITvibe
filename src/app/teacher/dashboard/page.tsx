@@ -75,20 +75,22 @@ export default async function TeacherDashboardPage({ searchParams }: PageProps) 
         <div className="mb-12">
           <Link
             href="/teacher/dashboard"
-            className="mb-6 inline-flex items-center gap-2 text-muted-foreground transition-colors hover:text-foreground"
+            className="mb-8 inline-flex items-center gap-2 text-muted-foreground transition-colors hover:text-foreground"
           >
             <ArrowLeft className="size-4" />
             <span className="text-[10px] font-bold uppercase tracking-widest">수업 목록으로 돌아가기</span>
           </Link>
-          <span className="text-[10px] font-bold tracking-widest text-muted-foreground uppercase">
-            {data.lesson.topic ?? '수업 대시보드'}
-          </span>
-          <h1 className="text-4xl sm:text-5xl md:text-[3.5rem] font-bold leading-[1.1] tracking-tight text-foreground mt-2 break-words">
-            {data.lesson.title}
-          </h1>
-          <span className="text-xs text-muted-foreground mt-2 block">
-            {new Date(data.lesson.created_at).toLocaleDateString('ko-KR')}
-          </span>
+          <div className="space-y-3">
+            <span className="text-[10px] font-bold tracking-widest text-muted-foreground uppercase">
+              {data.lesson.topic ?? '수업 대시보드'}
+            </span>
+            <h1 className="text-4xl sm:text-5xl md:text-[3.5rem] font-bold leading-[1.1] tracking-tight text-foreground break-words">
+              {data.lesson.title}
+            </h1>
+            <span className="text-xs text-muted-foreground block">
+              {new Date(data.lesson.created_at).toLocaleDateString('ko-KR')}
+            </span>
+          </div>
 
           <nav className="mt-6 flex flex-wrap gap-2" aria-label="대시보드 빠른 이동">
             <a
