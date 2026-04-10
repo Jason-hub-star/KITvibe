@@ -7,19 +7,29 @@
   - DB에는 `student_questions`로 저장
 - AI 응답 생성: `src/app/api/questions/[id]/respond/route.ts`
   - `mode`, `current_step`, `consecutive_wrong`, `messages`를 받아 `generateTutoringResponse()` 호출
+  - Quick-Me 긴급 표현이면 `lesson_quick_answers`를 먼저 조회하고, hit 시 캐시 응답을 우선 반환
   - 스트리밍 완료 후 `parseAiResponse()`로 태그를 파싱하고 `ai_responses`에 저장
 - 시스템 프롬프트: `src/lib/prompts/index.ts`
-  - 현재 `GRILL_ME_TUTOR` 1개 템플릿 안에서 `grill-me`, `guide-me`, `quick-me`를 모두 분기
+  - `GRILL_ME_TUTOR`, `GUIDE_ME_TUTOR`, `QUICK_ME_TUTOR` 3개 템플릿으로 분리
 - 상태 전이: `src/hooks/useQuestionChat.ts`
   - `deriveNextChatState()`가 `answerCheck`, `modeSwitch`, `consecutiveWrong`를 기준으로 단계와 모드를 갱신
+  - `resolveRequestedMode()`가 긴급 표현을 감지하면 Quick-Me 자동 전환
 
 ## Quick-Me가 계속 묻는 현상에 대한 현재 가설
 
-1. Quick-Me는 지금까지 텍스트 요청만으로 자동 진입하지 않았다.
-2. 단일 프롬프트 안에 세 모드 지시가 함께 있어서 약한 모델일수록 현재 모드를 놓칠 가능성이 있다.
-3. 이전 assistant의 질문형 히스토리가 그대로 모델 입력에 섞여, Quick 지시를 약화시킬 수 있다.
+1. 텍스트만으로 Quick-Me가 자동 진입하지 않아 학생 긴급 표현이 UI 상태에 묻혔다.
+2. 단일 프롬프트 안에 세 모드 지시가 함께 있어서 약한 모델일수록 현재 모드를 놓칠 가능성이 있었다.
+3. 이전 assistant의 질문형 히스토리가 그대로 모델 입력에 섞여, Quick 지시를 약화시킬 수 있었다.
 4. 현재 RAG는 lesson 전체 텍스트를 그대로 넣어 prompt를 길게 만든다.
-5. `response_type`은 quick면 `explanation`으로 저장되지만, 본문 포맷은 별도 강제되지 않는다.
+5. 캐시가 없으면 약한 모델에서 Quick 답변 포맷이 흔들릴 수 있다.
+
+## 2026-04-10 구현 반영
+
+- Quick-Me는 `답만`, `빨리`, `시간 없어`, `바로 풀어줘` 입력 시 자동 전환
+- `QUICK_ME_TUTOR`는 별도 프롬프트로 분리했고, 질문 금지와 최종 답 공개를 명시
+- `lesson_quick_answers` 테이블을 추가해 lesson별 빠른답변 캐시를 저장
+- 캐시 hit 시 모델 호출 전 캐시 응답을 우선 반환하고 usage_count를 누적
+- 교사 대시보드에는 `수업 자료 기록` 카드와 `Quick-Me 사용/비율`을 노출
 
 ## 2026-04-10 잠금 결정 반영
 

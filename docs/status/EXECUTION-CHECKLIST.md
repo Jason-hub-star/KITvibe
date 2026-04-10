@@ -135,7 +135,7 @@
 
 ### Phase 5
 
-- `Quick-Me`는 SSOT상 수동 전환만 허용되므로, 기존 프롬프트의 자동 `quick-me` 전환 규칙을 제거함
+- `Quick-Me`는 SSOT 재잠금에 따라 학생 선택 + 긴급 표현 자동 전환을 함께 허용하도록 수정함
 - `ANSWER_CHECK`가 없으면 3회 오답 판정이 성립하지 않아서, 프롬프트와 파서와 클라이언트 상태를 한 번에 연결함
 - 세션 상태(`current_mode`, `current_step`, `consecutive_wrong`)를 응답 후마다 서버에 동기화해, 이후 요약 페이지의 기반 데이터를 먼저 고정함
 

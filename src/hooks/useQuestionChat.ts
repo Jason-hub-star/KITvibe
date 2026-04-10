@@ -19,6 +19,7 @@ import type {
   ParsedAiResponse,
 } from '@/types/question.types';
 import { parseAiResponse, stripAiMetadataTags } from '@/utils/parseAiTags';
+import { hasQuickModeTrigger, resolveRequestedMode } from '@/utils/quickMode';
 
 interface ModeAlert {
   show: boolean;
@@ -275,7 +276,21 @@ export function useQuestionChat(lessonId: string, lessonTitle: string, studentId
       const assistantId = generateId();
 
       try {
-        applyState((prev) => ({ ...prev, isStreaming: true }));
+        const requestedMode = resolveRequestedMode(latestState.mode, trimmed);
+        const autoSwitchedToQuick = requestedMode === 'quick-me' && latestState.mode !== 'quick-me' && hasQuickModeTrigger(trimmed);
+
+        applyState((prev) => ({ ...prev, isStreaming: true, mode: requestedMode }));
+
+        if (autoSwitchedToQuick) {
+          setModeAlert({
+            show: true,
+            from: latestState.mode,
+            to: 'quick-me',
+          });
+          if (modeAlertTimerRef.current) clearTimeout(modeAlertTimerRef.current);
+          modeAlertTimerRef.current = setTimeout(() => setModeAlert(INITIAL_MODE_ALERT), 3000);
+        }
+
         const ensuredSessionId = await ensureSessionId();
         let uploadedImageUrl: string | null = null;
         let imageDataUrl: string | undefined;
@@ -305,7 +320,7 @@ export function useQuestionChat(lessonId: string, lessonTitle: string, studentId
           content: trimmed,
           imageUrl: imageDataUrl,
           step: latestState.currentStep,
-          mode: latestState.mode,
+          mode: requestedMode,
           createdAt: new Date(),
         };
 
@@ -315,7 +330,7 @@ export function useQuestionChat(lessonId: string, lessonTitle: string, studentId
           role: 'assistant',
           content: '',
           step: latestState.currentStep,
-          mode: latestState.mode,
+          mode: requestedMode,
           createdAt: new Date(),
         };
 
@@ -363,7 +378,7 @@ export function useQuestionChat(lessonId: string, lessonTitle: string, studentId
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             lesson_id: lessonId,
-            mode: latestState.mode,
+            mode: requestedMode,
             current_step: latestState.currentStep,
             consecutive_wrong: latestState.consecutiveWrong,
             messages: historyMessages,

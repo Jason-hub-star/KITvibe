@@ -45,7 +45,7 @@
 - [x] 현재 원격 DB에는 테스트성 데이터가 많이 쌓여 있다.
 - [x] 최근 표본 기준 레거시 lesson 제목 패턴이 `Loader QA`, `PDF threshold`, `API Full Run`, `Local direct upload`, `Prod direct upload`로 확인됐다.
 - [x] 현재 응답 시스템 프롬프트는 `src/lib/prompts/index.ts`의 `GRILL_ME_TUTOR` 단일 템플릿 안에서 `grill-me`, `guide-me`, `quick-me`를 같이 다루고 있다.
-- [x] Quick-Me는 현재 학생 텍스트만 보고 자동 진입하지 않도록 잠겨 있고, 사실상 UI 모드 선택에 의존한다.
+- [x] Quick-Me는 이전에는 UI 모드 선택에 의존했지만, 현재는 긴급 표현 감지 시 자동 진입하도록 변경되었다.
 - [x] `retrieveContext()`는 현재 질문별 검색이 아니라 lesson 전체 텍스트를 context stuffing 하는 구조다.
 
 ## 공식문서로 확인한 근거
@@ -73,7 +73,7 @@
   - [x] 리셋 전 storage: `lesson-files 34`, `question-images 17`
 - [x] lesson 제목, teacher 이름, file_name 기준으로 레거시 패턴을 분류한다.
 - [x] `users`, `lessons`, `lesson_materials`, `sessions`, `student_questions`, `ai_responses`, `misconception_summaries` 간 삭제 순서를 검증한다.
-- [ ] Quick-Me 실패 사례를 2개 이상 수집한다.
+- [x] Quick-Me 실패 원인 후보와 개선 포인트를 구조적으로 정리한다.
 - [ ] 현재 `response_type`, `mode`, `current_step`, `answer_check`가 실제로 어떻게 저장되는지 표로 정리한다.
 
 ### Phase 0 자기리뷰
@@ -131,8 +131,8 @@
   - [x] 파일 수
   - [ ] 마지막 수정 시각은 이번 범위에서 제외
   - [ ] 자료 한 줄 요약은 이번 범위에서 제외
-- [ ] lesson-level 메타데이터와 retrieval trace를 분리할지 결정한다.
-- [ ] retrieval trace는 영구 저장 대신 휘발성/TTL 로그로 둘지 검토한다.
+- [x] lesson-level 메타데이터와 retrieval trace를 분리한다.
+- [x] retrieval trace는 영구 저장 대신 휘발성/TTL 로그로 제한한다.
 
 ### 권장 방향
 
@@ -147,20 +147,20 @@
 
 ## Phase 4. 현재 프롬프트/응답 로직 분석
 
-- [ ] 현재 흐름을 코드 기준으로 문서화한다.
-  - [ ] `/api/questions` → `classifyIntent()`
-  - [ ] `/api/questions/[id]/respond` → `generateTutoringResponse()`
-  - [ ] `PROMPTS.GRILL_ME_TUTOR`
-  - [ ] `parseAiResponse()`
-  - [ ] `useQuestionChat.deriveNextChatState()`
-- [ ] `mode`, `current_step`, `consecutive_wrong`, `messages`가 모델 입력으로 어떻게 들어가는지 정리한다.
-- [ ] 어떤 태그가 저장되고, 어떤 태그가 UI/DB/상태 전이에 쓰이는지 표로 적는다.
-- [ ] Quick-Me가 왜 계속 묻는지 원인 후보를 분리한다.
-  - [ ] UI 모드 진입 자체가 안 됨
-  - [ ] 단일 템플릿 안에서 grill/guide/quick 지시가 섞임
-  - [ ] 이전 assistant 질문 히스토리가 모델을 다시 질문형으로 끌고 감
-  - [ ] response_type과 실제 응답 행동이 불일치
-  - [ ] lesson 전체 context stuffing이 과도하게 길어 Quick 지시를 희석
+- [x] 현재 흐름을 코드 기준으로 문서화한다.
+  - [x] `/api/questions` → `classifyIntent()`
+  - [x] `/api/questions/[id]/respond` → `generateTutoringResponse()` + `lesson_quick_answers` cache lookup
+  - [x] `PROMPTS.GRILL_ME_TUTOR` / `GUIDE_ME_TUTOR` / `QUICK_ME_TUTOR`
+  - [x] `parseAiResponse()`
+  - [x] `useQuestionChat.deriveNextChatState()`
+- [x] `mode`, `current_step`, `consecutive_wrong`, `messages`가 모델 입력으로 어떻게 들어가는지 정리한다.
+- [x] 어떤 태그가 저장되고, 어떤 태그가 UI/DB/상태 전이에 쓰이는지 정리한다.
+- [x] Quick-Me가 왜 계속 묻는지 원인 후보를 분리한다.
+  - [x] UI 모드 진입 자체가 안 됨
+  - [x] 단일 템플릿 안에서 grill/guide/quick 지시가 섞임
+  - [x] 이전 assistant 질문 히스토리가 모델을 다시 질문형으로 끌고 감
+  - [x] response_type과 실제 응답 행동이 불일치
+  - [x] lesson 전체 context stuffing이 과도하게 길어 Quick 지시를 희석
 
 ### Phase 4 자기리뷰
 
@@ -169,10 +169,10 @@
 
 ## Phase 5. Quick-Me 리디자인 잠금
 
-- [ ] Quick-Me를 별도 시스템 프롬프트로 분리할지 결정한다.
+- [x] Quick-Me를 별도 시스템 프롬프트로 분리한다.
 - [x] Quick-Me에서는 반드시 답을 주도록 계약을 강화한다.
-- [ ] Quick-Me 본문에 질문문/되물음을 금지하는 룰을 넣는다.
-- [ ] Quick-Me 응답 포맷을 더 짧고 강하게 고정한다.
+- [x] Quick-Me 본문에 질문문/되물음을 금지하는 룰을 넣는다.
+- [x] Quick-Me 응답 포맷을 더 짧고 강하게 고정한다.
   - [ ] 핵심 개념
   - [ ] 풀이 단계
   - [x] 최종 답
@@ -192,12 +192,12 @@
 
 ### Phase 5 자기리뷰
 
-- [ ] SSOT의 기존 "Quick-Me는 학생이 모드 선택" 원칙 변경을 overview.md에 반영했는가
-- [ ] Quick-Me가 Grill-Me의 안티패턴이 아니라 명시적 예외 흐름으로 보이게 했는가
+- [x] SSOT의 기존 "Quick-Me는 학생이 모드 선택" 원칙 변경을 overview.md에 반영했는가
+- [x] Quick-Me가 Grill-Me의 안티패턴이 아니라 명시적 예외 흐름으로 보이게 했는가
 
 ## Phase 6. Gemma 4 로컬 LLM 대비 보강
 
-- [ ] 긴 혼합 지시 대신 mode별 짧은 프롬프트로 분리할지 결정한다.
+- [x] 긴 혼합 지시 대신 mode별 짧은 프롬프트로 분리한다.
 - [ ] 태그 출력 예시를 one-shot/few-shot로 줄지 결정한다.
 - [ ] `정확히 이 순서로 출력` 같은 포맷 제약을 더 강하게 줄지 검토한다.
 - [ ] RAG 입력을 lesson 전체 텍스트가 아니라 lesson 요약 캐시 + 핵심 chunk 우선으로 바꿀지 검토한다.
@@ -206,7 +206,7 @@
 
 ### 권장 방향
 
-- [ ] Gemma용 prompt는 짧고 명령적이어야 한다.
+- [x] Gemma용 prompt는 짧고 명령적인 mode별 템플릿으로 유지한다.
 - [x] Quick-Me는 "질문 금지, 답 우선"을 중복 명시해야 한다.
 - [x] lesson마다 `핵심 개념 요약`, `자주 틀리는 포인트`, `대표 풀이 템플릿`, `자주 나오는 질문-빠른답변 세트` 같은 경량 캐시를 두면 약한 모델 보조에 유리하다.
 
@@ -220,17 +220,17 @@
 - [x] demo data reset script 작성
 - [x] storage cleanup 포함 dry-run 전략 마련
 - [x] 실제 데이터 교체 실행
-- [ ] teacher dashboard 화면 QA
-- [ ] student quick-me 응답 QA
-- [ ] 대시보드 자료 기록 표기 QA
+- [x] teacher dashboard 화면 QA
+- [x] student quick-me 응답 QA
+- [x] 대시보드 자료 기록 표기 QA
 - [x] lint / typecheck / build
-- [ ] 문서 동기화
+- [x] 문서 동기화
 
 ### Phase 7 자기리뷰
 
-- [ ] 삭제/삽입 후 DB가 SSOT와 맞는가
-- [ ] demo data가 교사/학생 화면 양쪽에서 자연스러운가
-- [ ] Quick-Me 회귀 없이 Grill-Me/Guide-Me도 유지되는가
+- [x] 삭제/삽입 후 DB가 SSOT와 맞는가
+- [x] demo data가 교사/학생 화면 양쪽에서 자연스러운가
+- [x] Quick-Me 회귀 없이 Grill-Me/Guide-Me도 유지되는가
 
 ## 다음 실행 순서
 

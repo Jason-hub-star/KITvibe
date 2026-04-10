@@ -31,9 +31,15 @@ function buildSystemPrompt(
   retrievedChunks: string,
   lessonTitle: string,
 ): string {
-  const prompt = PROMPTS.GRILL_ME_TUTOR
+  const promptTemplate =
+    mode === 'quick-me'
+      ? PROMPTS.QUICK_ME_TUTOR
+      : mode === 'guide-me'
+        ? PROMPTS.GUIDE_ME_TUTOR
+        : PROMPTS.GRILL_ME_TUTOR;
+
+  const prompt = promptTemplate
     .replace('{lesson_title}', lessonTitle)
-    .replace(/{mode}/g, mode)
     .replace(/{current_step}/g, String(currentStep))
     .replace('{consecutive_wrong}', String(consecutiveWrong))
     .replace('{retrieved_chunks}', retrievedChunks || '(수업 자료 없음)');
@@ -47,9 +53,10 @@ function buildSystemPrompt(
  */
 export async function generateTutoringResponse(params: TutoringParams) {
   const { lessonId, mode, currentStep, consecutiveWrong, messages } = params;
+  const latestUserMessage = [...messages].reverse().find((message) => message.role === 'user');
 
   // 1. RAG: 수업 자료 검색
-  const retrievedChunks = await retrieveContext(lessonId);
+  const retrievedChunks = await retrieveContext(lessonId, latestUserMessage?.content);
 
   // 2. 수업 제목 조회
   const supabase = (await import('@/lib/supabase/admin')).createSupabaseAdmin();

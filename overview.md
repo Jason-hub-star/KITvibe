@@ -271,6 +271,7 @@ Matt Pocock grill-me 패턴 + socratic-review 하네스를 학습에 적용.
 
 ```
 users ─┬─< lessons ─┬─< lesson_materials
+       │            ├─< lesson_quick_answers
        │            ├─< misconception_summaries
        │            └─< sessions ─< student_questions ─< ai_responses
        ├─< sessions
@@ -308,6 +309,18 @@ users ─┬─< lessons ─┬─< lesson_materials
 | chunk_text | text | nullable — v2 청킹용 |
 | chunk_index | integer | default 0 — v2 청킹 순서 |
 | embedding | vector(1536) | nullable — v2 벡터검색 (pgvector) |
+| created_at | timestamp | |
+
+**lesson_quick_answers**
+| 컬럼 | 타입 | 설명 |
+|------|------|------|
+| id | uuid PK | |
+| lesson_id | uuid FK→lessons | |
+| trigger_phrase | text | Quick-Me 자동 전환/매칭 기준 표현 |
+| question_pattern | text | 자주 나오는 질문 패턴 |
+| answer_text | text | 빠른답변 캐시 본문 |
+| concept_name | text | nullable |
+| usage_count | integer | default 0 |
 | created_at | timestamp | |
 
 **sessions**

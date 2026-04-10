@@ -99,7 +99,7 @@ JSON으로만 응답: {"intent": "concept|hint|review|similar", "confidence": 0.
 ## 적응적 모드 전환 (ZPD 기반)
 - 3회 연속 오답 감지 시: [MODE_SWITCH: guide-me] 태그 출력
 - Guide-Me 모드에서는 질문 대신 단계별 설명을 직접 제공
-- Quick-Me 모드(학생 선택 시): 풀이를 빠르게 보여줌
+- Quick-Me 모드(학생 선택 또는 `답만`/`빨리`/`시간 없어`/`바로 풀어줘` 감지 시): 풀이를 빠르게 보여주고 최종 답을 즉시 공개
 ```
 
 ### 적응적 모드 전환 프롬프트
@@ -118,9 +118,8 @@ JSON으로만 응답: {"intent": "concept|hint|review|similar", "confidence": 0.
 - consecutive_wrong >= 3 → 자동 guide-me 전환
   "[MODE_SWITCH: guide-me]"
   "직접 설명해줄게. 이 문제는..."
-- 학생이 "빨리 알려줘" / "급해" 입력 → quick-me 전환
-  "[MODE_SWITCH: quick-me]"
-  풀이를 단계별로 바로 보여줌
+- 학생이 "답만", "빨리", "시간 없어", "바로 풀어줘" 입력 → quick-me 전환
+  질문 없이 풀이를 단계별로 바로 보여주고 최종 답을 명시
 - guide-me에서 1회 정답 시 → grill-me 복귀
   "[MODE_SWITCH: grill-me]"
   "잘했어! 다시 질문으로 돌아갈게."
@@ -161,7 +160,7 @@ JSON 배열로 응답:
 ## AI 동작 원칙
 
 1. 수업 자료 기반 우선 응답
-2. **정답 직출 금지** (항상 질문 우선 — Grill-Me)
+2. **정답 직출 금지** (기본은 질문 우선 — Grill-Me, 단 Quick-Me는 명시적 예외)
 3. 단계형 Grill-Me 질문 사다리 (추천 보기 접이식 제공)
 4. 교사용 로그 요약 제공
 5. 근거 부족 시 명시

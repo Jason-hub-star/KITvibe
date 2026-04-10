@@ -21,9 +21,18 @@ interface Props {
   hasSummaries: boolean;
   initialSummaries: MisconceptionSummary[];
   totalQuestions: number;
+  quickModeCount: number;
+  quickModeRate: number;
 }
 
-export function DashboardMisconceptionLoader({ lessonId, hasSummaries, initialSummaries, totalQuestions }: Props) {
+export function DashboardMisconceptionLoader({
+  lessonId,
+  hasSummaries,
+  initialSummaries,
+  totalQuestions,
+  quickModeCount,
+  quickModeRate,
+}: Props) {
   const [generatedSummaries, setGeneratedSummaries] = useState<MisconceptionSummary[] | null>(null);
   const [status, setStatus] = useState<'idle' | 'loading' | 'timeout' | 'error'>('idle');
   const hasTriggered = useRef(false);
@@ -103,7 +112,12 @@ export function DashboardMisconceptionLoader({ lessonId, hasSummaries, initialSu
 
   return (
     <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <AISpotlightCard summaries={summaries} totalQuestions={totalQuestions} />
+      <AISpotlightCard
+        summaries={summaries}
+        totalQuestions={totalQuestions}
+        quickModeCount={quickModeCount}
+        quickModeRate={quickModeRate}
+      />
       <CurriculumCard summaries={summaries} />
     </section>
   );

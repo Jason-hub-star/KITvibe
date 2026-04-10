@@ -46,6 +46,13 @@ export interface DashboardStats {
   totalQuestions: number;
   activeStudents: number;
   recoveryRate: number;
+  quickModeCount: number;
+  quickModeRate: number;
+}
+
+export interface DashboardMaterialReference {
+  file_name: string;
+  created_at: string;
 }
 
 /** 오개념 히트맵 항목 */
@@ -73,6 +80,7 @@ export interface QuestionLogRow {
 export interface DashboardData {
   lesson: { id: string; title: string; topic: string | null; created_at: string };
   stats: DashboardStats;
+  materials: DashboardMaterialReference[];
   heatmap: MisconceptionHeatmapItem[];
   topQuestions: TopQuestion[];
   questionLog: QuestionLogRow[];

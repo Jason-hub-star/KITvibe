@@ -15,6 +15,7 @@ import { DashboardStats } from '@/components/teacher/DashboardStats';
 import { MisconceptionHeatmap } from '@/components/teacher/MisconceptionHeatmap';
 import { TopQuestionsCard } from '@/components/teacher/TopQuestionsCard';
 import { QuestionLogTable } from '@/components/teacher/QuestionLogTable';
+import { LessonMaterialsCard } from '@/components/teacher/LessonMaterialsCard';
 import { LessonSelector } from '@/components/teacher/LessonSelector';
 import { DashboardMisconceptionLoader } from '@/components/teacher/DashboardMisconceptionLoader';
 import { createSupabaseAdmin } from '@/lib/supabase/admin';
@@ -125,6 +126,10 @@ export default async function TeacherDashboardPage({ searchParams }: PageProps) 
           <DashboardStats stats={data.stats} />
         </section>
 
+        <section className="mb-16">
+          <LessonMaterialsCard materials={data.materials} />
+        </section>
+
         {/* 12열 그리드: 좌 히트맵+TOP5, 우 질문로그 */}
         <section id="lesson-report" className="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-16 scroll-mt-24">
           <div className="lg:col-span-4 space-y-6">
@@ -143,6 +148,8 @@ export default async function TeacherDashboardPage({ searchParams }: PageProps) 
             hasSummaries={data.misconceptionSummaries.length > 0}
             initialSummaries={data.misconceptionSummaries}
             totalQuestions={data.stats.totalQuestions}
+            quickModeCount={data.stats.quickModeCount}
+            quickModeRate={data.stats.quickModeRate}
           />
         </section>
       </main>

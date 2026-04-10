@@ -18,6 +18,7 @@ const RESET_TABLES = [
   'misconception_summaries',
   'student_questions',
   'sessions',
+  'lesson_quick_answers',
   'lesson_materials',
   'lessons',
   'users',
@@ -235,6 +236,7 @@ async function seedDemoData(supabase) {
   const questions = [];
   const responses = [];
   const summaries = [];
+  const quickAnswers = [];
 
   for (const lesson of DEMO_LESSONS) {
     const lessonId = deterministicUuid(lesson.key);
@@ -249,6 +251,19 @@ async function seedDemoData(supabase) {
 
     for (const material of lesson.materials) {
       materials.push(await uploadMaterial(supabase, supabaseUrl, lesson, material));
+    }
+
+    for (const quickAnswer of lesson.quickAnswers ?? []) {
+      quickAnswers.push({
+        id: deterministicUuid(`${lesson.key}:${quickAnswer.questionPattern}`),
+        lesson_id: lessonId,
+        trigger_phrase: quickAnswer.triggerPhrase,
+        question_pattern: quickAnswer.questionPattern,
+        answer_text: quickAnswer.answerText,
+        concept_name: quickAnswer.conceptName,
+        usage_count: 0,
+        created_at: toIso(lesson.createdAt),
+      });
     }
 
     for (const summary of lesson.summaries) {
@@ -317,6 +332,7 @@ async function seedDemoData(supabase) {
     ['users', users],
     ['lessons', lessons],
     ['lesson_materials', materials],
+    ['lesson_quick_answers', quickAnswers],
     ['sessions', sessions],
     ['student_questions', questions],
     ['ai_responses', responses],
@@ -332,6 +348,7 @@ async function seedDemoData(supabase) {
     users: users.length,
     lessons: lessons.length,
     lesson_materials: materials.length,
+    lesson_quick_answers: quickAnswers.length,
     sessions: sessions.length,
     student_questions: questions.length,
     ai_responses: responses.length,

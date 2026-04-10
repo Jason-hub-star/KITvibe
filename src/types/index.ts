@@ -18,6 +18,7 @@ export type {
   UploadFile,
 } from '@/types/lesson.types';
 export type { Session, CreateSessionRequestBody, UpdateSessionRequestBody } from '@/types/session.types';
+export type { LessonQuickAnswer } from '@/types/quick-answer.types';
 export type {
   AnswerCheck,
   AnswerCheckSource,
@@ -28,6 +29,7 @@ export type {
   AiResponse,
   MisconceptionSummary,
   DashboardStats,
+  DashboardMaterialReference,
   MisconceptionHeatmapItem,
   TopQuestion,
   QuestionLogRow,

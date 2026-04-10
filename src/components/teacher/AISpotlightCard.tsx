@@ -12,9 +12,11 @@ import type { MisconceptionSummary } from '@/types';
 interface Props {
   summaries: MisconceptionSummary[];
   totalQuestions: number;
+  quickModeCount: number;
+  quickModeRate: number;
 }
 
-export function AISpotlightCard({ summaries, totalQuestions }: Props) {
+export function AISpotlightCard({ summaries, totalQuestions, quickModeCount, quickModeRate }: Props) {
   const topConcept = summaries[0];
   const description = topConcept
     ? `최근 ${totalQuestions}개 질문 중 "${topConcept.concept_name}" 관련 오개념이 ${topConcept.frequency}회 이상 감지되었습니다.`
@@ -31,6 +33,9 @@ export function AISpotlightCard({ summaries, totalQuestions }: Props) {
         </h3>
         <p className="text-sm text-muted-foreground max-w-md leading-relaxed">
           {description}
+        </p>
+        <p className="text-xs text-muted-foreground">
+          Quick-Me 사용 {quickModeCount}건 · 전체 질문 대비 {quickModeRate}%
         </p>
         <a
           href="#lesson-report"

@@ -11,6 +11,7 @@ import { createSupabaseAdmin } from '@/lib/supabase/admin';
 import { generateTeacherSummary } from '@/lib/ai/generateSummary';
 import type {
   DashboardData,
+  DashboardMaterialReference,
   MisconceptionSummary,
   MisconceptionHeatmapItem,
   TopQuestion,
@@ -58,12 +59,12 @@ export async function getDashboardData(lessonId: string): Promise<DashboardData>
 
   // 3. AI 응답 목록
   const questionIds = questionList.map((q) => q.id);
-  let responses: Array<{ grounded_flag: boolean; misconception_type: number | null }> = [];
+  let responses: Array<{ grounded_flag: boolean; misconception_type: number | null; response_type: string }> = [];
 
   if (questionIds.length > 0) {
     const { data: resData } = await supabase
       .from('ai_responses')
-      .select('grounded_flag, misconception_type')
+      .select('grounded_flag, misconception_type, response_type')
       .in('question_id', questionIds);
 
     responses = (resData ?? []) as typeof responses;
@@ -77,6 +78,10 @@ export async function getDashboardData(lessonId: string): Promise<DashboardData>
   const groundedCount = responses.filter((r) => r.grounded_flag).length;
   const recoveryRate = responses.length > 0
     ? Math.round((groundedCount / responses.length) * 100)
+    : 0;
+  const quickModeCount = responses.filter((response) => response.response_type === 'explanation').length;
+  const quickModeRate = totalQuestions > 0
+    ? Math.round((quickModeCount / totalQuestions) * 100)
     : 0;
 
   // 5. 오개념 히트맵: misconception_type별 카운트
@@ -128,9 +133,23 @@ export async function getDashboardData(lessonId: string): Promise<DashboardData>
     .eq('lesson_id', lessonId)
     .order('frequency', { ascending: false });
 
+  const { data: materialsData, error: materialsError } = await supabase
+    .from('lesson_materials')
+    .select('file_name, created_at')
+    .eq('lesson_id', lessonId)
+    .eq('chunk_index', 0)
+    .order('created_at', { ascending: false });
+
+  if (materialsError) {
+    throw new Error(`자료 메타 조회 실패: ${materialsError.message}`);
+  }
+
+  const materials = (materialsData ?? []) as DashboardMaterialReference[];
+
   return {
     lesson: lesson as DashboardData['lesson'],
-    stats: { totalQuestions, activeStudents, recoveryRate },
+    stats: { totalQuestions, activeStudents, recoveryRate, quickModeCount, quickModeRate },
+    materials,
     heatmap,
     topQuestions,
     questionLog,
