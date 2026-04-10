@@ -8,6 +8,7 @@
  */
 
 import { createSupabaseAdmin } from '@/lib/supabase/admin';
+import { formatLessonContextCache, getLessonContextCache } from '@/lib/rag/lessonContextCache';
 
 /** MVP/v2 전환 스위치 — v2에서 true로 변경 */
 const USE_VECTOR_SEARCH = false;
@@ -144,14 +145,21 @@ export async function retrieveContext(
   lessonId: string,
   query?: string,
 ): Promise<string> {
+  const contextCache = await getLessonContextCache(lessonId);
+  const formattedContextCache = contextCache
+    ? formatLessonContextCache(contextCache)
+    : '';
+
   if (USE_VECTOR_SEARCH && query) {
     const chunks = await searchChunks(query, lessonId);
-    return chunks.join('\n\n');
+    return [formattedContextCache, chunks.join('\n\n')].filter(Boolean).join('\n\n');
   }
 
   if (query) {
-    return getFocusedText(lessonId, query);
+    const focusedText = await getFocusedText(lessonId, query);
+    return [formattedContextCache, focusedText].filter(Boolean).join('\n\n');
   }
 
-  return getFullText(lessonId);
+  const fullText = await getFullText(lessonId);
+  return [formattedContextCache, fullText].filter(Boolean).join('\n\n');
 }

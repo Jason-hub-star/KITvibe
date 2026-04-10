@@ -26,6 +26,17 @@ export interface LessonMaterial {
   created_at: string;
 }
 
+export interface LessonContextCache {
+  id: string;
+  lesson_id: string;
+  summary_text: string;
+  key_concepts: string[];
+  common_mistakes: string[];
+  solution_template: string;
+  created_at: string;
+  updated_at: string;
+}
+
 export interface LessonMaterialUploadRequest {
   lesson_id: string;
   file_name: string;

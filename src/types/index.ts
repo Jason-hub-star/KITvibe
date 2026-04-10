@@ -11,6 +11,7 @@ export type { User } from '@/types/user.types';
 export type {
   Lesson,
   LessonMaterial,
+  LessonContextCache,
   LessonMaterialUploadRequest,
   LessonMaterialUploadUrl,
   ProcessLessonMaterialRequest,

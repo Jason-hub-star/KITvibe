@@ -6,6 +6,7 @@
 
 ```
 users ─┬─< lessons ─┬─< lesson_materials
+       │            ├─< lesson_context_caches
        │            ├─< lesson_quick_answers
        │            ├─< misconception_summaries
        │            └─< sessions ─< student_questions ─< ai_responses
@@ -79,6 +80,19 @@ users ─┬─< lessons ─┬─< lesson_materials
 | concept_name | text | nullable |
 | usage_count | integer | default 0 |
 | created_at | timestamp | |
+
+### lesson_context_caches
+
+| 컬럼 | 타입 | 설명 |
+|------|------|------|
+| id | uuid PK | |
+| lesson_id | uuid FK→lessons, unique | lesson당 1개 컨텍스트 캐시 |
+| summary_text | text | lesson 핵심 요약 |
+| key_concepts | text[] | 핵심 개념 목록 |
+| common_mistakes | text[] | 자주 틀리는 포인트 |
+| solution_template | text | 대표 풀이 템플릿 |
+| created_at | timestamp | |
+| updated_at | timestamp | |
 
 ### student_questions
 

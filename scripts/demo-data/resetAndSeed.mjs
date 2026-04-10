@@ -18,6 +18,7 @@ const RESET_TABLES = [
   'misconception_summaries',
   'student_questions',
   'sessions',
+  'lesson_context_caches',
   'lesson_quick_answers',
   'lesson_materials',
   'lessons',
@@ -232,6 +233,7 @@ async function seedDemoData(supabase) {
   const users = buildUsers();
   const lessons = [];
   const materials = [];
+  const contextCaches = [];
   const sessions = [];
   const questions = [];
   const responses = [];
@@ -248,6 +250,19 @@ async function seedDemoData(supabase) {
       topic: lesson.topic,
       created_at: toIso(lesson.createdAt),
     });
+
+    if (lesson.contextCache) {
+      contextCaches.push({
+        id: deterministicUuid(`${lesson.key}:context-cache`),
+        lesson_id: lessonId,
+        summary_text: lesson.contextCache.summaryText,
+        key_concepts: lesson.contextCache.keyConcepts,
+        common_mistakes: lesson.contextCache.commonMistakes,
+        solution_template: lesson.contextCache.solutionTemplate,
+        created_at: toIso(lesson.createdAt),
+        updated_at: toIso(lesson.createdAt),
+      });
+    }
 
     for (const material of lesson.materials) {
       materials.push(await uploadMaterial(supabase, supabaseUrl, lesson, material));
@@ -332,6 +347,7 @@ async function seedDemoData(supabase) {
     ['users', users],
     ['lessons', lessons],
     ['lesson_materials', materials],
+    ['lesson_context_caches', contextCaches],
     ['lesson_quick_answers', quickAnswers],
     ['sessions', sessions],
     ['student_questions', questions],
@@ -348,6 +364,7 @@ async function seedDemoData(supabase) {
     users: users.length,
     lessons: lessons.length,
     lesson_materials: materials.length,
+    lesson_context_caches: contextCaches.length,
     lesson_quick_answers: quickAnswers.length,
     sessions: sessions.length,
     student_questions: questions.length,

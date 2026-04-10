@@ -204,12 +204,14 @@
 - [x] MVP fallback RAG도 질문과 겹치는 자료를 우선 선택하도록 보강한다.
 - [x] lesson별 quick answer cache / concept cache가 필요한지 검토한다.
 - [x] quick answer cache는 새 테이블로 추가한다.
+- [x] lesson context cache는 새 테이블로 추가한다.
 
 ### 권장 방향
 
 - [x] Gemma용 prompt는 짧고 명령적인 mode별 템플릿으로 유지한다.
 - [x] Quick-Me는 "질문 금지, 답 우선"을 중복 명시해야 한다.
 - [x] lesson마다 `핵심 개념 요약`, `자주 틀리는 포인트`, `대표 풀이 템플릿`, `자주 나오는 질문-빠른답변 세트` 같은 경량 캐시를 두면 약한 모델 보조에 유리하다.
+- [x] lesson context cache를 RAG prefix로 앞에 붙여 약한 모델에서 lesson 전체 주입을 완화한다.
 
 ### Phase 6 자기리뷰
 
@@ -225,6 +227,7 @@
 - [x] student quick-me 응답 QA
 - [x] 대시보드 자료 기록 표기 QA
 - [x] Quick-Me 히스토리 축소 및 focused context fallback 적용
+- [x] lesson context cache 테이블 추가 및 재시드 반영
 - [x] lint / typecheck / build
 - [x] 문서 동기화
 

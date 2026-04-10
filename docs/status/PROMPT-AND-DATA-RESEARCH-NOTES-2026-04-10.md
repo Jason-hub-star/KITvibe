@@ -28,10 +28,12 @@
 - Quick-Me는 `답만`, `빨리`, `시간 없어`, `바로 풀어줘` 입력 시 자동 전환
 - `QUICK_ME_TUTOR`는 별도 프롬프트로 분리했고, 질문 금지와 최종 답 공개를 명시
 - `lesson_quick_answers` 테이블을 추가해 lesson별 빠른답변 캐시를 저장
+- `lesson_context_caches` 테이블을 추가해 lesson별 핵심 요약/개념/실수 포인트/대표 템플릿을 저장
 - 캐시 hit 시 모델 호출 전 캐시 응답을 우선 반환하고 usage_count를 누적
 - 교사 대시보드에는 `수업 자료 기록` 카드와 `Quick-Me 사용/비율`을 노출
 - Quick-Me 모델 입력은 최신 user 메시지만 전달해, 이전 질문형 히스토리가 빠른답변 톤을 흐리지 않도록 줄였다
 - MVP fallback RAG도 질문 토큰과 겹치는 자료를 우선 선택해, lesson 전체 context stuffing을 조금 더 집중형으로 줄였다
+- retrieveContext는 이제 lesson context cache를 항상 prefix로 붙이고, 그 뒤에 관련 자료 본문을 이어 붙인다
 
 ## 2026-04-10 잠금 결정 반영
 
