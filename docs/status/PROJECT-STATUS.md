@@ -1,6 +1,6 @@
 # Project Status
 
-> 최종 업데이트: 2026-04-08
+> 최종 업데이트: 2026-04-10
 
 ## 현재 단계
 
@@ -60,6 +60,64 @@ Production에서 `multipart -> Next API` 경로가 약 4.3MB부터 `413 FUNCTION
 - `1/4` 숫자만 보이던 진행 표시를 단계 이름, 다음 단계, 이동 조건, 보상 노출로 보강
 - 교사 대시보드 상단에 `빠른 이동` 앵커를 추가하고, `AI 보충 분석` 카드를 surface 계열로 완화
 - 오개념 로더는 무한 대기 대신 타임아웃 후 `다시 분석` 가능한 상태로 보강
+
+## 2026-04-10 교사 대시보드 안정화 확인
+
+교사 대시보드에서 사용자가 직접 지적한 시각/동작 이슈를 다시 점검했고, 최신 dev 서버 기준으로 화면과 문서를 정렬했다.
+
+- `수업 목록으로 돌아가기`와 수업 메타 사이 간격을 늘려 `인수분해` / `인수분해와 이차방정식` 텍스트가 과하게 붙어 보이지 않도록 조정
+- `Question Log` 헤더의 검정 배경을 surface 토큰으로 교체해 대시보드 내 잔존 black tone을 완화
+- 오개념 로더는 `AI가 오개념을 분석하고 있습니다...` 로딩 상태와 6초 타임아웃 후 `다시 분석` 버튼을 가지도록 보강
+- `/api/lessons/[id]/misconceptions` 직접 호출 기준 `201 Created`를 재확인해, 무한 로딩의 핵심 원인이 서버 정지가 아니라 UI 대기 인상임을 분리 확인
+- 로컬 `localhost:3000`이 예전 `next-server` 빌드를 띄우고 있어 화면과 코드가 어긋난 상태를 발견했고, 최신 `npm run dev`로 재기동 후 카드/테이블 톤이 의도한 surface 계열로 반영됨을 확인
+
+상세 기록: `docs/qa/QA-FULL-RUN-2026-04-08.md`
+
+## 2026-04-10 데이터/프롬프트 리셋 준비
+
+실제형 데모 데이터 교체, 레거시 test 데이터 정리, PDF 기록 정책, Quick-Me/Gemma 대응 프롬프트 개선을 묶어서 진행하기 전에 체크리스트와 조사 노트를 잠갔다.
+
+- 체크리스트: `docs/status/DATA-PROMPT-PHASE-CHECKLIST-2026-04-10.md`
+- 조사 노트: `docs/status/PROMPT-AND-DATA-RESEARCH-NOTES-2026-04-10.md`
+- 공식문서 근거 포함: Supabase Storage schema/pricing, OpenAI prompt caching/prompting
+- 결정 잠금:
+  - 레거시 테스트 데이터 전부 삭제
+  - 실제형 목업 수업 5개 구성 (`인수분해`, `이차방정식`, `일차함수`, `연립방정식`, `도형의 닮음`)
+  - 교사 2명, 학생 10명
+  - 현실형 naming tone (`김민수 선생님 / 2학년 1반`)
+  - 자료 형식은 `PDF 위주`, Markdown 허용
+  - PDF 기록은 `파일명 + 업로드 시각 + 자료 수`
+  - 긴급 표현 감지 시 Quick-Me 자동 전환 허용
+  - Quick-Me 트리거 문구: `답만`, `빨리`, `시간 없어`, `바로 풀어줘`
+  - Quick-Me는 최종 답을 항상 바로 공개
+  - 교사용 지표에 Quick-Me 사용 비율을 `AI 보충 분석` 카드 내부에 반영
+  - 빠른답변 캐시는 새 테이블 추가
+  - `lesson-files`, `question-images` 테스트 파일도 함께 정리
+  - `DB + Storage 전부 삭제 후 재시드`
+
+## 2026-04-10 실제형 데모 데이터 재시드 완료
+
+`DB + Storage 전부 삭제 후 재시드`를 실제로 실행했고, 테스트성 lesson/storage object를 모두 정리한 뒤 현실형 데모 데이터로 교체했다.
+
+- 리셋 전:
+  - `users 148`, `lessons 33`, `lesson_materials 88`, `sessions 53`, `student_questions 117`, `ai_responses 126`, `misconception_summaries 25`
+  - Storage `lesson-files 34`, `question-images 17`
+- 리셋 후:
+  - `users 12`, `lessons 5`, `lesson_materials 6`, `sessions 10`, `student_questions 14`, `ai_responses 14`, `misconception_summaries 10`
+  - Storage `lesson-files 6`, `question-images 1`
+- 실제형 lesson:
+  - `2학년 1반 인수분해 핵심 정리`
+  - `2학년 1반 이차방정식과 근의 공식`
+  - `2학년 2반 일차함수 그래프 읽기`
+  - `2학년 2반 연립방정식 활용문제`
+  - `2학년 1반 도형의 닮음과 비례식`
+- 검증:
+  - `npm run demo:reset -- --dry-run`
+  - `npm run demo:reset`
+  - `npm run lint`
+  - `npm run typecheck`
+  - `npm run build`
+  - 대표 lesson 대시보드 API 응답 확인 (`/api/lessons/[id]/dashboard`)
 
 ## 2026-04-08 실사용 완주 테스트
 
