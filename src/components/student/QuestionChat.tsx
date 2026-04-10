@@ -39,6 +39,7 @@ export default function QuestionChat({ lessonId, lessonTitle, topic }: QuestionC
   const { userId } = useRole();
   const { state, sendMessage, handleModeChange, modeAlert } = useQuestionChat(lessonId, lessonTitle, userId ?? '');
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const prevMessagesLengthRef = useRef(0);
   const [quizQuestion, setQuizQuestion] = useState<string | null>(null);
   const [quizAnswer, setQuizAnswer] = useState('');
   const [quizFeedback, setQuizFeedback] = useState<string | null>(null);
@@ -47,8 +48,12 @@ export default function QuestionChat({ lessonId, lessonTitle, topic }: QuestionC
   const currentStepInfo = getChatStep(state.currentStep);
 
   // 메시지 추가 시 자동 스크롤
+  // - 새 메시지(length 증가): smooth
+  // - 스트리밍 content 업데이트(length 동일): auto(instant) — 떨림 방지
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    const isNewMessage = state.messages.length !== prevMessagesLengthRef.current;
+    prevMessagesLengthRef.current = state.messages.length;
+    messagesEndRef.current?.scrollIntoView({ behavior: isNewMessage ? 'smooth' : 'auto' });
   }, [state.messages]);
 
   const progressPercent = (state.currentStep / 4) * 100;
@@ -125,7 +130,7 @@ export default function QuestionChat({ lessonId, lessonTitle, topic }: QuestionC
             >
               <Home className="size-5" />
             </Link>
-            <span className="text-[10px] md:text-xs font-bold tracking-tight text-muted-foreground whitespace-nowrap">
+            <span className="ui-micro font-bold tracking-tight text-muted-foreground whitespace-nowrap">
               {currentStepInfo.label} · {state.currentStep}/4
             </span>
           </div>
@@ -155,7 +160,7 @@ export default function QuestionChat({ lessonId, lessonTitle, topic }: QuestionC
         {/* 초기 안내 (메시지 없을 때) */}
         {state.messages.length === 0 && (
           <section className="flex flex-col items-start max-w-2xl gap-4">
-            <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
+            <label className="ui-kicker text-muted-foreground">
               풀다 AI
             </label>
             <div
@@ -165,14 +170,17 @@ export default function QuestionChat({ lessonId, lessonTitle, topic }: QuestionC
               <p className="text-lg leading-relaxed text-foreground mb-2">
                 <strong>{lessonTitle}</strong>에서 막힌 부분이 있나요?
               </p>
-              <p className="text-sm text-muted-foreground">
+              <p className="ui-support text-muted-foreground">
                 답을 바로 알려주지 않아요. 질문을 통해 스스로 찾을 수 있도록 도와줄게요.
               </p>
             </div>
+            <p className="ui-micro text-muted-foreground">
+              학생 화면은 질문과 복습 전용입니다. 수업 자료와 교사 데이터는 이 화면에서 수정할 수 없습니다.
+            </p>
 
             {/* 예시 질문 버튼 */}
             <div className="flex flex-col gap-2 w-full">
-              <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
+              <label className="ui-kicker text-muted-foreground">
                 이런 질문을 해보세요
               </label>
               {[
@@ -218,13 +226,13 @@ export default function QuestionChat({ lessonId, lessonTitle, topic }: QuestionC
 
         {state.currentStep >= 4 && state.sessionId && (
           <section className="flex flex-col items-start max-w-2xl gap-2 w-full">
-            <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
-              Mini Quiz
-            </label>
+              <label className="ui-kicker text-muted-foreground">
+                미니퀴즈
+              </label>
             <div className="bg-card border border-border p-6 md:p-8 w-full space-y-4">
               {!quizQuestion ? (
                 <>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="ui-support text-muted-foreground">
                     마지막으로 핵심 개념을 직접 설명해보는 미니퀴즈 1문항을 풀어볼까요?
                   </p>
                   <button

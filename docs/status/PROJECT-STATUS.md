@@ -75,13 +75,63 @@ Production에서 `multipart -> Next API` 경로가 약 4.3MB부터 `413 FUNCTION
 
 ## 2026-04-10 Gemma 4-ready 메시지 보강
 
-Gemma 4 연동 가치를 문서, 랜딩, 발표 자료에서 일관되게 보이도록 정리했다.
+Gemma 4 연동 가치는 문서, 발표 자료, AI 리포트에서 일관되게 설명하도록 정리했다.
 
-- 랜딩에 `Runtime / Gemma Ready` 카드 추가
-- 현재 튜터 엔진, task별 하이브리드 전환, Gemma 4 연동 가치가 화면에서 직접 보이도록 보강
+- 앱 랜딩에서는 런타임 카드 노출을 제거하고, 심사위원 탐색에 필요한 핵심 제품 흐름만 남김
+- Gemma/OpenAI 하이브리드 확장 설명은 AI 리포트와 발표 자료에서 읽히도록 이동
 - SSOT와 아키텍처 문서에 `현재 구현 범위`와 `과장 금지 범위`를 명시
 - 발표 자료용 메시지 문서 `docs/demo/PPT-GEMMA-ANGLE.md` 추가
+- 현재 구현 상태를 기준으로 한 deck 생성 프롬프트 `docs/demo/PPT-PROMPT-PULDA-AI.md` 추가
 - 비교 스크립트 `npm run ai:compare`를 통해 OpenAI ↔ Gemma 스모크 테스트 가능
+
+## 2026-04-10 보안 서술 정렬
+
+SSOT에서 데모 탐색 UX와 실제 보안 경계를 분리해 읽히도록 문구를 정리했다.
+
+- `teacher/student` 역할 선택은 심사위원 탐색 편의를 위한 데모 진입 UX이며, 보안 경계가 아님을 명시
+- 로그인 없는 데모 표현은 유지하되, 운영 권한 모델은 `authenticated + RLS + ownership 검증` 방향으로 분리 설명
+- 개인정보/접근 권한 문구도 데모 세션과 운영 보안이 혼동되지 않도록 완화
+
+## 2026-04-10 보안 안내 캡션 추가
+
+심사위원이 앱을 탐색할 때 데모 UX와 실제 보안 경계를 혼동하지 않도록 팝업 대신 짧은 캡션을 넣었다.
+
+- 역할 선택 화면: 데모용 역할 선택이며 실제 운영 권한 모델은 서버/RLS 기준이라는 안내
+- 교사 업로드 화면: 교사용 작성 경로이며 운영 단계에서는 교사 인증 이후 수정 가능하다는 안내
+- 학생 질문 화면: 학생 화면은 질문/복습 전용이며 수업 자료와 교사 데이터는 수정할 수 없다는 안내
+
+## 2026-04-10 가독성 패치 및 UI 정리
+
+WCAG AA 최소 기준 미달 텍스트 크기와 의미 없는 하드코딩 게이지를 일괄 정리했다.
+
+- `text-[10px]` 8곳 → `text-xs`(12px) 일괄 교체 (AiRuntimeReadiness, DemoFlow, ModeSelector, CurriculumCard, DashboardMisconceptionLoader, page.tsx)
+- `text-[11px] sm:text-xs` → `text-xs sm:text-sm` (ModeSelector 모바일 개선)
+- `text-[3.5rem]` → `text-6xl` / `text-5xl` — dashboard/upload/summary h1 Tailwind 표준 클래스 통일
+- `text-[1.35rem]`, `text-[1.5rem]` → `text-xl`, `text-2xl` — page.tsx STEP 카드 제목
+- `text-[0.9rem] sm:text-[0.95rem]` → `text-sm sm:text-base` — page.tsx 예시 텍스트
+- `globals.css --type-micro-size: 0.6875rem` → `0.75rem` (11px → 12px 상향)
+- RoleSelector 게이지 초기값 `w-1/3` / `w-1/4` → `w-0` (선택 전 의미 없는 사전 채움 제거, hover 시만 활성)
+- HOW_STEPS 카드 텍스트 중앙 정렬 + 아이콘 인라인 배치 개선
+
+## 2026-04-10 모바일 텍스트 통일 잠금
+
+모바일에서 한글/영문 혼용 우선순위와 강제 줄바꿈 방식이 섞여 있어, 랜딩/수업선택/학생 요약 화면의 텍스트 규칙을 먼저 잠갔다.
+
+- 모바일 UI는 한국어 우선, 영어는 보조 정보로 제한
+- 강제 `<br />` 대신 자연 줄바꿈으로 수정
+- 수업 카드의 메타는 모바일에서 세로 흐름 우선
+- 학생 요약 라벨도 한국어 우선으로 통일
+- 이후 학생 채팅과 교사 대시보드의 보조 라벨까지 같은 기준으로 확장
+- 상세 기준: `docs/status/MOBILE-TEXT-LOCK-2026-04-10.md`
+
+## 2026-04-10 모바일 화면 QA 후 미세조정
+
+모바일 실캡처 기준으로 남아 있던 영문 메타와 입력창 줄바꿈을 마지막으로 정리했다.
+
+- 수업 선택/교사 수업 목록 카드의 과목 메타 `MATH`를 한국어 `수학`으로 매핑
+- 학생 채팅 입력창 placeholder를 더 짧게 줄여 모바일 한 줄 유지 가능성을 높임
+- 교사 대시보드 `AI 보충 분석` 카드의 `Quick-Me` 표기를 `빠른 풀이`로 정리
+- 랜딩, 학생 수업 선택, 교사 수업 목록, 교사 상세 대시보드, 학생 채팅 화면을 iPhone 12 기준 Playwright 캡처로 재확인
 
 ## 2026-04-10 데이터/프롬프트 리셋 준비
 
@@ -348,6 +398,11 @@ Gemma 4 연동 가치를 문서, 랜딩, 발표 자료에서 일관되게 보이
 - 교사 대시보드에 `수업 자료 기록` 카드와 `Quick-Me 사용 비율` 노출
 - 최종 재시드 기준: `users 12`, `lessons 5`, `lesson_materials 6`, `lesson_context_caches 5`, `lesson_quick_answers 5`, `sessions 10`, `student_questions 14`, `ai_responses 14`, `misconception_summaries 10`
 
+### UI 버그 수정 (2026-04-10)
+
+- **학생 메시지 카드 색상**: `MessageBubble.tsx` — `bg-primary`(#222222 흑색) → `bg-muted`(중립 회색), `border-primary-foreground/20` → `border-border`
+- **AI 응답 스크롤 떨림**: `QuestionChat.tsx` — 스트리밍 매 청크마다 `scrollIntoView` 반복 호출 문제. `prevMessagesLengthRef`로 신규 메시지 추가 시만 `smooth`, 스트리밍 content 업데이트는 `auto`(instant)로 분리 → 떨림 해소
+
 ### 로컬 LLM 연결 준비 (2026-04-10)
 
 - 로컬 Ollama 런타임 확인: `gemma4-unsloth-e4b:latest`, `gemma4:26b-a4b-it-q4_K_M` 설치 확인
@@ -360,6 +415,22 @@ Gemma 4 연동 가치를 문서, 랜딩, 발표 자료에서 일관되게 보이
 - 로컬 연결 점검 스크립트 추가: `npm run ai:runtime-check`
 - 점검 스크립트는 셸 env가 `.env.local`보다 우선이라, `AI_TUTOR_PROVIDER=ollama npm run ai:runtime-check` 형태로 안전한 비교 가능
 - 권장 비교 범위는 `tutor` task만 먼저 전환하고 Quick-Me/Grill-Me 품질을 A/B 확인하는 방식
+
+### Typography Token 정리 (2026-04-10)
+
+- 작은 텍스트 하드코딩(`text-[10px]`, `text-xs`, `text-sm`)을 semantic typography utility로 묶는 1차 정리 시작
+- `src/app/globals.css`에 `ui-kicker`, `ui-micro`, `ui-micro-strong`, `ui-support` 추가
+- 1차 치환 범위:
+  - 랜딩
+  - 역할 선택
+  - 수업 선택
+  - 학생 채팅/요약
+  - 교사 대시보드 핵심 카드
+- 위험 구간인 step marker, 대시보드 표 헤더, nowrap 상태 텍스트는 보수적으로 조정
+- 잠금 문서: `docs/status/TYPOGRAPHY-TOKEN-LOCK-2026-04-10.md`
+- 자기리뷰 2차 반영:
+  - `SessionStats`, `MessageBubble`, `TopQuestionsCard`, `MisconceptionHeatmap`, `LandingFooter`, `teacher/upload`, `student/ask`, `UploadForm`까지 토큰 치환 확장
+  - `ModeSelector`, 랜딩 step marker, shadcn primitive는 보수 유지
 
 ### 15-스킬 프로젝트 리뷰
 

@@ -37,15 +37,15 @@ export default function MessageBubble({ message }: MessageBubbleProps) {
     // 학생 메시지
     return (
       <section className="flex flex-col items-end self-end max-w-2xl gap-2 w-full">
-        <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
+        <label className="ui-kicker text-muted-foreground">
           Student
         </label>
         <div
-          className="bg-primary text-primary-foreground p-8 w-full text-right"
-         
+          className="bg-muted text-foreground p-8 w-full text-right"
+
         >
           {message.imageUrl && (
-            <div className="relative ml-auto mb-4 h-40 w-full max-w-xs overflow-hidden border border-primary-foreground/20">
+            <div className="relative ml-auto mb-4 h-40 w-full max-w-xs overflow-hidden border border-border">
               <Image
                 src={message.imageUrl}
                 alt="학생이 첨부한 질문 이미지"
@@ -66,7 +66,7 @@ export default function MessageBubble({ message }: MessageBubbleProps) {
   // AI 메시지
   return (
     <section className="flex flex-col items-start max-w-2xl gap-2">
-      <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
+      <label className="ui-kicker text-muted-foreground">
         풀다 AI
       </label>
       <div
@@ -114,7 +114,7 @@ export default function MessageBubble({ message }: MessageBubbleProps) {
         {message.recommendation && (
           <Collapsible open={recOpen} onOpenChange={setRecOpen} className="mt-4">
             <CollapsibleTrigger className="flex items-center gap-2 group cursor-pointer">
-              <span className="text-[10px] font-bold uppercase tracking-widest text-primary group-hover:underline">
+              <span className="ui-kicker text-primary group-hover:underline">
                 💡 힌트 보기
               </span>
               {recOpen ? (
