@@ -6,9 +6,9 @@
  */
 
 import { generateText, Output } from 'ai';
-import { openai } from '@ai-sdk/openai';
 import { z } from 'zod';
 import { PROMPTS } from '@/lib/prompts';
+import { getAiModel } from '@/lib/ai/provider';
 
 const gradeSchema = z.object({
   passed: z.boolean(),
@@ -33,7 +33,7 @@ export async function gradeMiniQuiz(params: {
     .replace('{quiz_answer}', params.quizAnswer);
 
   const { output } = await generateText({
-    model: openai('gpt-4o-mini'),
+    model: getAiModel('quiz-grade'),
     system,
     messages: [{ role: 'user', content: '학생 답변을 채점해주세요.' }],
     output: Output.object({ schema: gradeSchema }),

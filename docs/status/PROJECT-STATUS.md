@@ -338,6 +338,19 @@ Production에서 `multipart -> Next API` 경로가 약 4.3MB부터 `413 FUNCTION
 - 교사 대시보드에 `수업 자료 기록` 카드와 `Quick-Me 사용 비율` 노출
 - 최종 재시드 기준: `users 12`, `lessons 5`, `lesson_materials 6`, `lesson_context_caches 5`, `lesson_quick_answers 5`, `sessions 10`, `student_questions 14`, `ai_responses 14`, `misconception_summaries 10`
 
+### 로컬 LLM 연결 준비 (2026-04-10)
+
+- 로컬 Ollama 런타임 확인: `gemma4-unsloth-e4b:latest`, `gemma4:26b-a4b-it-q4_K_M` 설치 확인
+- `src/lib/ai/provider.ts`로 AI provider/model 선택 중앙화
+- 기본값은 OpenAI 유지라 env를 바꾸지 않으면 기존 기능 영향 없음
+- task별 전환 지원:
+  - `AI_TUTOR_PROVIDER=ollama`
+  - `AI_TUTOR_OLLAMA_MODEL=gemma4-unsloth-e4b:latest`
+  - 필요 시 intent / summary / quiz도 각각 분리 가능
+- 로컬 연결 점검 스크립트 추가: `npm run ai:runtime-check`
+- 점검 스크립트는 셸 env가 `.env.local`보다 우선이라, `AI_TUTOR_PROVIDER=ollama npm run ai:runtime-check` 형태로 안전한 비교 가능
+- 권장 비교 범위는 `tutor` task만 먼저 전환하고 Quick-Me/Grill-Me 품질을 A/B 확인하는 방식
+
 ### 15-스킬 프로젝트 리뷰
 
 ```

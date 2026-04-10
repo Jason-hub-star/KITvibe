@@ -8,7 +8,7 @@
  */
 
 import { streamText, type ModelMessage } from 'ai';
-import { openai } from '@ai-sdk/openai';
+import { getAiModel } from '@/lib/ai/provider';
 import { PROMPTS } from '@/lib/prompts';
 import { retrieveContext } from '@/lib/rag/search';
 import type { ChatMode } from '@/types';
@@ -101,7 +101,7 @@ export async function generateTutoringResponse(params: TutoringParams) {
 
   // 3. streamText 호출
   const result = streamText({
-    model: openai('gpt-4o-mini'),
+    model: getAiModel('tutor'),
     system,
     messages: modelMessages,
   });

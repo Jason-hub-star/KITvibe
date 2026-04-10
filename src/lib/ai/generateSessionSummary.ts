@@ -6,9 +6,9 @@
  */
 
 import { generateText, Output } from 'ai';
-import { openai } from '@ai-sdk/openai';
 import { z } from 'zod';
 import { PROMPTS } from '@/lib/prompts';
+import { getAiModel } from '@/lib/ai/provider';
 
 const sessionSummarySchema = z.object({
   summary_text: z.string(),
@@ -31,7 +31,7 @@ export async function generateSessionSummary(params: {
     .replace('{session_log}', params.sessionLog || '(세션 로그 없음)');
 
   const { output } = await generateText({
-    model: openai('gpt-4o-mini'),
+    model: getAiModel('session-summary'),
     system,
     messages: [{ role: 'user', content: '세션 요약을 생성해주세요.' }],
     output: Output.object({ schema: sessionSummarySchema }),

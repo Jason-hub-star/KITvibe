@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
-    "demo:reset": "node scripts/demo-data/resetAndSeed.mjs"
+    "demo:reset": "node scripts/demo-data/resetAndSeed.mjs",
+    "ai:runtime-check": "node scripts/ai/checkLocalRuntime.mjs"
   },
   "dependencies": {
     "@ai-sdk/google": "^1",

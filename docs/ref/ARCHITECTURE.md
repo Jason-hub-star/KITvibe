@@ -63,6 +63,25 @@
   → 시스템 프롬프트 + chunk + 질문 → AI Gateway → 스트리밍 응답
 ```
 
+### 로컬 LLM 전환 준비
+```
+기본값: OpenAI 유지
+  └─ env 미설정 시 기존 기능 영향 없음
+
+비교 모드:
+  AI_TUTOR_PROVIDER=ollama
+  AI_TUTOR_OLLAMA_MODEL=gemma4-unsloth-e4b:latest
+  OLLAMA_BASE_URL=http://127.0.0.1:11434/v1
+
+점검:
+  npm run ai:runtime-check
+
+안전한 A/B 테스트:
+  기본: env 없이 실행 = 기존 OpenAI 그대로
+  비교: AI_TUTOR_PROVIDER=ollama 만 켜서 튜터링만 로컬 모델로 전환
+  권장 확인: Quick-Me 즉답, Grill-Me 질문 유지, 태그 누락 여부, 수업 맥락 이탈 여부
+```
+
 ### 오개념 대시보드
 ```
 질문 로그 배치 → AI 요약 (개념별 빈도/패턴) → misconception_summaries 저장

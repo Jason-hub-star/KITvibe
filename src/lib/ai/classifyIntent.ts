@@ -8,9 +8,9 @@
  */
 
 import { generateText, Output } from 'ai';
-import { openai } from '@ai-sdk/openai';
 import { z } from 'zod';
 import { PROMPTS } from '@/lib/prompts';
+import { getAiModel } from '@/lib/ai/provider';
 import type { IntentType } from '@/types';
 
 const intentSchema = z.object({
@@ -27,7 +27,7 @@ export async function classifyIntent(
   questionText: string,
 ): Promise<{ intent: IntentType; confidence: number }> {
   const { output } = await generateText({
-    model: openai('gpt-4o-mini'),
+    model: getAiModel('intent'),
     system: PROMPTS.INTENT_CLASSIFIER,
     messages: [{ role: 'user', content: questionText }],
     output: Output.object({ schema: intentSchema }),

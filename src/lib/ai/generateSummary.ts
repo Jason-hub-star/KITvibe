@@ -7,9 +7,9 @@
  */
 
 import { generateText, Output } from 'ai';
-import { openai } from '@ai-sdk/openai';
 import { z } from 'zod';
 import { PROMPTS } from '@/lib/prompts';
+import { getAiModel } from '@/lib/ai/provider';
 
 const misconceptionItemSchema = z.object({
   concept_name: z.string(),
@@ -32,7 +32,7 @@ export async function generateTeacherSummary(
   const systemPrompt = PROMPTS.TEACHER_SUMMARY.replace('{question_logs}', '');
 
   const { output } = await generateText({
-    model: openai('gpt-4o-mini'),
+    model: getAiModel('teacher-summary'),
     system: systemPrompt,
     messages: [{ role: 'user', content: `[질문 로그]\n${questionLogs}` }],
     output: Output.object({ schema: misconceptionSchema }),

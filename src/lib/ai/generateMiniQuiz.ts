@@ -6,9 +6,9 @@
  */
 
 import { generateText, Output } from 'ai';
-import { openai } from '@ai-sdk/openai';
 import { z } from 'zod';
 import { PROMPTS } from '@/lib/prompts';
+import { getAiModel } from '@/lib/ai/provider';
 
 const quizSchema = z.object({
   question: z.string(),
@@ -29,7 +29,7 @@ export async function generateMiniQuiz(params: {
     .replace('{session_log}', params.sessionLog || '(세션 로그 없음)');
 
   const { output } = await generateText({
-    model: openai('gpt-4o-mini'),
+    model: getAiModel('mini-quiz'),
     system,
     messages: [{ role: 'user', content: '미니퀴즈 1문항을 생성해주세요.' }],
     output: Output.object({ schema: quizSchema }),
