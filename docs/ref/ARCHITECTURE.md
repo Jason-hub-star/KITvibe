@@ -75,11 +75,18 @@
 
 점검:
   npm run ai:runtime-check
+  npm run ai:compare
 
 안전한 A/B 테스트:
   기본: env 없이 실행 = 기존 OpenAI 그대로
   비교: AI_TUTOR_PROVIDER=ollama 만 켜서 튜터링만 로컬 모델로 전환
   권장 확인: Quick-Me 즉답, Grill-Me 질문 유지, 태그 누락 여부, 수업 맥락 이탈 여부
+
+현재 구현:
+  - provider abstraction 완료
+  - tutor / intent / summary / quiz task별 전환 지원
+  - 로컬 Gemma 비교 스모크 스크립트 보유
+  - 학생 기기 전면 온디바이스는 별도 성능 검증 범위
 ```
 
 ### 오개념 대시보드

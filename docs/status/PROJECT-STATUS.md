@@ -73,6 +73,16 @@ Production에서 `multipart -> Next API` 경로가 약 4.3MB부터 `413 FUNCTION
 
 상세 기록: `docs/qa/QA-FULL-RUN-2026-04-08.md`
 
+## 2026-04-10 Gemma 4-ready 메시지 보강
+
+Gemma 4 연동 가치를 문서, 랜딩, 발표 자료에서 일관되게 보이도록 정리했다.
+
+- 랜딩에 `Runtime / Gemma Ready` 카드 추가
+- 현재 튜터 엔진, task별 하이브리드 전환, Gemma 4 연동 가치가 화면에서 직접 보이도록 보강
+- SSOT와 아키텍처 문서에 `현재 구현 범위`와 `과장 금지 범위`를 명시
+- 발표 자료용 메시지 문서 `docs/demo/PPT-GEMMA-ANGLE.md` 추가
+- 비교 스크립트 `npm run ai:compare`를 통해 OpenAI ↔ Gemma 스모크 테스트 가능
+
 ## 2026-04-10 데이터/프롬프트 리셋 준비
 
 실제형 데모 데이터 교체, 레거시 test 데이터 정리, PDF 기록 정책, Quick-Me/Gemma 대응 프롬프트 개선을 묶어서 진행하기 전에 체크리스트와 조사 노트를 잠갔다.

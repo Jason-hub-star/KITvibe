@@ -9,7 +9,8 @@
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
     "demo:reset": "node scripts/demo-data/resetAndSeed.mjs",
-    "ai:runtime-check": "node scripts/ai/checkLocalRuntime.mjs"
+    "ai:runtime-check": "node scripts/ai/checkLocalRuntime.mjs",
+    "ai:compare": "node scripts/ai/compareTutorModels.mjs"
   },
   "dependencies": {
     "@ai-sdk/google": "^1",

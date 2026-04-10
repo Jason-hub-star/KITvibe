@@ -2,16 +2,19 @@
  * @file app/page.tsx
  * @description P-001 랜딩 페이지 — Stitch 에디토리얼 + 토스 스타일 카피
  *   - Hero (명확한 가치 제안 + 한 줄 기능 요약)
+ *   - AI runtime readiness (OpenAI demo + Gemma-ready)
  *   - 3-Step 데모 흐름 (애니메이션)
  *   - 역할 선택 카드 (교사/학생)
  *   - How it works 섹션
  *   - Footer
  * @domain shared
- * @access client
+ * @access shared
  */
 
 import Link from 'next/link';
 import { BookOpen, Upload, MessageCircle, BarChart3 } from 'lucide-react';
+import { getAiRuntimeConfig } from '@/lib/ai/provider';
+import { AiRuntimeReadiness } from '@/components/layout/AiRuntimeReadiness';
 import { RoleSelector } from '@/components/layout/RoleSelector';
 import { LandingFooter } from '@/components/layout/LandingFooter';
 
@@ -39,7 +42,43 @@ const HOW_STEPS = [
   },
 ];
 
+function formatRuntimeTitle(provider: 'openai' | 'ollama', model: string): string {
+  if (provider === 'ollama') {
+    return `Gemma Ready · ${model}`;
+  }
+
+  return `OpenAI Demo · ${model}`;
+}
+
 export default function Home() {
+  const tutorRuntime = getAiRuntimeConfig('tutor');
+  const summaryRuntime = getAiRuntimeConfig('teacher-summary');
+  const readinessCards = [
+    {
+      eyebrow: 'Current tutor engine',
+      title: formatRuntimeTitle(tutorRuntime.provider, tutorRuntime.model),
+      description:
+        tutorRuntime.provider === 'ollama'
+          ? '현재 튜터 응답은 로컬 Gemma 계열로 동작해요. 같은 질문 흐름을 유지한 채 클라우드 비용 없이 확장할 수 있어요.'
+          : '현재 배포본은 OpenAI를 기본으로 사용해요. 심사/데모 안정성을 유지하면서도, 필요하면 튜터만 로컬 Gemma로 바꿀 수 있어요.',
+      meta: tutorRuntime.provider === 'ollama' ? 'runtime active · local tutor mode' : 'runtime active · stable demo mode',
+    },
+    {
+      eyebrow: 'Hybrid routing',
+      title: '튜터와 요약을 따로 전환',
+      description:
+        '튜터, 의도분류, 요약, 퀴즈를 task별로 분리해 전환할 수 있어요. 로컬 Gemma를 붙여도 전체 기능을 한 번에 갈아엎지 않아도 됩니다.',
+      meta: `tutor ${tutorRuntime.provider} / summary ${summaryRuntime.provider}`,
+    },
+    {
+      eyebrow: 'Why it matters',
+      title: '비용·프라이버시·오프라인 확장',
+      description:
+        '공모전 단계에서는 OpenAI로 안정성을 확보하고, 이후에는 Gemma 4 계열로 로컬 실행 옵션을 열어 비용 절감과 데이터 외부 전송 최소화를 노릴 수 있어요.',
+      meta: 'gemma 4-ready architecture',
+    },
+  ];
+
   return (
     <div className="min-h-screen flex flex-col">
       {/* Brand Header */}
@@ -73,6 +112,8 @@ export default function Home() {
         </p>
 
       </section>
+
+      <AiRuntimeReadiness cards={readinessCards} />
 
       {/* Role Cards Section — 먼저 시작하게 */}
       <section className="bg-muted py-24 px-8 md:px-24">

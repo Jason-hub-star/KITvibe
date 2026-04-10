@@ -566,6 +566,13 @@ billing, organization, classroom_membership, guardian, notification, audit_log (
   └─ WebGPU 미지원 → 자동 Cloud
 ```
 
+**현재 구현 상태:**
+- 기본 배포본은 OpenAI `gpt-4o-mini`
+- `tutor / intent / summary / quiz`를 task별로 분리 전환 가능
+- 튜터 task는 Ollama 기반 Gemma 4 계열 모델로 로컬 전환 준비 완료
+- runtime 점검 스크립트와 비교 스크립트로 OpenAI ↔ Gemma A/B 테스트 가능
+- 학생 기기 전면 온디바이스 배포는 아직 별도 검증 범위
+
 ### J-3. Obsidian .md RAG 지원
 
 | 항목 | PDF | Obsidian .md |
