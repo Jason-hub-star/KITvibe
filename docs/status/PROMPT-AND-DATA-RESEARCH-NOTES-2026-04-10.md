@@ -34,6 +34,7 @@
 - Quick-Me 모델 입력은 최신 user 메시지만 전달해, 이전 질문형 히스토리가 빠른답변 톤을 흐리지 않도록 줄였다
 - MVP fallback RAG도 질문 토큰과 겹치는 자료를 우선 선택해, lesson 전체 context stuffing을 조금 더 집중형으로 줄였다
 - retrieveContext는 이제 lesson context cache를 항상 prefix로 붙이고, 그 뒤에 관련 자료 본문을 이어 붙인다
+- Quick-Me 본문은 `핵심 개념 / 풀이 / 최종 답 / 실수 포인트` 라벨 고정, Grill-Me는 `질문 / 생각 포인트` 라벨 고정으로 강화했다
 
 ## 2026-04-10 잠금 결정 반영
 

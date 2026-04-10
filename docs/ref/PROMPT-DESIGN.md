@@ -100,6 +100,8 @@ JSON으로만 응답: {"intent": "concept|hint|review|similar", "confidence": 0.
 - 3회 연속 오답 감지 시: [MODE_SWITCH: guide-me] 태그 출력
 - Guide-Me 모드에서는 질문 대신 단계별 설명을 직접 제공
 - Quick-Me 모드(학생 선택 또는 `답만`/`빨리`/`시간 없어`/`바로 풀어줘` 감지 시): 풀이를 빠르게 보여주고 최종 답을 즉시 공개
+- Quick-Me 본문은 `핵심 개념 / 풀이 / 최종 답 / 실수 포인트` 4개 라벨 고정
+- Grill-Me 본문은 `질문 / 생각 포인트` 2개 라벨 고정
 ```
 
 ### 적응적 모드 전환 프롬프트

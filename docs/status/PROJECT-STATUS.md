@@ -334,6 +334,7 @@ Production에서 `multipart -> Next API` 경로가 약 4.3MB부터 `413 FUNCTION
 - Quick-Me 모델 입력은 최신 user 메시지만 사용하도록 줄여 질문형 히스토리 오염을 완화
 - fallback RAG는 질문과 겹치는 자료를 우선 선택하도록 보강
 - lesson context cache를 RAG prefix로 붙여 Gemma 같은 약한 모델에서도 수업 핵심 요약이 먼저 들어가게 정리
+- Quick-Me 본문은 `핵심 개념 / 풀이 / 최종 답 / 실수 포인트`, Grill-Me 본문은 `질문 / 생각 포인트` 라벨로 고정
 - 교사 대시보드에 `수업 자료 기록` 카드와 `Quick-Me 사용 비율` 노출
 - 최종 재시드 기준: `users 12`, `lessons 5`, `lesson_materials 6`, `lesson_context_caches 5`, `lesson_quick_answers 5`, `sessions 10`, `student_questions 14`, `ai_responses 14`, `misconception_summaries 10`
 
