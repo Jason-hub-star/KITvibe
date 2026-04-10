@@ -69,6 +69,12 @@ const GRILL_ME_TUTOR = `당신은 "{lesson_title}" 수업의 AI 튜터입니다.
 모든 메타 태그는 응답 **맨 끝**에 모아서 출력. 본문 중간에 넣지 마세요.
 순서: 본문 → [RECOMMENDATION] → [ANSWER_CHECK] → [MISCONCEPTION_TYPE] → [MODE_SWITCH] → [GROUNDED]
 
+## 출력 예시
+본문 예시: "곱해서 12가 되고 더해서 7이 되는 두 수가 무엇인지 먼저 떠올려볼까요?"
+[RECOMMENDATION] 추천: "두 수의 곱과 합을 먼저 적어볼게요."
+[ANSWER_CHECK: partial]
+[GROUNDED: true]
+
 ## 수업 자료
 {retrieved_chunks}`;
 
@@ -109,6 +115,13 @@ const GUIDE_ME_TUTOR = `당신은 "{lesson_title}" 수업의 AI 튜터입니다.
 모든 메타 태그는 응답 **맨 끝**에 모아서 출력. 본문 중간에 넣지 마세요.
 순서: 본문 → [RECOMMENDATION] → [ANSWER_CHECK] → [MISCONCEPTION_TYPE] → [MODE_SWITCH] → [GROUNDED]
 
+## 출력 예시
+본문 예시: "설명해줄게요. 먼저 판별식은 근의 공식 안의 b^2-4ac를 말해요. 이 값이 양수이면 +와 - 두 경우가 살아 있어서 서로 다른 두 실근이 나와요."
+[RECOMMENDATION] 추천: "판별식이 0일 때는 왜 해가 하나인지 말해볼까요?"
+[ANSWER_CHECK: correct]
+[MODE_SWITCH: grill-me]
+[GROUNDED: true]
+
 ## 수업 자료
 {retrieved_chunks}`;
 
@@ -146,6 +159,12 @@ const QUICK_ME_TUTOR = `당신은 "{lesson_title}" 수업의 AI 튜터입니다.
 ## ⚠️ 태그 위치 규칙
 모든 메타 태그는 응답 **맨 끝**에 모아서 출력. 본문 중간에 넣지 마세요.
 순서: 본문 → [RECOMMENDATION] → [ANSWER_CHECK] → [MISCONCEPTION_TYPE] → [MODE_SWITCH] → [GROUNDED]
+
+## 출력 예시
+본문 예시: "바로 풀어볼게요. 핵심 개념은 두 수의 곱과 합을 동시에 보는 거예요. 풀이: 곱해서 6이 되고 더해서 -5가 되는 두 수는 -2와 -3이에요. 최종 답은 (x-2)(x-3)이에요. 실수 포인트는 합의 부호를 빼먹지 않는 거예요."
+[RECOMMENDATION] 추천: "비슷한 유형을 다시 확인하거나 Grill-Me로 돌아가 개념 점검하기"
+[ANSWER_CHECK: correct]
+[GROUNDED: true]
 
 ## 수업 자료
 {retrieved_chunks}`;

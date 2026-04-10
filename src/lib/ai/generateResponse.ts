@@ -47,6 +47,34 @@ function buildSystemPrompt(
   return prompt;
 }
 
+function selectModelMessages(
+  mode: ChatMode,
+  messages: TutoringParams['messages'],
+): ModelMessage[] {
+  const latestUserMessage = [...messages].reverse().find((message) => message.role === 'user');
+  const sourceMessages =
+    mode === 'quick-me' && latestUserMessage
+      ? [latestUserMessage]
+      : messages;
+
+  return sourceMessages.map((message) =>
+    message.role === 'user'
+      ? {
+          role: 'user',
+          content: message.image_url
+            ? [
+                { type: 'text', text: message.content || '이미지 질문입니다.' },
+                { type: 'image', image: message.image_url },
+              ]
+            : [{ type: 'text', text: message.content || '이미지 질문입니다.' }],
+        }
+      : {
+          role: 'assistant',
+          content: message.content,
+        },
+  );
+}
+
 /**
  * 튜터링 스트리밍 응답 생성
  * @returns streamText 결과 (toTextStreamResponse()로 변환 가능)
@@ -69,22 +97,7 @@ export async function generateTutoringResponse(params: TutoringParams) {
 
   // 3. 시스템 프롬프트 구성
   const system = buildSystemPrompt(mode, currentStep, consecutiveWrong, retrievedChunks, lessonTitle);
-  const modelMessages: ModelMessage[] = messages.map((message) =>
-    message.role === 'user'
-      ? {
-          role: 'user',
-          content: message.image_url
-            ? [
-                { type: 'text', text: message.content || '이미지 질문입니다.' },
-                { type: 'image', image: message.image_url },
-              ]
-            : [{ type: 'text', text: message.content || '이미지 질문입니다.' }],
-        }
-      : {
-          role: 'assistant',
-          content: message.content,
-        },
-  );
+  const modelMessages = selectModelMessages(mode, messages);
 
   // 3. streamText 호출
   const result = streamText({

@@ -173,6 +173,7 @@
 - [x] Quick-Me에서는 반드시 답을 주도록 계약을 강화한다.
 - [x] Quick-Me 본문에 질문문/되물음을 금지하는 룰을 넣는다.
 - [x] Quick-Me 응답 포맷을 더 짧고 강하게 고정한다.
+- [x] Quick-Me에는 출력 예시를 넣고, 모델 입력은 최신 user 메시지 중심으로 줄인다.
   - [ ] 핵심 개념
   - [ ] 풀이 단계
   - [x] 최종 답
@@ -200,7 +201,7 @@
 - [x] 긴 혼합 지시 대신 mode별 짧은 프롬프트로 분리한다.
 - [ ] 태그 출력 예시를 one-shot/few-shot로 줄지 결정한다.
 - [ ] `정확히 이 순서로 출력` 같은 포맷 제약을 더 강하게 줄지 검토한다.
-- [ ] RAG 입력을 lesson 전체 텍스트가 아니라 lesson 요약 캐시 + 핵심 chunk 우선으로 바꿀지 검토한다.
+- [x] MVP fallback RAG도 질문과 겹치는 자료를 우선 선택하도록 보강한다.
 - [x] lesson별 quick answer cache / concept cache가 필요한지 검토한다.
 - [x] quick answer cache는 새 테이블로 추가한다.
 
@@ -223,6 +224,7 @@
 - [x] teacher dashboard 화면 QA
 - [x] student quick-me 응답 QA
 - [x] 대시보드 자료 기록 표기 QA
+- [x] Quick-Me 히스토리 축소 및 focused context fallback 적용
 - [x] lint / typecheck / build
 - [x] 문서 동기화
 

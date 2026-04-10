@@ -330,6 +330,8 @@ Production에서 `multipart -> Next API` 경로가 약 4.3MB부터 `413 FUNCTION
 - `lesson_quick_answers` 캐시 테이블 추가 및 원격 적용 완료
 - Quick-Me는 `답만`, `빨리`, `시간 없어`, `바로 풀어줘` 감지 시 자동 전환
 - Quick-Me cache hit 시 모델 호출 전 캐시 응답을 우선 반환
+- Quick-Me 모델 입력은 최신 user 메시지만 사용하도록 줄여 질문형 히스토리 오염을 완화
+- fallback RAG는 질문과 겹치는 자료를 우선 선택하도록 보강
 - 교사 대시보드에 `수업 자료 기록` 카드와 `Quick-Me 사용 비율` 노출
 - 최종 재시드 기준: `users 12`, `lessons 5`, `lesson_materials 6`, `lesson_quick_answers 5`, `sessions 10`, `student_questions 14`, `ai_responses 14`, `misconception_summaries 10`
 
