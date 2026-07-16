@@ -17,10 +17,10 @@ export function LessonMaterialsCard({ materials }: Props) {
     <section className="bg-card border border-border p-6">
       <div className="flex items-start justify-between gap-4 mb-6">
         <div className="space-y-2">
-          <span className="text-[10px] font-bold tracking-widest text-muted-foreground uppercase">
+          <span className="ui-kicker text-muted-foreground">
             수업 자료 기록
           </span>
-          <h3 className="text-2xl font-extrabold tracking-tight text-foreground">
+          <h3 className="text-xl sm:text-2xl font-extrabold tracking-tight text-foreground break-words">
             사용 중인 자료 {materials.length}개
           </h3>
         </div>
@@ -32,7 +32,7 @@ export function LessonMaterialsCard({ materials }: Props) {
             <p className="text-sm font-semibold text-foreground break-words">
               {material.file_name}
             </p>
-            <p className="text-xs text-muted-foreground mt-1">
+            <p className="ui-micro text-muted-foreground mt-1">
               업로드: {new Date(material.created_at).toLocaleString('ko-KR')}
             </p>
           </div>

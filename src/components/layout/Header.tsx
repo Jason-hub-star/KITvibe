@@ -46,7 +46,7 @@ export function Header() {
             <span className="text-sm text-muted-foreground">{userName}</span>
             <button
               onClick={handleChangeRole}
-              className="text-[10px] font-bold tracking-widest text-muted-foreground uppercase hover:text-foreground transition-colors"
+              className="ui-kicker text-muted-foreground hover:text-foreground transition-colors"
             >
               역할 변경
             </button>

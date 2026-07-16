@@ -70,8 +70,9 @@ secondary:           #5f5e5e   ← 라벨, 부제목
 | 섹션 제목 | `text-3xl font-bold tracking-tight` | 30px |
 | 카드 제목 | `text-xl font-bold` | 20px |
 | 본문 | `text-base leading-relaxed` | 16px |
-| 라벨 | `text-[0.75rem] font-bold uppercase tracking-[0.05em]` | 12px, 대문자 |
-| 마이크로 | `text-[10px] font-bold uppercase tracking-widest` | 10px, 추적 넓음 |
+| 라벨 | `ui-kicker` | 12px, 대문자 라벨 utility |
+| 마이크로 | `ui-micro`, `ui-micro-strong` | 모바일 11px / `sm+` 12px |
+| 보조 설명 | `ui-support` | 모바일 15px / `sm+` 16px |
 | 수치 (stats) | `text-4xl~6xl font-extrabold tabular-nums` | 큰 숫자 표시 |
 
 ### 핵심 패턴
@@ -79,6 +80,7 @@ secondary:           #5f5e5e   ← 라벨, 부제목
 - **tracking-tighter** → 제목에서 자간 좁힘 (볼드 타이포 특징)
 - **uppercase tracking-widest** → 라벨/카테고리에서 대문자 + 넓은 자간
 - **font-mono** → 숫자, 퍼센티지, 코드에서 사용
+- **semantic typography utility 우선** → `text-[10px]` 직접 사용보다 `ui-kicker`, `ui-micro`, `ui-support`를 우선 적용
 
 ## 3. 보더 반경 (Border Radius)
 

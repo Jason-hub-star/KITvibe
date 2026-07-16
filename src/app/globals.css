@@ -71,6 +71,15 @@
   --surface-mid: #efeeec;
   --surface-high: #eae8e5;
   --surface-highest: #e4e2df;
+
+  /* Typography semantic tokens */
+  --type-kicker-size: 0.75rem;
+  --type-kicker-line: 1rem;
+  --type-kicker-tracking: 0.08em;
+  --type-micro-size: 0.75rem;
+  --type-micro-line: 1rem;
+  --type-support-size: 0.9375rem;
+  --type-support-line: 1.6;
 }
 
 @layer base {
@@ -82,5 +91,40 @@
   }
   html {
     @apply font-sans;
+  }
+}
+
+@media (min-width: 640px) {
+  :root {
+    --type-micro-size: 0.75rem;
+    --type-support-size: 1rem;
+  }
+}
+
+@layer utilities {
+  .ui-kicker {
+    font-size: var(--type-kicker-size);
+    line-height: var(--type-kicker-line);
+    font-weight: 700;
+    letter-spacing: var(--type-kicker-tracking);
+    text-transform: uppercase;
+  }
+
+  .ui-micro {
+    font-size: var(--type-micro-size);
+    line-height: var(--type-micro-line);
+  }
+
+  .ui-micro-strong {
+    font-size: var(--type-micro-size);
+    line-height: var(--type-micro-line);
+    font-weight: 700;
+    letter-spacing: var(--type-kicker-tracking);
+    text-transform: uppercase;
+  }
+
+  .ui-support {
+    font-size: var(--type-support-size);
+    line-height: var(--type-support-line);
   }
 }

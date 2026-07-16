@@ -55,12 +55,12 @@ export default async function TeacherDashboardPage({ searchParams }: PageProps) 
             className="mb-8 inline-flex items-center gap-2 text-muted-foreground transition-colors hover:text-foreground"
           >
             <ArrowLeft className="size-4" />
-            <span className="text-[10px] font-bold uppercase tracking-widest">수업 목록으로 돌아가기</span>
+            <span className="ui-kicker">수업 목록으로 돌아가기</span>
           </Link>
-          <h1 className="text-4xl sm:text-5xl md:text-[3.5rem] font-bold leading-[1.1] tracking-tight text-foreground mb-8">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold leading-[1.1] tracking-tight text-foreground mb-8">
             대시보드
           </h1>
-          <p className="text-sm text-muted-foreground">
+          <p className="ui-support text-muted-foreground">
             데이터를 불러올 수 없습니다. 수업 ID를 확인해 주세요.
           </p>
         </main>
@@ -79,16 +79,16 @@ export default async function TeacherDashboardPage({ searchParams }: PageProps) 
             className="mb-8 inline-flex items-center gap-2 text-muted-foreground transition-colors hover:text-foreground"
           >
             <ArrowLeft className="size-4" />
-            <span className="text-[10px] font-bold uppercase tracking-widest">수업 목록으로 돌아가기</span>
+            <span className="ui-kicker">수업 목록으로 돌아가기</span>
           </Link>
           <div className="space-y-3">
-            <span className="text-[10px] font-bold tracking-widest text-muted-foreground uppercase">
+            <span className="ui-kicker text-muted-foreground">
               {data.lesson.topic ?? '수업 대시보드'}
             </span>
-            <h1 className="text-4xl sm:text-5xl md:text-[3.5rem] font-bold leading-[1.1] tracking-tight text-foreground break-words">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold leading-[1.1] tracking-tight text-foreground break-words">
               {data.lesson.title}
             </h1>
-            <span className="text-xs text-muted-foreground block">
+            <span className="ui-micro text-muted-foreground block">
               {new Date(data.lesson.created_at).toLocaleDateString('ko-KR')}
             </span>
           </div>
@@ -96,25 +96,25 @@ export default async function TeacherDashboardPage({ searchParams }: PageProps) 
           <nav className="mt-6 flex flex-wrap gap-2" aria-label="대시보드 빠른 이동">
             <a
               href="#dashboard-stats"
-              className="border border-border bg-card px-3 py-2 text-[10px] font-bold uppercase tracking-widest text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+              className="ui-kicker border border-border bg-card px-3 py-2 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
             >
               통계
             </a>
             <a
               href="#lesson-report"
-              className="border border-border bg-card px-3 py-2 text-[10px] font-bold uppercase tracking-widest text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+              className="ui-kicker border border-border bg-card px-3 py-2 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
             >
               리포트
             </a>
             <a
               href="#question-log"
-              className="border border-border bg-card px-3 py-2 text-[10px] font-bold uppercase tracking-widest text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+              className="ui-kicker border border-border bg-card px-3 py-2 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
             >
               질문 로그
             </a>
             <a
               href="#ai-insights"
-              className="border border-border bg-card px-3 py-2 text-[10px] font-bold uppercase tracking-widest text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+              className="ui-kicker border border-border bg-card px-3 py-2 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
             >
               AI 보충
             </a>
@@ -175,12 +175,12 @@ async function LessonSelectView() {
           className="mb-8 inline-flex items-center gap-2 text-muted-foreground transition-colors hover:text-foreground"
         >
           <ArrowLeft className="size-4" />
-          <span className="text-[10px] font-bold uppercase tracking-widest">홈으로 돌아가기</span>
+          <span className="ui-kicker">홈으로 돌아가기</span>
         </Link>
-        <h1 className="text-4xl sm:text-5xl md:text-[3.5rem] font-bold leading-[1.1] tracking-tight text-foreground mb-4">
+        <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold leading-[1.1] tracking-tight text-foreground mb-4">
           교사 대시보드
         </h1>
-        <p className="text-sm text-muted-foreground mb-12">
+        <p className="ui-support text-muted-foreground mb-12">
           대시보드를 볼 수업을 선택해 주세요.
         </p>
         <LessonSelector lessons={(lessons ?? []) as Lesson[]} />

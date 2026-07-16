@@ -37,12 +37,12 @@ export default function ModeSelector({ mode, onModeChange, disabled = false }: M
               : 'hover:opacity-80'
           } disabled:opacity-50`}
         >
-          <span className={`text-[11px] sm:text-xs font-bold ${
+          <span className={`text-xs sm:text-sm font-bold ${
             mode === key ? 'text-primary' : 'text-muted-foreground'
           }`}>
             {label}
           </span>
-          <span className="hidden sm:block text-[10px] font-bold tracking-widest text-muted-foreground">
+          <span className="hidden sm:block text-xs font-bold tracking-widest text-muted-foreground">
             {desc}
           </span>
         </button>

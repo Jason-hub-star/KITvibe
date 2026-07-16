@@ -69,7 +69,7 @@ export function DemoFlow() {
         >
           {/* Step Number + Icon */}
           <div className="flex items-center justify-between mb-8">
-            <span className="text-[10px] font-bold tracking-widest text-muted-foreground uppercase">
+            <span className="text-xs font-bold tracking-widest text-muted-foreground uppercase">
               Step {step}
             </span>
             <Icon

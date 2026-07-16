@@ -102,7 +102,7 @@ export function DashboardMisconceptionLoader({
         <button
           type="button"
           onClick={() => void generate()}
-          className="mt-4 border border-border bg-background px-4 py-2 text-[10px] font-bold uppercase tracking-widest text-muted-foreground transition-colors hover:bg-card hover:text-foreground"
+          className="mt-4 border border-border bg-background px-4 py-2 text-xs font-bold uppercase tracking-widest text-muted-foreground transition-colors hover:bg-card hover:text-foreground"
         >
           다시 분석
         </button>

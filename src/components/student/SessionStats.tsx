@@ -37,10 +37,10 @@ export default function SessionStats({ topic, currentStep, mode }: SessionStatsP
   return (
     <div className="space-y-4 border border-border bg-muted px-4 py-4">
       <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
-        <span className="text-xs text-muted-foreground">
+        <span className="ui-micro text-muted-foreground break-words">
           {topic} · {msg}
         </span>
-        <span className="text-[10px] font-bold uppercase tracking-widest text-foreground">
+        <span className="ui-kicker text-foreground">
           {currentStepInfo.label} {currentStep}/4
         </span>
       </div>
@@ -58,18 +58,18 @@ export default function SessionStats({ topic, currentStep, mode }: SessionStatsP
 
       <div className="grid gap-3 md:grid-cols-3">
         <div>
-          <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">다음 단계</p>
-          <p className="mt-1 text-sm text-foreground">
+          <p className="ui-kicker text-muted-foreground">다음 단계</p>
+          <p className="ui-support mt-1 text-foreground break-words">
             {nextStepInfo ? `${nextStepInfo.label} · ${nextStepInfo.description}` : '미니퀴즈 확인'}
           </p>
         </div>
         <div>
-          <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">이동 조건</p>
-          <p className="mt-1 text-sm text-foreground">{advanceHint}</p>
+          <p className="ui-kicker text-muted-foreground">이동 조건</p>
+          <p className="ui-support mt-1 text-foreground break-words">{advanceHint}</p>
         </div>
         <div>
-          <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">보상</p>
-          <p className="mt-1 text-sm text-foreground">{rewardCopy}</p>
+          <p className="ui-kicker text-muted-foreground">보상</p>
+          <p className="ui-support mt-1 text-foreground break-words">{rewardCopy}</p>
         </div>
       </div>
     </div>

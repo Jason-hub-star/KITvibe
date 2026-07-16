@@ -75,7 +75,7 @@ export default function SessionSummaryView({ sessionId }: SessionSummaryViewProp
   if (loading) {
     return (
       <main className="max-w-3xl mx-auto px-6 pt-16 pb-24">
-        <p className="text-sm text-muted-foreground">세션 요약을 불러오는 중이에요...</p>
+        <p className="ui-support text-muted-foreground">세션 요약을 불러오는 중이에요...</p>
       </main>
     );
   }
@@ -84,7 +84,7 @@ export default function SessionSummaryView({ sessionId }: SessionSummaryViewProp
     return (
       <main className="max-w-3xl mx-auto px-6 pt-16 pb-24">
         <h1 className="text-3xl font-bold tracking-tight">요약을 불러올 수 없어요</h1>
-        <p className="mt-3 text-sm text-muted-foreground">{error ?? '세션 정보가 없습니다.'}</p>
+        <p className="ui-support mt-3 text-muted-foreground">{error ?? '세션 정보가 없습니다.'}</p>
         <Link
           href="/student/ask"
           className="mt-6 inline-flex items-center gap-2 text-primary underline"
@@ -97,34 +97,34 @@ export default function SessionSummaryView({ sessionId }: SessionSummaryViewProp
   }
 
   return (
-    <main className="max-w-3xl mx-auto px-6 pt-16 pb-24 space-y-8">
+    <main className="max-w-3xl mx-auto px-4 sm:px-6 pt-16 pb-24 space-y-8">
       <header className="space-y-3">
-        <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
-          Session Summary
+        <span className="ui-kicker text-muted-foreground">
+          세션 요약
         </span>
-        <h1 className="text-4xl md:text-[3.5rem] font-bold leading-[1.1] tracking-tight text-foreground">
+        <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold leading-[1.1] tracking-tight text-foreground break-words">
           {summary.lesson_title}
         </h1>
-        <p className="text-sm text-muted-foreground">
+        <p className="ui-support text-muted-foreground">
           이번 세션에서 어디까지 이해했는지 한 번에 정리했어요.
         </p>
       </header>
 
       <section className="grid gap-4 md:grid-cols-3">
         <div className="border border-border bg-card p-5">
-          <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
+          <p className="ui-kicker text-muted-foreground">
             질문 수
           </p>
           <p className="mt-3 text-3xl font-bold">{summary.question_count}</p>
         </div>
         <div className="border border-border bg-card p-5">
-          <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
+          <p className="ui-kicker text-muted-foreground">
             도달 단계
           </p>
           <p className="mt-3 text-3xl font-bold">{summary.current_step}/4</p>
         </div>
         <div className="border border-border bg-card p-5">
-          <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
+          <p className="ui-kicker text-muted-foreground">
             미니퀴즈
           </p>
           <p className="mt-3 text-lg font-bold">

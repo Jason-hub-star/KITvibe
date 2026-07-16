@@ -15,9 +15,12 @@ export default function TeacherUploadPage() {
     <>
       <main className="max-w-2xl mx-auto px-6 pt-12 pb-24">
         {/* Stitch 스타일 대형 헤드라인 */}
-        <h1 className="text-4xl sm:text-5xl md:text-[3.5rem] font-bold leading-[1.1] tracking-tight text-foreground mb-16">
+        <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold leading-[1.1] tracking-tight text-foreground mb-16">
           수업 자료 등록
         </h1>
+        <p className="ui-support mb-10 text-muted-foreground">
+          교사용 작성 경로입니다. 운영 단계에서는 교사 인증 이후에만 수업 자료와 대시보드를 수정할 수 있습니다.
+        </p>
         <TeacherUploadGuard />
       </main>
       <LandingFooter />

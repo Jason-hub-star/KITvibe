@@ -30,6 +30,16 @@ function normalizeText(value: string | null | undefined): string {
   return (value ?? '').trim().toLowerCase();
 }
 
+function formatSubjectLabel(subject: string | null | undefined): string {
+  const normalizedSubject = normalizeText(subject);
+
+  if (!normalizedSubject || normalizedSubject === 'math') {
+    return '수학';
+  }
+
+  return subject ?? '수학';
+}
+
 export function LessonSearchList({
   lessons,
   routeBase,
@@ -93,18 +103,18 @@ export function LessonSearchList({
               onClick={() => router.push(`${routeBase}?lesson=${lesson.id}`)}
               className="w-full text-left border border-border bg-card p-4 hover:bg-muted transition-colors"
             >
-              <div className="flex items-start justify-between gap-4">
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
                 <div className="min-w-0">
                   <p className="text-base font-bold text-foreground break-words">{lesson.title}</p>
                   {lesson.topic && (
                     <p className="mt-1 text-sm text-muted-foreground break-words">{lesson.topic}</p>
                   )}
                 </div>
-                <div className="shrink-0 text-right">
-                  <span className="block text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
-                    {lesson.subject || 'math'}
+                <div className="flex items-center gap-3 text-left sm:shrink-0 sm:flex-col sm:items-end sm:gap-1 sm:text-right">
+                  <span className="ui-kicker block text-muted-foreground">
+                    {formatSubjectLabel(lesson.subject)}
                   </span>
-                  <span className="mt-1 block text-[10px] text-muted-foreground">
+                  <span className="ui-micro mt-1 block text-muted-foreground">
                     {new Date(lesson.created_at).toLocaleDateString('ko-KR')}
                   </span>
                 </div>

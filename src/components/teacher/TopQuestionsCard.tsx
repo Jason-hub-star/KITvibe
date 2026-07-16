@@ -16,7 +16,7 @@ export function TopQuestionsCard({ questions }: Props) {
   if (questions.length === 0) {
     return (
       <div className="bg-card border border-border p-6">
-        <h3 className="text-[10px] font-bold tracking-widest text-muted-foreground uppercase mb-6">
+        <h3 className="ui-kicker text-muted-foreground mb-6">
           질문 TOP 5
         </h3>
         <p className="text-sm text-muted-foreground">아직 질문이 없습니다.</p>
@@ -26,7 +26,7 @@ export function TopQuestionsCard({ questions }: Props) {
 
   return (
     <div className="bg-card border border-border p-6">
-      <h3 className="text-[10px] font-bold tracking-widest text-muted-foreground uppercase mb-6">
+      <h3 className="ui-kicker text-muted-foreground mb-6">
         질문 TOP 5
       </h3>
       <div className="space-y-4">

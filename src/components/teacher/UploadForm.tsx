@@ -212,7 +212,7 @@ export default function UploadForm({ teacherId }: UploadFormProps) {
         className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
       >
         <ArrowLeft className="size-4" />
-        <span className="text-[10px] font-bold tracking-widest uppercase">돌아가기</span>
+        <span className="ui-kicker">돌아가기</span>
       </button>
 
       {/* 완료 Alert */}
@@ -243,7 +243,7 @@ export default function UploadForm({ teacherId }: UploadFormProps) {
 
       {/* 제목 입력 — Stitch underline 스타일 */}
       <div className="space-y-2">
-        <label htmlFor="lesson-title" className="block text-[10px] font-bold tracking-widest uppercase text-muted-foreground">
+        <label htmlFor="lesson-title" className="ui-kicker block text-muted-foreground">
           제목
         </label>
         <input
@@ -259,7 +259,7 @@ export default function UploadForm({ teacherId }: UploadFormProps) {
 
       {/* 주제 입력 — Stitch underline 스타일 */}
       <div className="space-y-2">
-        <label htmlFor="lesson-topic" className="block text-[10px] font-bold tracking-widest uppercase text-muted-foreground">
+        <label htmlFor="lesson-topic" className="ui-kicker block text-muted-foreground">
           주제
         </label>
         <input
@@ -275,7 +275,7 @@ export default function UploadForm({ teacherId }: UploadFormProps) {
 
       {/* 파일 업로드 — Stitch dashed 스타일 */}
       <div className="space-y-2">
-        <label className="block text-[10px] font-bold tracking-widest uppercase text-muted-foreground">
+        <label className="ui-kicker block text-muted-foreground">
           파일 업로드
         </label>
         {!completedLessonId && (
@@ -290,7 +290,7 @@ export default function UploadForm({ teacherId }: UploadFormProps) {
           >
             <input {...getInputProps()} />
             <Upload className="size-6 text-muted-foreground" />
-            <p className="text-sm text-muted-foreground">
+            <p className="ui-support text-muted-foreground">
               {isDragActive ? '파일을 놓으세요' : 'PDF/Markdown/이미지 지원 · 최대 10MB'}
             </p>
           </div>
@@ -300,7 +300,7 @@ export default function UploadForm({ teacherId }: UploadFormProps) {
       {/* 파일 목록 — Stitch flat list 스타일 */}
       {files.length > 0 && (
         <div className="space-y-4">
-          <label className="block text-[10px] font-bold tracking-widest uppercase text-muted-foreground">
+          <label className="ui-kicker block text-muted-foreground">
             선택된 파일
           </label>
           <ul className="space-y-px">
@@ -326,7 +326,7 @@ export default function UploadForm({ teacherId }: UploadFormProps) {
                   </span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <span className="text-xs text-muted-foreground">
+                  <span className="ui-micro text-muted-foreground">
                     {formatFileSize(uploadFile.file.size)}
                   </span>
                   {(uploadFile.status === 'idle' || uploadFile.status === 'error') &&
@@ -346,7 +346,7 @@ export default function UploadForm({ teacherId }: UploadFormProps) {
             ))}
           </ul>
           {files.some((f) => f.error) && (
-            <p className="text-xs text-destructive">
+            <p className="ui-micro text-destructive">
               {files.find((f) => f.error)?.error}
             </p>
           )}

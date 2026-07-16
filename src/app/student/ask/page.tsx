@@ -86,7 +86,7 @@ export default async function StudentAskPage({ searchParams }: PageProps) {
           </div>
         ) : (
           <div className="flex flex-col gap-4">
-            <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
+            <label className="ui-kicker text-muted-foreground">
               질문할 수업을 선택하세요
             </label>
             <LessonSearchList

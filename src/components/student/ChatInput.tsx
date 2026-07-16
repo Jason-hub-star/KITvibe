@@ -99,7 +99,7 @@ export default function ChatInput({ onSend, disabled = false }: ChatInputProps) 
             </div>
             <div className="min-w-0">
               <p className="text-sm font-medium text-foreground truncate">{imageFile?.name}</p>
-              <p className="text-xs text-muted-foreground">이미지 1장이 함께 전송됩니다.</p>
+              <p className="ui-micro text-muted-foreground">이미지 1장이 함께 전송됩니다.</p>
             </div>
           </div>
           <button
@@ -142,7 +142,7 @@ export default function ChatInput({ onSend, disabled = false }: ChatInputProps) 
             }}
             onKeyDown={handleKeyDown}
             disabled={disabled}
-            placeholder="질문을 입력하거나 이미지를 함께 보내보세요..."
+            placeholder="질문을 보내보세요."
             rows={1}
             className="min-h-10 flex-1 resize-none bg-transparent px-1 py-2 text-sm text-foreground outline-none placeholder:text-muted-foreground md:min-h-[44px] md:text-base"
           />

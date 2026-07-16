@@ -38,8 +38,8 @@ export function QuestionLogTable({ logs }: Props) {
     return (
       <div className="bg-card border border-border p-6">
         <div className="flex justify-between items-center mb-4">
-          <h3 className="text-[10px] font-bold tracking-widest text-muted-foreground uppercase">
-            Question Log
+          <h3 className="ui-kicker text-muted-foreground">
+            질문 로그
           </h3>
         </div>
         <p className="text-sm text-muted-foreground">아직 질문이 없습니다.</p>
@@ -49,21 +49,21 @@ export function QuestionLogTable({ logs }: Props) {
 
   return (
     <div className="bg-card border border-border overflow-x-auto">
-      <div className="flex justify-between items-center p-4">
-        <h3 className="text-[10px] font-bold tracking-widest text-muted-foreground uppercase">
-          Question Log
+      <div className="flex flex-col gap-2 p-4 sm:flex-row sm:items-center sm:justify-between">
+        <h3 className="ui-kicker text-muted-foreground">
+          질문 로그
         </h3>
-        <span className="text-[10px] font-bold tracking-widest text-muted-foreground uppercase">
-          Latest Updates
+        <span className="ui-kicker text-muted-foreground">
+          최신 질문 기준
         </span>
       </div>
       <Table>
         <TableHeader>
           <TableRow className="bg-surface-highest hover:bg-surface-highest">
-            <TableHead className="text-foreground font-bold text-xs">학생</TableHead>
-            <TableHead className="text-foreground font-bold text-xs">질문</TableHead>
-            <TableHead className="text-foreground font-bold text-xs">의도</TableHead>
-            <TableHead className="text-foreground font-bold text-xs">시각</TableHead>
+            <TableHead className="ui-micro text-foreground font-bold">학생</TableHead>
+            <TableHead className="ui-micro text-foreground font-bold">질문</TableHead>
+            <TableHead className="ui-micro text-foreground font-bold">의도</TableHead>
+            <TableHead className="ui-micro text-foreground font-bold">시각</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>

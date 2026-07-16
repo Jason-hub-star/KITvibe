@@ -16,7 +16,7 @@ export function MisconceptionHeatmap({ items }: Props) {
   if (items.length === 0) {
     return (
       <div className="bg-card border border-border p-6">
-        <h3 className="text-[10px] font-bold tracking-widest text-muted-foreground uppercase mb-6">
+        <h3 className="ui-kicker text-muted-foreground mb-6">
           오개념 히트맵
         </h3>
         <p className="text-sm text-muted-foreground">아직 데이터가 없습니다.</p>
@@ -26,7 +26,7 @@ export function MisconceptionHeatmap({ items }: Props) {
 
   return (
     <div className="bg-card border border-border p-6">
-      <h3 className="text-[10px] font-bold tracking-widest text-muted-foreground uppercase mb-6">
+      <h3 className="ui-kicker text-muted-foreground mb-6">
         오개념 히트맵
       </h3>
       <div className="space-y-4">

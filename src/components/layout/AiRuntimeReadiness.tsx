@@ -23,10 +23,10 @@ export function AiRuntimeReadiness(props: AiRuntimeReadinessProps) {
   const { cards } = props;
 
   return (
-    <section className="px-8 md:px-24 pb-16 md:pb-20 max-w-7xl mx-auto w-full">
+    <section className="px-6 md:px-24 pb-16 md:pb-20 max-w-7xl mx-auto w-full">
       <div className="mb-8">
-        <span className="text-[10px] font-bold tracking-widest text-muted-foreground uppercase">
-          Runtime / Gemma Ready
+        <span className="text-xs font-bold tracking-widest text-muted-foreground uppercase">
+          AI 런타임 준비 상태
         </span>
         <p className="mt-2 text-sm text-muted-foreground max-w-2xl">
           공모전 데모는 안정적으로, 프로덕션 확장은 로컬 AI까지 이어질 수 있게 설계했어요.
@@ -36,17 +36,17 @@ export function AiRuntimeReadiness(props: AiRuntimeReadinessProps) {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-px border border-border bg-border">
         {cards.map((card) => (
           <article key={card.eyebrow} className="bg-background p-8">
-            <p className="text-[10px] font-bold tracking-widest text-muted-foreground uppercase mb-4">
+            <p className="text-xs font-bold tracking-widest text-muted-foreground uppercase mb-4">
               {card.eyebrow}
             </p>
-            <h2 className="text-2xl font-bold text-foreground tracking-tight mb-3">
+            <h2 className="text-xl sm:text-2xl font-bold text-foreground tracking-tight mb-3 break-words">
               {card.title}
             </h2>
             <p className="text-sm text-muted-foreground leading-relaxed mb-6">
               {card.description}
             </p>
             <div className="border-t border-border pt-4">
-              <p className="text-xs text-muted-foreground uppercase tracking-wider">
+              <p className="text-xs text-muted-foreground leading-relaxed">
                 {card.meta}
               </p>
             </div>

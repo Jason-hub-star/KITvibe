@@ -79,8 +79,9 @@ surface-container-highest: #e4e2df    ← 강조 배경
 | 섹션 제목 | `text-2xl~3xl font-bold tracking-tight` | 24~30px |
 | 카드 제목 | `text-xl font-bold` | 20px |
 | 본문 | `text-base leading-relaxed` | 16px |
-| 라벨 | `text-[0.75rem] font-bold uppercase tracking-[0.05em]` | 12px 대문자 |
-| 마이크로 | `text-[10px] font-bold uppercase tracking-widest` | 10px |
+| 라벨 | `ui-kicker` | 12px 대문자 utility |
+| 마이크로 | `ui-micro`, `ui-micro-strong` | 모바일 11px / `sm+` 12px |
+| 보조 설명 | `ui-support` | 모바일 15px / `sm+` 16px |
 | 수치 (stats) | `text-4xl~6xl font-extrabold tabular-nums` | 큰 숫자 |
 | 수식 | KaTeX + `font-serif italic` | 수식 렌더링 |
 

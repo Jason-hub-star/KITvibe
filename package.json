@@ -10,7 +10,8 @@
     "typecheck": "tsc --noEmit",
     "demo:reset": "node scripts/demo-data/resetAndSeed.mjs",
     "ai:runtime-check": "node scripts/ai/checkLocalRuntime.mjs",
-    "ai:compare": "node scripts/ai/compareTutorModels.mjs"
+    "ai:compare": "node scripts/ai/compareTutorModels.mjs",
+    "qa:routes:untested": "node scripts/qa/runUntestedRoutes.mjs"
   },
   "dependencies": {
     "@ai-sdk/google": "^1",

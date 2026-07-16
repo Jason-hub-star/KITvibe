@@ -26,7 +26,7 @@ export function DashboardStats({ stats }: Props) {
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
       {items.map((item) => (
         <div key={item.label} className="flex flex-col items-start gap-2">
-          <span className="text-[10px] font-bold tracking-widest text-muted-foreground uppercase">
+          <span className="ui-kicker text-muted-foreground">
             {item.label}
           </span>
           <span className="text-6xl font-extrabold tracking-tighter text-foreground">

@@ -18,7 +18,7 @@ export function CurriculumCard({ summaries }: Props) {
 
   return (
     <div className="bg-muted p-8 flex flex-col gap-4">
-      <span className="text-[10px] font-bold tracking-widest text-muted-foreground uppercase">
+      <span className="text-xs font-bold tracking-widest text-muted-foreground uppercase">
         AI 커리큘럼 추천
       </span>
       <h3 className="text-2xl md:text-3xl font-extrabold tracking-tight text-foreground leading-tight">
@@ -41,7 +41,7 @@ export function CurriculumCard({ summaries }: Props) {
           />
         ))}
       </div>
-      <span className="text-[10px] font-bold tracking-widest text-muted-foreground tabular-nums">
+      <span className="text-xs font-bold tracking-widest text-muted-foreground tabular-nums">
         {completedSteps}/4 분석 완료
       </span>
     </div>

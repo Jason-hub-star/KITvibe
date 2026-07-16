@@ -33,8 +33,9 @@
 ### 핵심 패턴
 
 - **제목:** `font-extrabold tracking-tight` (자간 좁힘 + 극볼드)
-- **라벨:** `text-[0.75rem] font-bold uppercase tracking-[0.05em]` (대문자 + 넓은 자간)
-- **마이크로:** `text-[10px] uppercase tracking-widest` (10px 대문자)
+- **라벨:** `ui-kicker` (12px 대문자 라벨 utility)
+- **마이크로:** `ui-micro`, `ui-micro-strong` (모바일 11px, `sm+` 12px)
+- **보조 설명:** `ui-support` (모바일 15px, `sm+` 16px)
 - **수치:** `text-4xl~6xl font-extrabold tabular-nums` (큰 숫자 강조)
 
 ## 레이아웃
@@ -52,7 +53,7 @@
 - Button: 블랙 배경 + 라이트 텍스트 (primary), 그레이 배경 (secondary)
 - Progress: 얇은 바 (`h-[2px]~h-[6px]`)
 - Input: 밑줄 스타일 (`border-b-2`, 테두리 없음)
-- Badge: 작고 절제된 (`px-2 py-1 text-[10px]`)
+- Badge: 작고 절제된 (`px-2 py-1` + `ui-micro-strong`)
 
 ## 게임화 UX
 
